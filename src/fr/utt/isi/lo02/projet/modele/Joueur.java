@@ -1,6 +1,5 @@
 package fr.utt.isi.lo02.projet.modele;
 
-import java.awt.List;
 import java.util.LinkedList;
 
 /**
@@ -14,6 +13,7 @@ public class Joueur {
 	private final LinkedList<Carte> faceUp;
 	private final LinkedList<Carte> faceDown;
 	private final LinkedList<Carte> main;
+	private final StrategieJeu strategie;
 	
 	public Joueur(String nom){
 		this.nom = nom;
