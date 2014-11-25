@@ -29,7 +29,7 @@ public class JeuDeCartes {
 	 * @return carte du dessus du paquet
 	 */
 	public Carte tirerCarteDessus() {
-		return tas.pop();
+		return tas.isEmpty() ? null : tas.pop();
 	}
 	
 	
@@ -37,8 +37,35 @@ public class JeuDeCartes {
 	 * Mélange le paquet de cartes
 	 */
 	public void melanger() {
-		//TODO : vérifier si ça marche
 		Collections.shuffle(tas);
 	}
+	
+	
+	/**
+	 * Permet de savoir si le paquet est vide ou non 
+	 * (utile lors de la distribution)
+	 * @return true si paquet vide; false sinon
+	 */
+	public boolean estVide() {
+		return tas.isEmpty();
+	}
+
+
+	public int size() {
+		return tas.size();
+	}
+
+
+	public LinkedList<Carte> getTas() {
+		return tas;
+	}
+
+
+	public void setTas(LinkedList<Carte> tas) {
+		this.tas = tas;
+	}
+	
+	
+	
 	
 }
