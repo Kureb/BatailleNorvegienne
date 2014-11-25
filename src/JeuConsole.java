@@ -22,9 +22,10 @@ public class JeuConsole {
 		bataille.addJoueur(Maxime);
 		bataille.addJoueur(Alexandre);
 		
-		Alexandre.distribuerPaquet(bataille.getJeuDeCartes(), bataille.getJoueurs());
+		Alexandre.distribuerPaquet(bataille);
 		
 		System.out.println(bataille.toString());
+		
 	
 	}
 	
