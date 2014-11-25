@@ -16,6 +16,7 @@ public class Joueur {
 	private final StrategieJeu strategie;
 	
 	public Joueur(String nom){
+		this.strategie = new StrategieJeu();//TODO : changer
 		this.nom = nom;
 		this.faceUp = new LinkedList<>();
 		this.faceDown = new LinkedList<>();
