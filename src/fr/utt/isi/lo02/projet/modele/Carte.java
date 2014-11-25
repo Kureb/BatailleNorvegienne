@@ -13,17 +13,22 @@ public class Carte {
 	public final static int CARREAU = 2;
 	public final static int TREFLE = 3;
 
-	public final static int SEPT = 0;
-	public final static int HUIT = 1;
-	public final static int NEUF = 2;
-	public final static int DIX = 3;
-	public final static int VALET = 4;
-	public final static int DAME = 5;
-	public final static int ROI = 6;
-	public final static int AS = 7;
+	public final static int DEUX = 0;
+	public final static int TROIS = 1;
+	public final static int QUATRE = 2;
+	public final static int CINQ = 3;
+	public final static int SIX = 4;
+	public final static int SEPT = 5;
+	public final static int HUIT = 6;
+	public final static int NEUF = 7;
+	public final static int DIX = 8;
+	public final static int VALET = 9;
+	public final static int DAME = 10;
+	public final static int ROI = 11;
+	public final static int AS = 12;
 
 	public final static String[] COULEURS = {"Pic", "Coeur", "Carreau", "Trefle"};
-	public final static String[] VALEURS = {"Sept", "Huit", "Neuf", "Dix", "Valet", "Dame", "Roi", "As"};
+	public final static String[] VALEURS = {"Un", "Deux", "Trois", "Quatre", "Cinq", "Six", "Sept", "Huit", "Neuf", "Dix", "Valet", "Dame", "Roi", "As"};
 
 	private int couleur;
 	private int valeur;
