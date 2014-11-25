@@ -8,6 +8,8 @@ public class Bataille {
 	private ArrayList<Joueur> joueurs;
 	/** jeu de cartes */
 	private JeuDeCartes jeuDeCartes;
+	/** la pioche du jeu */
+	private ArrayList<Carte> pioche;
 	
 	/**
 	 * Constructeur d'une bataille
@@ -15,8 +17,17 @@ public class Bataille {
 	public Bataille() {
 		joueurs = new ArrayList<>();
 		jeuDeCartes = new JeuDeCartes();
+		pioche = new ArrayList<>();
 	}
 	
+	public ArrayList<Carte> getPioche() {
+		return pioche;
+	}
+
+	public void setPioche(ArrayList<Carte> pioche) {
+		this.pioche = pioche;
+	}
+
 	/**
 	 * Permet d'ajouter un joueur à la partie
 	 * @param j le joueur à ajouter
