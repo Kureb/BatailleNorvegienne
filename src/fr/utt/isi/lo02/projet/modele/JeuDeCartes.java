@@ -17,10 +17,12 @@ public class JeuDeCartes {
 		//C'est-à-dire toutes les cartes possibles, on les instancie et on
 		//les ajoute au tas de cartes.
 		for (int couleur = Carte.PIC; couleur <= Carte.TREFLE; couleur++){
-			for (int valeur = Carte.SEPT; valeur <= Carte.AS; valeur++){
+			for (int valeur = Carte.DEUX; valeur <= Carte.AS; valeur++){
 				tas.add(new Carte(valeur, couleur));
 			}
 		}
+		
+		this.melanger();
 	}
 	
 	
