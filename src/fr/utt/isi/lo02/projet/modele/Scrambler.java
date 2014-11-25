@@ -40,11 +40,7 @@ public class Scrambler extends Joueur {
 			bataille.setPioche(pioche);
 		}
 		
-			
 		
-		
-	
-		//TODO jdc.setPioche(cequilreste)
 	}
 	
 
