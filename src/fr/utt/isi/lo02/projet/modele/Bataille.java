@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 public class Bataille {
 
-	/** Compte le nombre de joueurs ajoutés à la partie */
-	public static int NB_JOUEURS = 0;
 	/** Liste des joueurs à batailler */
 	private ArrayList<Joueur> joueurs;
 	/** jeu de cartes */
@@ -38,7 +36,6 @@ public class Bataille {
 		//On l'ajoute seulement s'il n'y est pas déjà
 		if (!this.joueurs.contains(j)) {
 			this.joueurs.add(j);
-			this.NB_JOUEURS++;
 		}
 			
 	}
