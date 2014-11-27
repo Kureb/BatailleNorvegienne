@@ -13,9 +13,9 @@ public class JeuDeCartes {
 	public JeuDeCartes() {
 		tas = new LinkedList<>();
 		int nbCartesNecessaires = (Joueur.NB_JOUEURS * 9) + 7;//tjrs avoir 7 dans la pioche
-		double nbPaquetsNecessaires = nbCartesNecessaires / 52.0; //récupérer entier supérieur
-		int nbPaquet =  (int) Math.ceil(nbPaquetsNecessaires);
-		System.out.println("nb paquets : " + nbPaquet);
+		double nbPaquetsNecessaires = nbCartesNecessaires / 52.0; 
+		int nbPaquet =  (int) Math.ceil(nbPaquetsNecessaires);//arrondi à l'entier supérieur
+		
 		for (int i = 0; i < nbPaquet; i++) {
 			//On parcourt toutes les couleurs possibles, puis toutes les valeurs possibles
 			//C'est-à-dire toutes les cartes possibles, on les instancie et on
