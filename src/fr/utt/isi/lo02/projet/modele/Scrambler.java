@@ -33,16 +33,20 @@ public class Scrambler extends Joueur {
 			//Si on a distribué 9 cartes à chaque joueur on peut sortir de la boucle
 			//et mettre tout le reste des cartes dans la pioche
 			if (nbCartesDistribuees == (joueurs.size() * 9))
-				//Met le reste dans le tas s'il reste des cartes
-				if (!jdc.estVide()) {
-					ArrayList<Carte> pioche = new ArrayList<>();
-					Iterator<Carte> it = jdc.getTas().iterator();
-					while(it.hasNext())
-						pioche.add(it.next());
-					
-					bataille.setPioche(pioche);
-				}
 				break;
+		}
+		
+		//Met le reste dans le tas s'il reste des cartes
+		if (!jdc.estVide()) {
+			ArrayList<Carte> pioche = new ArrayList<>();
+			Iterator<Carte> it = jdc.getTas().iterator();
+			//Pour toutes les cartes restantes
+			while(it.hasNext())
+				//on les ajoute dans la pioche (liste temporaire)
+				pioche.add(it.next());
+			
+			//On place cette liste temporaire dans l'attribut pioche de la Bataille
+			bataille.setPioche(pioche);
 		}
 		
 		
