@@ -110,10 +110,23 @@ public class Joueur {
 		
 		else if (main.size() < 3)
 			main.add(carte);
-		
-		//else mettre dans la pioche d'une façon ou d'une autre
 	}
 	
+	/**
+	 * Permet au joueur d'échanger une carte de sa main
+	 * avec une carte visible devant lui
+	 * @param carteMain carte qu'il possède dans sa main
+	 * @param carteVisible carte visible devant lui
+	 */
+	public void echangerCarte(Carte carteMain, Carte carteVisible) {
+		//On vérifie que les cartes sont bien à l'endroit indiqué
+		if (this.faceUp.contains(carteVisible) && this.main.contains(carteMain)) {
+			this.faceUp.add(carteMain);
+			this.main.remove(carteMain);
+			this.main.add(carteVisible);
+			this.faceUp.remove(carteVisible);
+		}
+	}
 	
 	
 	public String toString() {
