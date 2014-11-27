@@ -12,14 +12,19 @@ public class JeuDeCartes {
 	 */
 	public JeuDeCartes() {
 		tas = new LinkedList<>();
+		int nbCartesNecessaires = (Joueur.NB_JOUEURS * 9) + 9;
+		int nbPaquetsNecessaires = (int) Math.ceil(nbCartesNecessaires / 52); //récupérer entier supérieur
 		
-		//On parcourt toutes les couleurs possibles, puis toutes les valeurs possibles
-		//C'est-à-dire toutes les cartes possibles, on les instancie et on
-		//les ajoute au tas de cartes.
-		for (int couleur = Carte.PIC; couleur <= Carte.TREFLE; couleur++){
-			for (int valeur = Carte.DEUX; valeur <= Carte.AS; valeur++){
-				tas.add(new Carte(valeur, couleur));
+		for (int i = 0; i < nbPaquetsNecessaires; i++) {
+			//On parcourt toutes les couleurs possibles, puis toutes les valeurs possibles
+			//C'est-à-dire toutes les cartes possibles, on les instancie et on
+			//les ajoute au tas de cartes.
+			for (int couleur = Carte.PIC; couleur <= Carte.TREFLE; couleur++){
+				for (int valeur = Carte.DEUX; valeur <= Carte.AS; valeur++){
+					tas.add(new Carte(valeur, couleur));
+				}
 			}
+
 		}
 	}
 	
