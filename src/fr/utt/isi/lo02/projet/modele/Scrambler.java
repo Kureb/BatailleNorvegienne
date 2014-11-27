@@ -17,6 +17,7 @@ public class Scrambler extends Joueur {
 	
 	public void distribuerPaquet(Bataille bataille) {
 		JeuDeCartes jdc = bataille.getJeuDeCartes();
+		jdc.melanger();
 		 ArrayList<Joueur> joueurs = bataille.getJoueurs();
 		
 		

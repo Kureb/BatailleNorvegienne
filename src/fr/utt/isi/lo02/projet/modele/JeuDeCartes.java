@@ -21,8 +21,6 @@ public class JeuDeCartes {
 				tas.add(new Carte(valeur, couleur));
 			}
 		}
-		
-		this.melanger();
 	}
 	
 	
