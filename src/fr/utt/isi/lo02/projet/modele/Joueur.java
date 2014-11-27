@@ -19,8 +19,7 @@ public class Joueur {
 	private final LinkedList<Carte> main;
 	/** La stratégie adoptée par le joueur */
 	private final StrategieJeu strategie;
-	/** Compteur de joueurs */
-	public static int NB_JOUEURS = 0;
+	
 	
 	
 	/**
@@ -33,7 +32,6 @@ public class Joueur {
 		this.faceUp = new LinkedList<>();
 		this.faceDown = new LinkedList<>();
 		this.main = new LinkedList<>();
-		NB_JOUEURS++;
 	}
 	
 	

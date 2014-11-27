@@ -12,7 +12,7 @@ public class JeuDeCartes {
 	 */
 	public JeuDeCartes() {
 		tas = new LinkedList<>();
-		int nbCartesNecessaires = (Joueur.NB_JOUEURS * 9) + 7;//tjrs avoir 7 dans la pioche
+		int nbCartesNecessaires = (Bataille.NB_JOUEURS * 9) + 7;//tjrs avoir 7 dans la pioche
 		double nbPaquetsNecessaires = nbCartesNecessaires / 52.0; //récupérer entier supérieur
 		int nbPaquet =  (int) Math.ceil(nbPaquetsNecessaires);
 		//System.out.println("nb paquets : " + nbPaquet);
