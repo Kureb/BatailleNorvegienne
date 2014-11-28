@@ -35,7 +35,7 @@ public class Joueur {
 		this.faceUp = new LinkedList<>();
 		this.faceDown = new LinkedList<>();
 		this.main = new LinkedList<>();
-		this.NB_JOUEURS++;
+		Joueur.NB_JOUEURS++;
 	}
 	
 	
