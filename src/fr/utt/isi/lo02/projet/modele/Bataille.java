@@ -6,20 +6,41 @@ import java.util.Scanner;
 
 public class Bataille {
 
+	/**
+	 * Suit le modèle Singleton car ne pourra être instancié qu'une fois par
+	 * partie
+	 */
+	private static Bataille singleton = null;
 	/** Liste des joueurs à batailler */
 	private ArrayList<Joueur> joueurs;
 	/** jeu de cartes */
 	private JeuDeCartes jeuDeCartes;
 	/** la pioche du jeu */
 	private ArrayList<Carte> pioche;
+	/** tas où les joueurs posent leurs cartes */
+	private ArrayList<Carte> table;
 
 	/**
 	 * Constructeur d'une bataille
 	 */
-	public Bataille() {
+	private Bataille() {
 		joueurs = new ArrayList<>();
 		jeuDeCartes = new JeuDeCartes();
 		pioche = new ArrayList<>();
+		table = new ArrayList<>();
+	}
+	
+	
+	public static Bataille getInstance() {
+		return (singleton == null ? new Bataille() : null);
+	}
+
+	public ArrayList<Carte> getTable() {
+		return table;
+	}
+
+	public void setTas(ArrayList<Carte> table) {
+		this.table = table;
 	}
 
 	public ArrayList<Carte> getPioche() {
@@ -35,6 +56,7 @@ public class Bataille {
 	 * 
 	 * @param j
 	 *            le joueur à ajouter
+	 * 
 	 */
 	public void addJoueur(Joueur j) {
 		// On l'ajoute seulement s'il n'y est pas déjà
@@ -109,9 +131,7 @@ public class Bataille {
 			} while (rep != 1 && rep != 2);
 		}
 	}
-	
-	
-	
+
 	/**
 	 * Permet de connaitre le joueur qui va commencer la partie D'après les
 	 * règles de la bataille Norvégienne le joueur à commencer Et le joueur à la
@@ -143,8 +163,5 @@ public class Bataille {
 				.get(positionScrambler++)));
 
 	}
-	
-	
-	
 
 }
