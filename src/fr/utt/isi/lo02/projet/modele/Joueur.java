@@ -1,6 +1,7 @@
 package fr.utt.isi.lo02.projet.modele;
 
 import java.util.LinkedList;
+import java.util.Scanner;
 
 /**
  * Représente le Joueur
@@ -126,6 +127,20 @@ public class Joueur {
 			this.main.add(carteVisible);
 			this.faceUp.remove(carteVisible);
 		}
+	}
+	
+	
+	
+	public void proposerChangerCartes() {
+		System.out.println(this.toString());
+		Scanner sc = new Scanner(System.in);
+		System.out.print(this.nom + ". Quelle carte dans la main (1, 2 ou 3) : ");
+		int carteM = sc.nextInt();
+		System.out.print("\nQuelle carte visible ? (1, 2 ou 3) : ");
+		int carteV = sc.nextInt();
+		Carte carteMain = this.main.get(--carteM);
+		Carte carteVisible = this.faceUp.get(--carteV);
+		this.echangerCarte(carteMain, carteVisible);
 	}
 	
 	
