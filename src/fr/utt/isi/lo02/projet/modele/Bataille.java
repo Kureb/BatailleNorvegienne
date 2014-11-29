@@ -1,8 +1,8 @@
 package fr.utt.isi.lo02.projet.modele;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
-
 
 public class Bataille {
 
@@ -12,7 +12,7 @@ public class Bataille {
 	private JeuDeCartes jeuDeCartes;
 	/** la pioche du jeu */
 	private ArrayList<Carte> pioche;
-	
+
 	/**
 	 * Constructeur d'une bataille
 	 */
@@ -21,7 +21,7 @@ public class Bataille {
 		jeuDeCartes = new JeuDeCartes();
 		pioche = new ArrayList<>();
 	}
-	
+
 	public ArrayList<Carte> getPioche() {
 		return pioche;
 	}
@@ -32,25 +32,27 @@ public class Bataille {
 
 	/**
 	 * Permet d'ajouter un joueur à la partie
-	 * @param j le joueur à ajouter
+	 * 
+	 * @param j
+	 *            le joueur à ajouter
 	 */
 	public void addJoueur(Joueur j) {
-		//On l'ajoute seulement s'il n'y est pas déjà
+		// On l'ajoute seulement s'il n'y est pas déjà
 		if (!this.joueurs.contains(j)) {
 			this.joueurs.add(j);
 		}
-			
+
 	}
-	
-	
-	
+
 	/**
 	 * Permet de supprimer un joueur de la partie
-	 * @param j le joueur à spupprimer
+	 * 
+	 * @param j
+	 *            le joueur à spupprimer
 	 */
 	public void removeJoueur(Joueur j) {
-		//On le supprime seulement s'il existe
-		if (this.joueurs.contains(j))	
+		// On le supprime seulement s'il existe
+		if (this.joueurs.contains(j))
 			this.joueurs.remove(j);
 	}
 
@@ -69,18 +71,18 @@ public class Bataille {
 	public void setJeuDeCartes(JeuDeCartes jeuDeCartes) {
 		this.jeuDeCartes = jeuDeCartes;
 	}
-	
+
 	public String toString() {
 		return joueurs.toString();
 	}
 
 	/**
-	 * Demande à tous les joueurs s'ils veulent échanger leurs cartes
-	 * L'échange est possible seulement entre les cartes que le joueur
-	 * possède en main et les cartes visibles
-	 * Si le joueur répond ne pas vouloir faire d'échange on passe au joueur suivant
-	 * Si le joueur répond vouloir faire un échange, on lui propose l'échange et on
-	 * lui redemande s'il souhaite faire un échange jusqu'à ce qu'il dise non (considéré comme définitif)
+	 * Demande à tous les joueurs s'ils veulent échanger leurs cartes L'échange
+	 * est possible seulement entre les cartes que le joueur possède en main et
+	 * les cartes visibles Si le joueur répond ne pas vouloir faire d'échange on
+	 * passe au joueur suivant Si le joueur répond vouloir faire un échange, on
+	 * lui propose l'échange et on lui redemande s'il souhaite faire un échange
+	 * jusqu'à ce qu'il dise non (considéré comme définitif)
 	 */
 	public void echangerCartes() {
 		Iterator<Joueur> it = this.joueurs.iterator();
@@ -110,4 +112,39 @@ public class Bataille {
 	
 	
 	
+	/**
+	 * Permet de connaitre le joueur qui va commencer la partie D'après les
+	 * règles de la bataille Norvégienne le joueur à commencer Et le joueur à la
+	 * gauche du donner C'est-à-dire qu'on tourne dans le sens horaires des
+	 * aiguilles d'une montre C'est donc le joueur qui suit le Mélangeur qui va
+	 * commencer la partie
+	 * 
+	 * @return
+	 */
+	public Joueur getJoueurQuiJoueEnPremier() {
+		Iterator<Joueur> it = joueurs.iterator();
+		int i = 0;
+		int positionScrambler = 0;
+		while (it.hasNext()) {
+			i++;
+			if (it.next() instanceof Scrambler) {
+				positionScrambler = i;
+				break; // pas beau, TODO : trouver qqch d'autre..
+			} else {
+				// Exception genre y'a pas de Scrambler ?
+				// TODO : compléter
+			}
+
+		}
+		// Si le Scrambler est le dernier joueur, on retourne alors le premier
+		// de la liste
+		// sinon on retourne simplement le joueur d'après
+		return ((positionScrambler == joueurs.size() ? joueurs.get(0) : joueurs
+				.get(positionScrambler++)));
+
+	}
+	
+	
+	
+
 }
