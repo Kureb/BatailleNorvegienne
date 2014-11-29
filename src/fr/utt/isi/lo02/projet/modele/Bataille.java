@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
 
+
 public class Bataille {
 
 	/**
@@ -39,7 +40,7 @@ public class Bataille {
 		return table;
 	}
 
-	public void setTas(ArrayList<Carte> table) {
+	public void setTable(ArrayList<Carte> table) {
 		this.table = table;
 	}
 
@@ -51,6 +52,11 @@ public class Bataille {
 		this.pioche = pioche;
 	}
 
+	
+	public void addTable(Carte carte) {
+		this.table.add(carte);
+	}
+	
 	/**
 	 * Permet d'ajouter un joueur à la partie
 	 * 
@@ -69,8 +75,7 @@ public class Bataille {
 	/**
 	 * Permet de supprimer un joueur de la partie
 	 * 
-	 * @param j
-	 *            le joueur à spupprimer
+	 * @param j le joueur à supprimer
 	 */
 	public void removeJoueur(Joueur j) {
 		// On le supprime seulement s'il existe
@@ -106,7 +111,7 @@ public class Bataille {
 	 * lui propose l'échange et on lui redemande s'il souhaite faire un échange
 	 * jusqu'à ce qu'il dise non (considéré comme définitif)
 	 */
-	public void echangerCartes() {
+	public void echangerCartesBAK() {
 		Iterator<Joueur> it = this.joueurs.iterator();
 		int rep;
 		Scanner sc = new Scanner(System.in);
@@ -131,17 +136,69 @@ public class Bataille {
 			} while (rep != 1 && rep != 2);
 		}
 	}
+	
+	
+	public void echangerCartes() {
+		Iterator<Joueur> it = this.joueurs.iterator();
+		Joueur joueur;
+		while (it.hasNext()) {
+			 joueur = it.next();
+			 joueur.echangerCartes();
+		}
+	}
+	
+	
+	
+	
+	public void lancerPartie() {
+		//Joueur joueurr = this.getJoueurQuiJoueEnPremier();
+		Joueur joueurr = null;
+		int positionn = this.getPositionPremierJoueur();
+		boolean fin = false;
+		//TODO la boucle boucle mal
+		//il faut revenir au début lorsqu'on est à la fin
+		while (!fin) {
+			joueurr = this.getJoueurs().get(positionn);
+			joueurr.jouer();
+			fin = joueurr.verifierGagner();
+			if (positionn + 1 < this.getJoueurs().size())
+				positionn++;
+			else
+				positionn = 0;
+			
+			
+		}
+
+		System.out.println(joueurr.getNom() + " a gagne, bravo ! ");
+		
+	}
 
 	/**
-	 * Permet de connaitre le joueur qui va commencer la partie D'après les
+	 * Permet de connaitre le joueur qui va commencer la partie. D'après les
 	 * règles de la bataille Norvégienne le joueur à commencer Et le joueur à la
 	 * gauche du donner C'est-à-dire qu'on tourne dans le sens horaires des
 	 * aiguilles d'une montre C'est donc le joueur qui suit le Mélangeur qui va
 	 * commencer la partie
 	 * 
-	 * @return
+	 * @return Le joueur qui doit commencer la partie
 	 */
 	public Joueur getJoueurQuiJoueEnPremier() {
+		
+		// Si le Scrambler est le dernier joueur, on retourne alors le premier
+		// de la liste
+		// sinon on retourne simplement le joueur d'après
+		return ((this.getPositionPremierJoueur() - 1 == joueurs.size() ? joueurs.get(0) : joueurs
+				.get(this.getPositionPremierJoueur())));
+
+	}
+	
+	
+	/**
+	 * Permet de connaitre la position du joueur qui doit
+	 * commencer la partie
+	 * @return la position du joueur qui commence à jouer
+	 */
+	public int getPositionPremierJoueur() {
 		Iterator<Joueur> it = joueurs.iterator();
 		int i = 0;
 		int positionScrambler = 0;
@@ -156,12 +213,7 @@ public class Bataille {
 			}
 
 		}
-		// Si le Scrambler est le dernier joueur, on retourne alors le premier
-		// de la liste
-		// sinon on retourne simplement le joueur d'après
-		return ((positionScrambler == joueurs.size() ? joueurs.get(0) : joueurs
-				.get(positionScrambler++)));
-
+		return ++positionScrambler;
 	}
 
 }
