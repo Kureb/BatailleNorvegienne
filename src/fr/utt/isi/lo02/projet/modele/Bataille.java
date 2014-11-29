@@ -32,7 +32,7 @@ public class Bataille {
 	
 	
 	public static Bataille getInstance() {
-		return (singleton == null ? new Bataille() : null);
+		return (singleton == null ? new Bataille() : singleton);
 	}
 
 	public ArrayList<Carte> getTable() {
