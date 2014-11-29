@@ -1,15 +1,18 @@
 package fr.utt.isi.lo02.projet.modele;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Scanner;
 
 /**
  * Représente le Joueur
+ * 
  * @author daussy - obeidat
- *
+ * 
  */
 public class Joueur {
-	
+
 	/** Le nom du joueur */
 	private String nom;
 	/** Les cartes faces visibles du joueur */
@@ -22,27 +25,32 @@ public class Joueur {
 	private StrategieJeu strategie;
 	/** Compte le nombre de joueurs ajoutés à la partie */
 	public static int NB_JOUEURS = 0;
-	
-	
-	
+
 	
 	/**
 	 * Constructeur du joueur réel
-	 * @param nom Nom du joueur
+	 * 
+	 * @param nom
+	 *            Nom du joueur
 	 */
-	public Joueur(String nom){
-		this.strategie = new StrategieRelle(); 
+	public Joueur(String nom) {
+		this.strategie = new StrategieRelle();
 		this.nom = nom;
 		this.faceUp = new LinkedList<>();
 		this.faceDown = new LinkedList<>();
 		this.main = new LinkedList<>();
 		Joueur.NB_JOUEURS++;
 	}
+
+	
 	
 	/**
 	 * Constructeur du joueur virtuel
-	 * @param nom Nom du joueur
-	 * @param strategie Stratégie à utiliser
+	 * 
+	 * @param nom
+	 *            Nom du joueur
+	 * @param strategie
+	 *            Stratégie à utiliser
 	 */
 	public Joueur(String nom, StrategieJeu strategie) {
 		this.strategie = strategie;
@@ -52,98 +60,54 @@ public class Joueur {
 		this.main = new LinkedList<>();
 		Joueur.NB_JOUEURS++;
 	}
+
+	
+	// ----------------- FIN ATTRIBUTS/CONSTRUCTEURS -----------------------
+	
+	
+	
+	
 	
 	
 	/**
-	 * Permet au joueur de jouer
-	 * (appelle la méthode propre à sa stratégie)
+	 * Permet au joueur de jouer (appelle la méthode propre à sa stratégie)
 	 */
 	public void jouer() {
-		strategie.jouerCarte();
+		strategie.jouerCarte(this);
 	}
 
 	
-	/**
-	 * Getter de nom
-	 * @return nom du joueur
-	 */
-	public String getNom() {
-		return nom;
-	}
-
-	/**
-	 * Setter de nom
-	 * @param nom nom du joueur
-	 */
-	public void setNom(String nom) {
-		this.nom = nom;
-	}
-
-	/**
-	 * Getter de FaceUp
-	 * @return liste des cartes face visible
-	 */
-	public LinkedList<Carte> getFaceUp() {
-		return faceUp;
-	}
 	
-	/**
-	 * Getter de FaceDown
-	 * @return liste des cartes face cachée
-	 */
-	public LinkedList<Carte> getFaceDown() {
-		return faceDown;
-	}
-
-	/**
-	 * Getter de la main
-	 * @return les cartes dans la main du joueur
-	 */
-	public LinkedList<Carte> getMain() {
-		return main;
-	}
-
-	/**
-	 * Getter de la stratégie
-	 * @return la strategie adoptée
-	 */
-	public StrategieJeu getStrategie() {
-		return strategie;
-	}
-	
-	
-	public void setStrategieJeu(StrategieJeu strategie) {
-		if (this.strategie != null)
-			this.strategie = strategie;
-		//TODO : else en faire une exception ? Un joueur réel ne peut devenir un joueur virtuel
-	}
-
 	/**
 	 * Permet de recevoir une carte lors de la distribution
-	 * @param carte Carte à recevoir
+	 * 
+	 * @param carte
+	 *            Carte à recevoir
 	 */
 	public void recevoirCarte(Carte carte) {
-		//On vérifie dans quelle liste la mettre		
+		// On vérifie dans quelle liste la mettre
 		if (faceDown.size() < 3)
 			faceDown.add(carte);
-		
+
 		else if (faceUp.size() < 3)
 			faceUp.add(carte);
-		
+
 		else if (main.size() < 3)
 			main.add(carte);
 	}
-	
+
 	/**
-	 * Permet au joueur d'échanger une carte de sa main
-	 * avec une carte visible devant lui
-	 * @param carteMain carte qu'il possède dans sa main
-	 * @param carteVisible carte visible devant lui
-	 * Remarque : les cartes ne seront pas forcément rangées
-	 * dans le même ordre
+	 * Permet au joueur d'échanger une carte de sa main avec une carte visible
+	 * devant lui
+	 * 
+	 * @param carteMain
+	 *            carte qu'il possède dans sa main
+	 * @param carteVisible
+	 *            carte visible devant lui Remarque : les cartes ne seront pas
+	 *            forcément rangées dans le même ordre
 	 */
 	public void echangerCarte(Carte carteMain, Carte carteVisible) {
-		//On vérifie que les cartes sont bien à l'endroit indiqué
+		// On vérifie que les cartes sont bien à l'endroit indiqué
 		if (this.faceUp.contains(carteVisible) && this.main.contains(carteMain)) {
 			this.faceUp.add(carteMain);
 			this.main.remove(carteMain);
@@ -151,15 +115,15 @@ public class Joueur {
 			this.faceUp.remove(carteVisible);
 		}
 	}
-	
-	
+
 	/**
 	 * Permet de proposer l'échange de cartes à un joueur
 	 */
 	public void proposerChangerCartes() {
 		System.out.println(this.toString());
 		Scanner sc = new Scanner(System.in);
-		System.out.print(this.nom + ". Quelle carte dans la main (1, 2 ou 3) : ");
+		System.out.print(this.nom
+				+ ". Quelle carte dans la main (1, 2 ou 3) : ");
 		int carteM = sc.nextInt();
 		System.out.print("\nQuelle carte visible ? (1, 2 ou 3) : ");
 		int carteV = sc.nextInt();
@@ -168,7 +132,52 @@ public class Joueur {
 		this.echangerCarte(carteMain, carteVisible);
 	}
 	
-	
+	/**
+	 * Permet de poser une carte sur la table
+	 * @param carte Carte à poser sur la table
+	 * On ajoute la carte à la table
+	 * et on la supprime de la main du joueur
+	 */
+	public void poserCarteUnique(Carte carte) {
+		Bataille.getInstance().addTable(carte);
+		this.main.remove(carte);
+	}
+
+	/**
+	 * Permet de poser une ou plusieurs cartes sur la table
+	 * TODO ne fonctionne pas, débugger
+	 * 
+	 * @param cartes Cartes à poser Les cartes à poser sont supprimées 
+	 *  de la main du joueur et elles sont ajoutées sur la table de la bataille
+	 */
+	public void poserCarte(LinkedList<Carte> cartes) {
+		// Si la liste de cartes passée en paramètre n'est pas vide
+		if (!cartes.isEmpty()) {
+			// Liste pour stocker les cartes à poser
+			ArrayList<Carte> table = new ArrayList<>();
+			// Copie de la liste passée en param
+			// pour pouvoir travailler sur la liste
+			// pendant l'itération
+			LinkedList<Carte> copyOfCartes = cartes;
+			// itérator sur la copie de la liste
+			Iterator<Carte> it = copyOfCartes.iterator();
+			
+			for (Carte carte : copyOfCartes) {
+				poserCarteUnique(carte);
+			}
+			
+			// Tant qu'il y a des cartes
+			// On ajoute la carte à la table (liste)
+			// et on la supprime de la main
+			/*while (it.hasNext()) {
+				poserCarteUnique((Carte) it.next());
+			}*/
+			
+			// On pose les cartes sur la table
+			//Bataille.getInstance().setTable(table);
+		}
+	}
+
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
 		sb.append("\n");
@@ -183,7 +192,86 @@ public class Joueur {
 		return sb.toString();
 	}
 
+	//TODO  && this.faceDown.isEmpty() && this.faceUp.isEmpty()
+	public boolean verifierGagner() {
+		return (this.main.isEmpty());
+	}
+	
+	/**
+	 * Utilisation de Delegation Pattern
+	 * TODO : expliquer
+	 */
+	public void echangerCartes() {
+		this.getStrategie().echangerCartes(this);
+	}
 	
 	
 	
+	
+	// ---------------------- GETTER ET SETTER --------------------
+
+	/**
+	 * Getter de nom
+	 * 
+	 * @return nom du joueur
+	 */
+	public String getNom() {
+		return nom;
+	}
+
+	/**
+	 * Setter de nom
+	 * 
+	 * @param nom
+	 *            nom du joueur
+	 */
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+
+	/**
+	 * Getter de FaceUp
+	 * 
+	 * @return liste des cartes face visible
+	 */
+	public LinkedList<Carte> getFaceUp() {
+		return faceUp;
+	}
+
+	/**
+	 * Getter de FaceDown
+	 * 
+	 * @return liste des cartes face cachée
+	 */
+	public LinkedList<Carte> getFaceDown() {
+		return faceDown;
+	}
+
+	/**
+	 * Getter de la main
+	 * 
+	 * @return les cartes dans la main du joueur
+	 */
+	public LinkedList<Carte> getMain() {
+		return main;
+	}
+
+	/**
+	 * Getter de la stratégie
+	 * 
+	 * @return la strategie adoptée
+	 */
+	public StrategieJeu getStrategie() {
+		return strategie;
+	}
+
+	public void setStrategieJeu(StrategieJeu strategie) {
+		if (this.strategie != null)
+			this.strategie = strategie;
+		// TODO : else en faire une exception ? Un joueur réel ne peut devenir
+		// un joueur virtuel
+		// et vérifier aussi le != null InstanceOf ?
+	}
+
+
 }
