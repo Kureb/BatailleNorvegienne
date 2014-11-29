@@ -13,13 +13,13 @@ public class Joueur {
 	/** Le nom du joueur */
 	private String nom;
 	/** Les cartes faces visibles du joueur */
-	private final LinkedList<Carte> faceUp;
+	private LinkedList<Carte> faceUp;
 	/** Les cartes faces cachées du joueur */
-	private final LinkedList<Carte> faceDown;
+	private LinkedList<Carte> faceDown;
 	/** Les cartes en main du joueur */
-	private final LinkedList<Carte> main;
+	private LinkedList<Carte> main;
 	/** La stratégie adoptée par le joueur */
-	private final StrategieJeu strategie;
+	private StrategieJeu strategie;
 	/** Compte le nombre de joueurs ajoutés à la partie */
 	public static int NB_JOUEURS = 0;
 	
@@ -27,11 +27,25 @@ public class Joueur {
 	
 	
 	/**
-	 * Constructeur du joueur
+	 * Constructeur du joueur réel
 	 * @param nom Nom du joueur
 	 */
 	public Joueur(String nom){
-		this.strategie = null;//TODO : changer
+		this.strategie = new StrategieRelle(); 
+		this.nom = nom;
+		this.faceUp = new LinkedList<>();
+		this.faceDown = new LinkedList<>();
+		this.main = new LinkedList<>();
+		Joueur.NB_JOUEURS++;
+	}
+	
+	/**
+	 * Constructeur du joueur virtuel
+	 * @param nom Nom du joueur
+	 * @param strategie Stratégie à utiliser
+	 */
+	public Joueur(String nom, StrategieJeu strategie) {
+		this.strategie = strategie;
 		this.nom = nom;
 		this.faceUp = new LinkedList<>();
 		this.faceDown = new LinkedList<>();
@@ -96,6 +110,13 @@ public class Joueur {
 	public StrategieJeu getStrategie() {
 		return strategie;
 	}
+	
+	
+	public void setStrategieJeu(StrategieJeu strategie) {
+		if (this.strategie != null)
+			this.strategie = strategie;
+		//TODO : else en faire une exception ? Un joueur réel ne peut devenir un joueur virtuel
+	}
 
 	/**
 	 * Permet de recevoir une carte lors de la distribution
@@ -118,6 +139,8 @@ public class Joueur {
 	 * avec une carte visible devant lui
 	 * @param carteMain carte qu'il possède dans sa main
 	 * @param carteVisible carte visible devant lui
+	 * Remarque : les cartes ne seront pas forcément rangées
+	 * dans le même ordre
 	 */
 	public void echangerCarte(Carte carteMain, Carte carteVisible) {
 		//On vérifie que les cartes sont bien à l'endroit indiqué
@@ -130,7 +153,9 @@ public class Joueur {
 	}
 	
 	
-	
+	/**
+	 * Permet de proposer l'échange de cartes à un joueur
+	 */
 	public void proposerChangerCartes() {
 		System.out.println(this.toString());
 		Scanner sc = new Scanner(System.in);
