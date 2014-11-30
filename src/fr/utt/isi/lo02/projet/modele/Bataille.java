@@ -22,7 +22,8 @@ public class Bataille {
 	private ArrayList<Carte> table;
 
 	/**
-	 * Constructeur d'une bataille
+	 * Constructeur privé d'une bataille pour garantir
+	 * l'unicité de cet objet
 	 */
 	private Bataille() {
 		joueurs = new ArrayList<>();
@@ -31,9 +32,15 @@ public class Bataille {
 		table = new ArrayList<>();
 	}
 	
-	
+	/**
+	 * Permet d'assurer l'unicité de l'objet
+	 * @return l'instance de Bataille, la seule, l'unique
+	 */
 	public static Bataille getInstance() {
-		return (singleton == null ? new Bataille() : singleton);
+		if (singleton == null)
+			singleton = new Bataille();
+		
+		return singleton;
 	}
 
 	public ArrayList<Carte> getTable() {
@@ -149,27 +156,33 @@ public class Bataille {
 	
 	
 	
-	
+	/**
+	 * Lance la partie, fait jouer tous les joueurs jusqu'à
+	 * ce que l'un d'eux gagne ! 
+	 */
 	public void lancerPartie() {
-		//Joueur joueurr = this.getJoueurQuiJoueEnPremier();
-		Joueur joueurr = null;
-		int positionn = this.getPositionPremierJoueur();
+		Joueur joueur = null;
 		boolean fin = false;
-		//TODO la boucle boucle mal
-		//il faut revenir au début lorsqu'on est à la fin
+		
+		// position du premier joueur
+		int position = this.getPositionPremierJoueur();
+		// tant que personne n'a gagn&
 		while (!fin) {
-			joueurr = this.getJoueurs().get(positionn);
-			joueurr.jouer();
-			fin = joueurr.verifierGagner();
-			if (positionn + 1 < this.getJoueurs().size())
-				positionn++;
+			// on récupère le joueur devant jouer, il joue, on vérifie s'il a gagné
+			joueur = this.getJoueurs().get(position);
+			joueur.jouer();
+			fin = joueur.verifierGagner();
+			// Si y'a encore un joueur après, on incrémente 'position'
+			if (position + 1 < this.getJoueurs().size())
+				position++;
+			// Sinon c'est qu'on est à la fin de la liste, donc on retourne au début
 			else
-				positionn = 0;
+				position = 0;
 			
 			
 		}
-
-		System.out.println(joueurr.getNom() + " a gagne, bravo ! ");
+		// Le gagnant est le dernier joueur si nous sommes ici
+		System.out.println(joueur.getNom() + " a gagne, bravo ! ");
 		
 	}
 
