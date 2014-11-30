@@ -125,6 +125,10 @@ public class Carte {
 	public String toString() {
 		return "Carte [valeur=" + valeur + ", couleur=" + couleur + "]";
 	}
+	
+	public boolean aMemeValeur(Carte carte) {
+		return (this.getValeur() == carte.getValeur());
+	}
 
 
 
