@@ -120,12 +120,12 @@ public class Joueur {
 	 * Permet de proposer l'échange de cartes à un joueur
 	 */
 	public void proposerChangerCartes() {
-		System.out.println(this.toString());
+		//System.out.println(this.toString());
 		Scanner sc = new Scanner(System.in);
-		System.out.print(this.nom
-				+ ". Quelle carte dans la main (1, 2 ou 3) : ");
+		System.out.print(this.getNom()
+				+ ", quelle carte dans la main (1, 2 ou 3) : ");
 		int carteM = sc.nextInt();
-		System.out.print("\nQuelle carte visible ? (1, 2 ou 3) : ");
+		System.out.print(this.getNom() + ", quelle carte visible ? (1, 2 ou 3) : ");
 		int carteV = sc.nextInt();
 		Carte carteMain = this.main.get(--carteM);
 		Carte carteVisible = this.faceUp.get(--carteV);
