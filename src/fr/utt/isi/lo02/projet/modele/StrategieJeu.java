@@ -10,7 +10,7 @@ public interface StrategieJeu {
 	
 	public abstract void echangerCartes(Joueur joueur);
 
-	void jouerCarte(Joueur joueur);
+	public abstract void jouerCarte(Joueur joueur);
 
 	
 	
