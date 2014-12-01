@@ -22,12 +22,19 @@ public class StrategieRelle implements StrategieJeu {
 			joueur.poserCarteUnique(it.next());
 		}
 		
-		// Pour chq carte posée
-		for (int i = 0; i < taille; i++) {
-			// On redonne au joueur une carte de la pioche
-			if (!Bataille.getInstance().getPioche().isEmpty()) {
-				joueur.recevoirCarte(Bataille.getInstance().getPioche().get(Bataille.getInstance().getPioche().size()-1));
-				Bataille.getInstance().getPioche().remove(Bataille.getInstance().getPioche().size()-1);
+		boolean vide = Bataille.getInstance().getPioche().isEmpty();
+		//Si la pioche n'est pas vide
+		if (!vide) {
+			// Pour chq carte posée
+			for (int i = 0; i < taille; i++) {
+				// On redonne au joueur une carte de la pioche
+				if (!vide) {
+					joueur.recevoirCarte(Bataille.getInstance().getPioche()
+							.get(Bataille.getInstance().getPioche().size() - 1));
+					Bataille.getInstance()
+							.getPioche()
+							.remove(Bataille.getInstance().getPioche().size() - 1);
+				}
 			}
 		}
 		
@@ -44,29 +51,40 @@ public class StrategieRelle implements StrategieJeu {
 		// L'arraylist qui contient les cartes qu'il veut poser
 		ArrayList<Carte> cartes = new ArrayList<>();
 		Scanner sc = new Scanner(System.in);
+		Carte derniereCarteJouee = null;
 		int choix = -1;
 		
 		
 		// Si la table n'est pas vide on lui montre la dernière carte jouée
 		if (!Bataille.getInstance().getTable().isEmpty()) {
 			int indexDernierElement = Bataille.getInstance().getTable().size()-1;
-			Carte derniereCarteJouee = Bataille.getInstance().getTable().get(indexDernierElement);
+			derniereCarteJouee = Bataille.getInstance().getTable().get(indexDernierElement);
 			System.out.println("La derniere carte jouee etait : "
 					+ derniereCarteJouee);
 
 		}
+		boolean choix_ok = false;
 		
 		// On lui montre ses cartes et on demande ce qu'il veut jouer
 		System.out.println(joueur.getNom() + " : " + joueur.getMain());
 
 		do {
-			System.out.print("Quelle carte veux-tu jouer ? ");
-			choix = sc.nextInt();
-		} while (choix > joueur.getMain().size());
-
-		choix--;
+			do {
+				System.out.print("Quelle carte veux-tu jouer ? ");
+				choix = sc.nextInt();
+				//Si y'a une carte sur la table on vérifie que
+				//la carte choisie peut être posée dessus
+				if (derniereCarteJouee != null)
+					choix_ok = derniereCarteJouee.estRecouvrablePar(joueur
+							.getMain().get(choix - 1));
+				else
+					choix_ok = true;
+			} while (choix > joueur.getMain().size());
+			if (!choix_ok)
+				System.out.println("Tu ne peux pas poser cette carte.");
+		} while (!choix_ok);
 		//On ajoute son choix à la liste des cartes que retourne la méthode
-		cartes.add(joueur.getMain().get(choix));
+		cartes.add(joueur.getMain().get(choix-1));
 
 		
 		// Ici on vérifie s'il a dans sa main une autre carte de la même valeur

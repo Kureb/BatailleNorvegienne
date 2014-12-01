@@ -129,6 +129,12 @@ public class Carte {
 	public boolean aMemeValeur(Carte carte) {
 		return (this.getValeur() == carte.getValeur());
 	}
+	
+	
+	public boolean estRecouvrablePar(Carte carte) {
+		//TODO gérer le cas des cartes spéciales plus tard
+		return (carte.getValeur() >= this.getValeur());
+	}
 
 
 
