@@ -8,9 +8,10 @@ package fr.utt.isi.lo02.projet.modele;
  */
 public interface StrategieJeu {
 	
-	// TODO bouger la méthode échanger carte ici ?
 	public abstract void echangerCartes(Joueur joueur);
 
-	public abstract void jouerCarte(Joueur joueur);
+	void jouerCarte(Joueur joueur);
+
+	
 	
 }

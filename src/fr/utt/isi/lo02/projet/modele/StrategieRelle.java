@@ -2,6 +2,7 @@ package fr.utt.isi.lo02.projet.modele;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 /**
@@ -13,7 +14,7 @@ public class StrategieRelle implements StrategieJeu {
 
 	@Override
 	public void jouerCarte(Joueur joueur) {
-		System.out.println(joueur);
+		//System.out.println(joueur);
 		ArrayList<Carte> cartes = this.choisirCarteAJoueur(joueur);
 		int taille = cartes.size(); //nb de cartes à piocher
 		Iterator<Carte> it = cartes.iterator();
@@ -24,8 +25,10 @@ public class StrategieRelle implements StrategieJeu {
 		// Pour chq carte posée
 		for (int i = 0; i < taille; i++) {
 			// On redonne au joueur une carte de la pioche
-			joueur.recevoirCarte(Bataille.getInstance().getPioche().get(Bataille.getInstance().getPioche().size()-1));
-			Bataille.getInstance().getPioche().remove(Bataille.getInstance().getTable().size()-1);
+			if (!Bataille.getInstance().getPioche().isEmpty()) {
+				joueur.recevoirCarte(Bataille.getInstance().getPioche().get(Bataille.getInstance().getPioche().size()-1));
+				Bataille.getInstance().getPioche().remove(Bataille.getInstance().getPioche().size()-1);
+			}
 		}
 		
 		
@@ -54,7 +57,7 @@ public class StrategieRelle implements StrategieJeu {
 		}
 		
 		// On lui montre ses cartes et on demande ce qu'il veut jouer
-		System.out.println(joueur.getMain());
+		System.out.println(joueur.getNom() + " : " + joueur.getMain());
 
 		do {
 			System.out.print("Quelle carte veux-tu jouer ? ");
@@ -70,31 +73,32 @@ public class StrategieRelle implements StrategieJeu {
 		// car il peut aussi la jouer
 		// Si tel est le cas, on lui demande s'il veut la jouer
 		// Si oui, on l'ajoute aussi à la liste de cartes retournée par la méthode
-		boolean autre = false;
-		Iterator<Carte> it = joueur.getMain().iterator();
-		int i = 1;
-		int reponse = 0;
-		while (it.hasNext()) {
-			Carte carteCourrante = it.next();
-			if (carteCourrante != cartes.get(0)) {
-				autre = (cartes.get(0)).aMemeValeur(carteCourrante);
-				if (autre) {
-					System.out.println("Tu as une carte de la meme valeur.");
-					do {
-						System.out.print("Veux-tu aussi poser " + carteCourrante + " (1 (oui)/2 (non)) ? ");
-						reponse = sc.nextInt();
-					} while (reponse != 1 && reponse != 2);
-					
-					if (reponse == 1) {
-						reponse = -1;
-						cartes.add(carteCourrante);
-					}
-						
-				}
+		
+		
+		//On crée une copie de la main auquelle on enlève la carte choisie
+		LinkedList<Carte> copyOfMain = new LinkedList<>(joueur.getMain());
+		copyOfMain.remove(cartes.get(0));
+		
+		Iterator<Carte> it = copyOfMain.iterator();
+		while(it.hasNext()) {
+			int reponse = 0;
+			boolean autre = false;
+			Carte carteCourante = it.next();
+			autre = (cartes.get(0)).aMemeValeur(carteCourante);
+			if (autre) {
+				System.out.println("Tu as une carte de la meme valeur.");
+				do {
+					System.out.print("Poser " + carteCourante + " (1 (oui)/2 (non)) ");
+					reponse = sc.nextInt();
+				} while (reponse != 1 && reponse != 2);
+				
+				
+				if (reponse == 1)
+					cartes.add(carteCourante);
+				
+				
 			}
-			i++;
 		}
-
 		return cartes;
 	}
 

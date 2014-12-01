@@ -143,41 +143,12 @@ public class Joueur {
 		this.main.remove(carte);
 	}
 
+	
 	/**
-	 * Permet de poser une ou plusieurs cartes sur la table
-	 * TODO ne fonctionne pas, débugger
-	 * 
-	 * @param cartes Cartes à poser Les cartes à poser sont supprimées 
-	 *  de la main du joueur et elles sont ajoutées sur la table de la bataille
+	 * Personnalise l'affichage d'un joueur
+	 * Ecrit son nom, puis le contenu de ses 3 tas 
+	 * (main, cartes visibles et cartes cachées)
 	 */
-	public void poserCarte(LinkedList<Carte> cartes) {
-		// Si la liste de cartes passée en paramètre n'est pas vide
-		if (!cartes.isEmpty()) {
-			// Liste pour stocker les cartes à poser
-			ArrayList<Carte> table = new ArrayList<>();
-			// Copie de la liste passée en param
-			// pour pouvoir travailler sur la liste
-			// pendant l'itération
-			LinkedList<Carte> copyOfCartes = cartes;
-			// itérator sur la copie de la liste
-			Iterator<Carte> it = copyOfCartes.iterator();
-			
-			for (Carte carte : copyOfCartes) {
-				poserCarteUnique(carte);
-			}
-			
-			// Tant qu'il y a des cartes
-			// On ajoute la carte à la table (liste)
-			// et on la supprime de la main
-			/*while (it.hasNext()) {
-				poserCarteUnique((Carte) it.next());
-			}*/
-			
-			// On pose les cartes sur la table
-			//Bataille.getInstance().setTable(table);
-		}
-	}
-
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
 		sb.append("\n");

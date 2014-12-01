@@ -28,7 +28,7 @@ public class Carte {
 	public final static int AS = 12;
 
 	public final static String[] COULEURS = {"Pic", "Coeur", "Carreau", "Trefle"};
-	public final static String[] VALEURS = {"Un", "Deux", "Trois", "Quatre", "Cinq", "Six", "Sept", "Huit", "Neuf", "Dix", "Valet", "Dame", "Roi", "As"};
+	public final static String[] VALEURS = {"Deux", "Trois", "Quatre", "Cinq", "Six", "Sept", "Huit", "Neuf", "Dix", "Valet", "Dame", "Roi", "As"};
 
 	private int couleur;
 	private int valeur;
@@ -115,7 +115,7 @@ public class Carte {
 	 * @param valeur - valeurà appliquer à la carte
 	 */
 	public void setValeur(int valeur) {
-		if (valeur >= Carte.SEPT && valeur <= Carte.AS) {
+		if (valeur >= Carte.DEUX && valeur <= Carte.AS) {
 			this.valeur = valeur;
 		}
 	}

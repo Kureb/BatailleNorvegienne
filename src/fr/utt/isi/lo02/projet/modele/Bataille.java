@@ -107,7 +107,7 @@ public class Bataille {
 	}
 
 	public String toString() {
-		return joueurs.toString();
+		return joueurs.toString() + "\n pioche : " + pioche.toString() + "\n table" + table.toString();
 	}
 
 	/**

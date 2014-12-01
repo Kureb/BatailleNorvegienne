@@ -13,7 +13,7 @@ public class JeuConsole {
 		Joueur Benjamin = new Joueur("Benjamin", new Bluffer());
 		Joueur Diane = new Joueur("Diane", new Defausser());
 		
-		// TODO : ajouter une exception si plus d'un joueur physique ?
+		// TODO : ajouter une exception si plus d'un joueur physique ? Ou si plusieurs Scrambler ?
 		
 		/*
 		Joueur Maxime = new Joueur("Maxime");
@@ -52,7 +52,8 @@ public class JeuConsole {
 		Alexandre.distribuerPaquet(bataille);
 		
 		//Affiche les cartes de chaque joueurs
-		//System.out.println(bataille.toString());
+		System.out.println(bataille.toString());
+		
 		
 	
 		
@@ -60,7 +61,7 @@ public class JeuConsole {
 		 bataille.echangerCartes();
 		
 		
-		
+		// seconde phase de la bataille
 		 bataille.lancerPartie();
 		
 	
