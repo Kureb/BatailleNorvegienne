@@ -163,7 +163,7 @@ public class Bataille {
 	public void lancerPartie() {
 		Joueur joueur = null;
 		boolean fin = false;
-		
+		//TODO : vérifier étatt du paquet (pour passer les tours)
 		// position du premier joueur
 		int position = this.getPositionPremierJoueur();
 		// tant que personne n'a gagn&
@@ -219,11 +219,8 @@ public class Bataille {
 			i++;
 			if (it.next() instanceof Scrambler) {
 				positionScrambler = i;
-				break; // pas beau, TODO : trouver qqch d'autre..
-			} else {
-				// Exception genre y'a pas de Scrambler ?
-				// TODO : compléter
-			}
+				break; 
+			} 
 
 		}
 		return ++positionScrambler;

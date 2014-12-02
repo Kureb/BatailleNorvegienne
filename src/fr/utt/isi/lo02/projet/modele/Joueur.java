@@ -121,6 +121,7 @@ public class Joueur {
 	 */
 	public void proposerChangerCartes() {
 		//System.out.println(this.toString());
+		System.out.println(this);
 		Scanner sc = new Scanner(System.in);
 		System.out.print(this.getNom()
 				+ ", quelle carte dans la main (1, 2 ou 3) : ");

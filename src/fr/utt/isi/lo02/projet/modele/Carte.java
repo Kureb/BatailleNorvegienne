@@ -123,7 +123,7 @@ public class Carte {
 
 	@Override
 	public String toString() {
-		return "Carte [valeur=" + valeur + ", couleur=" + couleur + "]";
+		return VALEURS[valeur] + " de " + COULEURS[couleur];
 	}
 	
 	public boolean aMemeValeur(Carte carte) {
@@ -131,12 +131,36 @@ public class Carte {
 	}
 	
 	
-	public boolean estRecouvrablePar(Carte carte) {
-		//TODO gérer le cas des cartes spéciales plus tard
-		return (carte.getValeur() >= this.getValeur());
+	public boolean estSpeciale() {
+		boolean bool = false;
+		if (this.valeur == 0) bool = true;
+		if (this.valeur == 5) bool = true;
+		if (this.valeur == 6) bool =  true;
+		if (this.valeur == 8) bool = true;
+		if (this.valeur == 10) bool = true;
+		return bool;
 	}
+	
+	public boolean estRecouvrablePar(Carte carte) {
+		/*
+		boolean bool = false;
+		boolean estSpeciale = false;
+		if (this.estSpeciale())
+			estSpeciale = true;
+		if (estSpeciale) {
+			if (this.valeur == 5)
+				if (carte.getValeur() > this.getValeur())
+					bool = false;
+				else if (carte.getValeur() <= this.getValeur())
+					bool = true;
 
+		} else if (carte.getValeur() >= this.getValeur())
+			bool = true;
+		
+		*/
+		return (carte.getValeur() >= this.getValeur());
 
+	}
 
 
 

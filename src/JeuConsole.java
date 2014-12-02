@@ -52,7 +52,7 @@ public class JeuConsole {
 		Alexandre.distribuerPaquet(bataille);
 		
 		//Affiche les cartes de chaque joueurs
-		System.out.println(bataille.toString());
+		//System.out.println(bataille.toString());
 		
 		
 	
@@ -65,19 +65,6 @@ public class JeuConsole {
 		 bataille.lancerPartie();
 		
 	
-		
-		//System.out.println(bataille.toString());
-				
-				
-				
-		//System.out.println(Joueur.NB_JOUEURS);
-		/**
-		 * ATTENTION : NB_JOUEURS s'incrémente à l'instanciation
-		 * d'un joueur. Il faut donc l'ajouter au jeu, sinon
-		 * il y a un risque de prendre un paquet de carte supplémentaire
-		 * de manière inutile 
-		 * TODO trouver une solution 
-		 */
 		
 		
 		
