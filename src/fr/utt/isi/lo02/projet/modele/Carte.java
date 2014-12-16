@@ -137,10 +137,13 @@ public class Carte {
 		if (this.valeur == 5) bool = true;
 		if (this.valeur == 6) bool =  true;
 		if (this.valeur == 8) bool = true;
-		if (this.valeur == 10) bool = true;
+		if (this.valeur == 12) bool = true;
 		return bool;
 	}
 	
+	/*
+	 * On pose carte sur this
+	 */
 	public boolean estRecouvrablePar(Carte carte) {
 		/*
 		boolean bool = false;
@@ -158,7 +161,14 @@ public class Carte {
 			bool = true;
 		
 		*/
-		return (carte.getValeur() >= this.getValeur());
+		
+		if (carte.valeur == 0) return true; //si c'est un 2
+		else if (this.valeur == 5 && carte.valeur <= 5 ) return true; //si y'avait un 7 avant
+		else if (this.valeur == 5 && carte.valeur > 7) return false;
+		else if (this.valeur == 12 && carte.getValeur() == 12) return true;
+		else if (this.valeur == 12 && carte.getValeur() == 0) return true;
+		else if (this.getValeur() <= carte.getValeur()) return true;
+		else return false;
 
 	}
 

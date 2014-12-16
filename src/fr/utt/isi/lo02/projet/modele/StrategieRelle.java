@@ -13,7 +13,7 @@ import java.util.Scanner;
 public class StrategieRelle implements StrategieJeu {
 
 	@Override
-	public void jouerCarte(Joueur joueur) {
+	public int jouerCarte(Joueur joueur) {
 		//System.out.println(joueur);
 		ArrayList<Carte> cartes = this.choisirCarteAJoueur(joueur);
 		int taille = cartes.size(); //nb de cartes à piocher
@@ -21,6 +21,8 @@ public class StrategieRelle implements StrategieJeu {
 		while (it.hasNext()) {
 			joueur.poserCarteUnique(it.next());
 		}
+		
+		
 		
 		boolean vide = Bataille.getInstance().getPioche().isEmpty();
 		//Si la pioche n'est pas vide
@@ -37,6 +39,8 @@ public class StrategieRelle implements StrategieJeu {
 				}
 			}
 		}
+		
+		return cartes.size();
 		
 		
 		
@@ -140,6 +144,21 @@ public class StrategieRelle implements StrategieJeu {
 				joueur.proposerChangerCartes();
 			
 		} while (rep != 2);
+	}
+
+	@Override
+	//TODO seulement si le tas n'est pas vide
+	public Joueur choisirQuiRalentir() {
+		System.out.println("A qui veux-tu envoyer le tas ? (numero)");
+		System.out.println(Bataille.getInstance().getJoueurs().toString());
+		int rep = -1;
+		Scanner sc = new Scanner(System.in);
+		do {
+			rep = sc.nextInt();
+		} while (rep > Bataille.getInstance().getJoueurs().size()-1 && rep < 0);
+		rep--;
+		
+		return Bataille.getInstance().getJoueurs().get(rep);
 	}
 
 }

@@ -71,9 +71,25 @@ public class Joueur {
 	
 	/**
 	 * Permet au joueur de jouer (appelle la méthode propre à sa stratégie)
+	 * @return 
 	 */
-	public void jouer() {
-		strategie.jouerCarte(this);
+	public int jouer() {
+		return strategie.jouerCarte(this);
+	}
+	
+	/**
+	 * Permet de savoir si un joueur peut jouer
+	 * @param derniereCarte dernière carte jouée, donc celle sur le paquet
+	 * @return vrai ou faux (peut jouer ou non)
+	 */
+	public boolean peutJouer(Carte derniereCarte) {
+		boolean result = false;
+		Iterator<Carte> it = this.getMain().iterator();
+		while (it.hasNext())
+			if (derniereCarte.estRecouvrablePar(it.next()))
+				return true;
+		
+		return result;
 	}
 
 	
@@ -169,10 +185,7 @@ public class Joueur {
 		return (this.main.isEmpty());
 	}
 	
-	/**
-	 * Utilisation de Delegation Pattern
-	 * TODO : expliquer
-	 */
+	
 	public void echangerCartes() {
 		this.getStrategie().echangerCartes(this);
 	}
@@ -228,6 +241,28 @@ public class Joueur {
 		return main;
 	}
 
+	public void setFaceUp(LinkedList<Carte> faceUp) {
+		this.faceUp = faceUp;
+	}
+
+
+
+	public void setFaceDown(LinkedList<Carte> faceDown) {
+		this.faceDown = faceDown;
+	}
+
+
+
+	public void setMain(LinkedList<Carte> main) {
+		this.main = main;
+	}
+	
+	public void addMain(Carte carte) {
+		this.main.add(carte);
+	}
+
+
+
 	/**
 	 * Getter de la stratégie
 	 * 
@@ -236,6 +271,7 @@ public class Joueur {
 	public StrategieJeu getStrategie() {
 		return strategie;
 	}
+	
 
 	public void setStrategieJeu(StrategieJeu strategie) {
 		if (this.strategie != null)
@@ -245,5 +281,19 @@ public class Joueur {
 		// et vérifier aussi le != null InstanceOf ?
 	}
 
+
+
+	public void envoyerTas(Joueur suivant) {
+		System.out.println(this.getNom() + " envoie le tas a " + suivant.getNom());
+		Iterator<Carte> it = Bataille.getInstance().getTable().iterator();
+		while (it.hasNext()) {
+			suivant.addMain(it.next());
+		}
+		
+		Bataille.getInstance().clearTable();
+		
+		System.out.println(suivant.toString());
+		
+	}
 
 }

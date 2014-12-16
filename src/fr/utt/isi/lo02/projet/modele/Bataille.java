@@ -110,39 +110,7 @@ public class Bataille {
 		return joueurs.toString() + "\n pioche : " + pioche.toString() + "\n table" + table.toString();
 	}
 
-	/**
-	 * Demande à tous les joueurs s'ils veulent échanger leurs cartes L'échange
-	 * est possible seulement entre les cartes que le joueur possède en main et
-	 * les cartes visibles Si le joueur répond ne pas vouloir faire d'échange on
-	 * passe au joueur suivant Si le joueur répond vouloir faire un échange, on
-	 * lui propose l'échange et on lui redemande s'il souhaite faire un échange
-	 * jusqu'à ce qu'il dise non (considéré comme définitif)
-	 */
-	public void echangerCartesBAK() {
-		Iterator<Joueur> it = this.joueurs.iterator();
-		int rep;
-		Scanner sc = new Scanner(System.in);
-
-		// Pour tous les joueurs
-		while (it.hasNext()) {
-			Joueur joueur = it.next();
-			rep = -1; // pour repasser dans la boucle
-
-			// Tant qu'ils n'ont pas répondu 'oui' ou 'non'
-			do {
-				// Tant qu'ils n'ont pas dit 'non'
-				do {
-					System.out.println("Veux-tu echanger des cartes "
-							+ joueur.getNom() + " ?\t(1 (oui)/ 2 (non))");
-					rep = sc.nextInt();
-					if (rep == 1)
-						joueur.proposerChangerCartes(); // Echange de cartes si
-														// réponse positive
-				} while (rep != 2);
-
-			} while (rep != 1 && rep != 2);
-		}
-	}
+	
 	
 	
 	public void echangerCartes() {
@@ -161,23 +129,19 @@ public class Bataille {
 	 * ce que l'un d'eux gagne ! 
 	 */
 	public void lancerPartie() {
-		Joueur joueur = null;
+		Joueur joueur = null, suivant = null;
 		boolean fin = false;
-		//TODO : vérifier étatt du paquet (pour passer les tours)
 		// position du premier joueur
 		int position = this.getPositionPremierJoueur();
 		// tant que personne n'a gagn&
+		joueur = this.getJoueurs().get(position);
+		int nbCartes;
 		while (!fin) {
 			// on récupère le joueur devant jouer, il joue, on vérifie s'il a gagné
-			joueur = this.getJoueurs().get(position);
-			joueur.jouer();
+			nbCartes = joueur.jouer();
 			fin = joueur.verifierGagner();
-			// Si y'a encore un joueur après, on incrémente 'position'
-			if (position + 1 < this.getJoueurs().size())
-				position++;
-			// Sinon c'est qu'on est à la fin de la liste, donc on retourne au début
-			else
-				position = 0;
+			suivant = this.getJoueurSuivant(joueur, nbCartes); 
+			joueur = suivant;
 			
 			
 		}
@@ -204,8 +168,84 @@ public class Bataille {
 				.get(this.getPositionPremierJoueur())));
 
 	}
+	 
+	/** Retourne le joueur qui est censé jouer après 
+	 * @param nbCartesJouees */
+	public Joueur getJoueurSuivant(Joueur joueurActuel, int nbCartesJouees) {
+		int indexDernierElement = Bataille.getInstance().getTable().isEmpty() ? -1 : Bataille.getInstance().getTable().size()-1;
+		Carte derniereCarteJouee = (indexDernierElement == -1 ? null : Bataille.getInstance().getTable().get(indexDernierElement));
+		Joueur joueurSuivant = null;
+		//int nbCartesJouees = 1;
+		if (derniereCarteJouee != null && derniereCarteJouee.estSpeciale())
+			joueurSuivant = JoueurSuivantCarteSpeciale(derniereCarteJouee, joueurActuel, nbCartesJouees);
+		else 
+			joueurSuivant = JoueurSuivantCarteNormale(derniereCarteJouee, joueurActuel);
+		
+		return joueurSuivant;
+
+	}
 	
-	
+	public Joueur JoueurSuivantCarteNormale(Carte derniereCarteJouee, Joueur joueurActuel) {
+		Iterator<Joueur> it = joueurs.iterator();
+		int i = 0;
+		while (it.hasNext())
+			if (it.next() == joueurActuel)
+				break;
+			else
+				i++;
+				
+		if (i + 1 < this.getJoueurs().size())
+			i++;
+		// Sinon c'est qu'on est à la fin de la liste, donc on retourne au début
+		else
+			i = 0;
+
+		Joueur joueurSuivant = this.getJoueurs().get(i);
+		
+		return joueurSuivant;
+	}
+
+	public Joueur JoueurSuivantCarteSpeciale(Carte derniereCarteJouee, Joueur joueurActuel, int nbCartesJouees) {
+		Joueur suivant = null;
+		
+		if (nbCartesJouees == 0) return JoueurSuivantCarteNormale(derniereCarteJouee, joueurActuel);
+		
+		
+		// C'est pas très propre, mais c'est juste pour montrer
+		// que quand on a un 8 on passe le tour
+		switch (derniereCarteJouee.getValeur()) {
+			case 0:
+			case 5:
+			case 10:
+				suivant = JoueurSuivantCarteNormale(derniereCarteJouee, joueurActuel);
+				break;
+			case 8:
+				suivant = JoueurSuivantCarteNormale(derniereCarteJouee, joueurActuel);
+				this.getTable().clear();
+				System.out.println("Le tas est retire du jeu !");
+				break;
+			case 6:
+			//Le joueur suivant passe son tour(autant que de 8 posés)
+				for (int i = 0; i < nbCartesJouees; i++) {
+					suivant = JoueurSuivantCarteNormale(derniereCarteJouee, joueurActuel);
+					joueurActuel = suivant;
+					System.out.println(joueurActuel.getNom() + " passe son tour");
+					suivant = JoueurSuivantCarteNormale(derniereCarteJouee, joueurActuel);
+				}
+				
+				break;
+			case 12: //As
+				//On doit envoyer le tas à un joueur, qui devient le joueur suivant !
+				suivant = joueurActuel.getStrategie().choisirQuiRalentir();
+				joueurActuel.envoyerTas(suivant);
+				break;
+			default:
+				suivant = JoueurSuivantCarteNormale(derniereCarteJouee, joueurActuel); 
+
+		}
+		return suivant;
+	}
+
 	/**
 	 * Permet de connaitre la position du joueur qui doit
 	 * commencer la partie
@@ -225,5 +265,11 @@ public class Bataille {
 		}
 		return ++positionScrambler;
 	}
+
+	public void clearTable() {
+		this.table.clear();
+		
+	}
+
 
 }
