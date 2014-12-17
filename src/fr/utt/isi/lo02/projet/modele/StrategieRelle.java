@@ -10,48 +10,17 @@ import java.util.Scanner;
  * @author daussy
  *
  */
-public class StrategieRelle implements StrategieJeu {
+public class StrategieRelle extends StrategieJeu {
 
-	@Override
-	public int jouerCarte(Joueur joueur) {
-		//System.out.println(joueur);
-		ArrayList<Carte> cartes = this.choisirCarteAJoueur(joueur);
-		int taille = cartes.size(); //nb de cartes à piocher
-		Iterator<Carte> it = cartes.iterator();
-		while (it.hasNext()) {
-			joueur.poserCarteUnique(it.next());
-		}
 		
-		
-		
-		boolean vide = Bataille.getInstance().getPioche().isEmpty();
-		//Si la pioche n'est pas vide
-		if (!vide) {
-			// Pour chq carte posée
-			for (int i = 0; i < taille; i++) {
-				// On redonne au joueur une carte de la pioche
-				if (!vide) {
-					joueur.recevoirCarte(Bataille.getInstance().getPioche()
-							.get(Bataille.getInstance().getPioche().size() - 1));
-					Bataille.getInstance()
-							.getPioche()
-							.remove(Bataille.getInstance().getPioche().size() - 1);
-				}
-			}
-		}
-		
-		return cartes.size();
-		
-		
-		
-	}
+	
 
 	/**
 	 * Permet au joueur réel de choisir la carte qu'il veut jouer
 	 * @param joueur Joueur courant (réel)
 	 * @return Carte qu'il souhaite jouer
 	 */
-	public ArrayList<Carte> choisirCarteAJoueur(Joueur joueur) {
+	public ArrayList<Carte> choisirCarteAJouer(Joueur joueur) {
 		// L'arraylist qui contient les cartes qu'il veut poser
 		ArrayList<Carte> cartes = new ArrayList<>();
 		Scanner sc = new Scanner(System.in);
@@ -121,6 +90,14 @@ public class StrategieRelle implements StrategieJeu {
 				
 			}
 		}
+		
+		System.out.print(joueur.getNom() + " joue ");
+		Iterator<Carte> itt = cartes.iterator();
+		while (itt.hasNext()) {
+			System.out.print(itt.next());
+		}System.out.println("");
+		
+		
 		return cartes;
 	}
 

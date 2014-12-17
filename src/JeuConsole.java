@@ -15,9 +15,9 @@ public class JeuConsole {
 		
 		// TODO : ajouter une exception si plus d'un joueur physique ? Ou si plusieurs Scrambler ?
 		
-		/*
-		Joueur Maxime = new Joueur("Maxime");
-		Joueur Thomas = new Joueur("Thomas");
+		
+		Joueur Maxime = new Joueur("Maxime", new Bluffer());
+		/* Joueur Thomas = new Joueur("Thomas");
 		Joueur Lou = new Joueur("Lou");
 		Joueur Robin = new Joueur("Robin");
 		Joueur test1 = new Joueur("test1");
@@ -48,6 +48,7 @@ public class JeuConsole {
 		bataille.addJoueur(Alexandre);
 		bataille.addJoueur(Diane);
 		bataille.addJoueur(Benjamin);
+		bataille.addJoueur(Maxime);
 	
 		Alexandre.distribuerPaquet(bataille);
 		

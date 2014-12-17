@@ -1,8 +1,11 @@
 package fr.utt.isi.lo02.projet.modele;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -84,12 +87,24 @@ public class Joueur {
 	 */
 	public boolean peutJouer(Carte derniereCarte) {
 		boolean result = false;
+		Carte carte = null;
+		
 		Iterator<Carte> it = this.getMain().iterator();
 		while (it.hasNext())
-			if (derniereCarte.estRecouvrablePar(it.next()))
+			carte = it.next();
+			if (derniereCarte.estRecouvrablePar(carte))
 				return true;
 		
 		return result;
+	}
+	
+	
+	public boolean peutJouer() {
+		if (Bataille.getInstance().getTable().isEmpty()) return true;
+		
+		int index = Bataille.getInstance().getTable().size()-1;
+		Carte derniere = Bataille.getInstance().getTable().get(index);
+		return peutJouer(derniere);
 	}
 
 	
@@ -284,6 +299,7 @@ public class Joueur {
 
 
 	public void envoyerTas(Joueur suivant) {
+		//TODO Null pointer exception quand Bluffer envoie
 		System.out.println(this.getNom() + " envoie le tas a " + suivant.getNom());
 		Iterator<Carte> it = Bataille.getInstance().getTable().iterator();
 		while (it.hasNext()) {
@@ -295,5 +311,153 @@ public class Joueur {
 		System.out.println(suivant.toString());
 		
 	}
+
+
+	/**
+	 * Permet de savoir si le joueur possède une carte spéciale
+	 * dans les cartes face visible
+	 * @return true/false s'il possède ou non une carte sépciale
+	 */
+	public boolean possedeCarteSpeciales() {
+		Iterator<Carte> it = this.getFaceUp().iterator();
+		while (it.hasNext())
+			if (it.next().estSpeciale())
+				return true;
+		return false;
+	}
+
+
+	
+	public boolean peutFormerPaire() {
+		Iterator<Carte> it = this.getMain().iterator();
+		Iterator<Carte> itt = this.getFaceUp().iterator();
+		
+		while (it.hasNext()) {
+			while (itt.hasNext()) 
+				if (it.next().getValeur() == itt.next().getValeur())
+					return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Permet de prendre la première carte normale disponible
+	 * dans la main du joueur
+	 * @return carte spéciale
+	 */
+	public Carte getCarteNormalMain() {
+		Iterator<Carte> it = this.getMain().iterator();
+		Carte carte= null;
+		while (it.hasNext())
+			carte = it.next();
+			if (!(carte.estSpeciale()))
+				return carte;
+		
+		return carte;
+	}
+
+
+	/**
+	 * Permet de prendre la première carte spéciale disponible
+	 * dans la pioche face visible du joueur
+	 * @return carte normale
+	 */
+	public Carte getCarteSpecialeFaceUp() {
+		Iterator<Carte> it = this.getFaceUp().iterator();
+		Carte carte = null;
+		while (it.hasNext()) {
+			carte= it.next();
+			if (carte.estSpeciale())
+				return carte;
+
+		}
+		return carte;
+	}
+
+
+
+	public boolean possedeCarteNormale() {
+		Iterator<Carte> it = this.main.iterator();
+		Carte carte = null;
+		while (it.hasNext())
+			carte = it.next();
+			if (carte.estNormale())
+				return true;
+				
+		return false;
+	}
+
+
+	/**
+	 * Choisi la plus petite carte jouable dans la main du joueur
+	 * @param derniereCarteJouee
+	 * @return
+	 */
+	public Carte getPlusPetite(Carte derniereCarteJouee) {
+		Carte carte = null;
+		
+		// On trie par ordre croissant notre main
+		List<Carte> mainTriee = new ArrayList<Carte>(this.getMain());
+		Collections.sort(mainTriee);
+		
+		Iterator<Carte> it = mainTriee.iterator();
+		//La première carte posable est donc la plus petite
+		while (it.hasNext()){
+			carte = it.next();
+			if (derniereCarteJouee.estRecouvrablePar(carte))
+				break;
+				
+		}
+		
+		return carte;
+	}
+
+
+	/**
+	 * Permet d'avoir la plus petit carte de la main
+	 * @return la plus petite carte de la main d'un joueur
+	 */
+	public Carte getPlusPetite() {
+		// TODO bug venant de défausser 
+		// On trie par ordre croissant la main
+		List<Carte> mainTriee = new ArrayList<Carte>(this.getMain());
+		//mainTriee.addAll(getMain());
+		Collections.sort(mainTriee);
+		// On retourne la première carte de la liste triée
+		return mainTriee.get(0);
+	
+	}
+
+
+
+	public Carte getCarteSpecialeMain() {
+		Iterator<Carte> it = this.getMain().iterator();
+		Carte carte = null;
+		while (it.hasNext()) {
+			carte = it.next();
+			if (carte.estSpeciale()) {
+				break;
+			}
+		}
+		return carte;
+	}
+
+
+
+	public void ramasserTas() {
+		System.out.println(this.getNom() + " ramasse le tas car il ne peut pas jouer");
+		Iterator<Carte> it = Bataille.getInstance().getTable().iterator();
+		while (it.hasNext()) {
+			this.addMain(it.next());
+		}
+		
+		Bataille.getInstance().clearTable();
+		
+		System.out.println(this.toString());
+		
+	}
+	
+	
+	
 
 }

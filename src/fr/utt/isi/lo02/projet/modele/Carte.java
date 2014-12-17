@@ -6,7 +6,7 @@ package fr.utt.isi.lo02.projet.modele;
  * source : utt moodle
  */
 
-public class Carte {
+public class Carte implements java.lang.Comparable {
 
 	public final static int PIC = 0;
 	public final static int COEUR = 1;
@@ -141,6 +141,10 @@ public class Carte {
 		return bool;
 	}
 	
+	public boolean estNormale() {
+		return (!(this.estSpeciale()));
+	}
+	
 	/*
 	 * On pose carte sur this
 	 */
@@ -171,6 +175,33 @@ public class Carte {
 		else return false;
 
 	}
+
+
+	@Override
+	/**
+	 * Compare deux cartes
+	 * @param o Object de type Carte à comparer
+	 * @return -1 si objet en param plus grand; 1 si plus petit; 0 si égal
+	 */
+	public int compareTo(Object o) {
+		// TODO Auto-generated method stub
+		int valeurAutre = (((Carte) o).getValeur());
+		int valeurThis = this.getValeur();
+		int retour = 0;
+		
+		if (valeurAutre == valeurThis) retour = 0;
+		if (valeurAutre < valeurThis) retour = 1;
+		if (valeurAutre > valeurThis) retour = -1;
+		
+		return retour;
+	}
+	
+	
+	
+	
+
+
+	
 
 
 

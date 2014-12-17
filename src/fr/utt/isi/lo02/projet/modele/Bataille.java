@@ -118,7 +118,7 @@ public class Bataille {
 		Joueur joueur;
 		while (it.hasNext()) {
 			 joueur = it.next();
-			 joueur.echangerCartes();
+			 joueur.echangerCartes();;
 		}
 	}
 	
@@ -268,7 +268,6 @@ public class Bataille {
 
 	public void clearTable() {
 		this.table.clear();
-		
 	}
 
 
