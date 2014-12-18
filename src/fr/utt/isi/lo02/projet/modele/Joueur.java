@@ -195,9 +195,9 @@ public class Joueur {
 		return sb.toString();
 	}
 
-	//TODO  && this.faceDown.isEmpty() && this.faceUp.isEmpty()
+	
 	public boolean verifierGagner() {
-		return (this.main.isEmpty());
+		return (this.main.isEmpty() && this.faceDown.isEmpty() && this.faceUp.isEmpty());
 	}
 	
 	
@@ -484,6 +484,46 @@ public class Joueur {
 			if (carte.getValeur() == i) return true;
 		}
 		return false;
+	}
+	
+	
+	
+	public boolean estMainVide () {
+		return this.getMain().isEmpty();
+	}
+	
+	
+	public boolean estFaceUpVide () {
+		return this.getFaceUp().isEmpty();
+	}
+	
+	// TODO vérifier les règles c'est sûrement pas ça !
+	public boolean estFaceDownVide () {
+		return this.getFaceDown().isEmpty();
+	}
+
+
+
+	public void remplirMainAvecFaceUp() {
+		Iterator<Carte> it = this.getFaceUp().iterator();
+		while (it.hasNext()) {
+			Carte carte = (Carte) it.next();
+			this.addMain(carte);
+		}
+		this.getFaceUp().clear();
+
+		
+	}
+
+
+
+	public void remplirMainAvecFaceDown() {
+		Iterator<Carte> it = this.getFaceDown().iterator();
+		while (it.hasNext()) {
+			Carte carte = (Carte) it.next();
+			this.addMain(carte);
+		}
+		this.getFaceDown().clear();
 	}
 	
 	

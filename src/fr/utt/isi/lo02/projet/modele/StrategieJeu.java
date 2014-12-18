@@ -19,7 +19,10 @@ public abstract class StrategieJeu {
 
 	public int jouerCarte(Joueur joueur) {
 		//System.out.println(joueur);
+		System.out.println(joueur);
+		
 		boolean jouerEstPossible  = joueur.peutJouer();
+		int nb = 0;
 		
 		ArrayList<Carte> cartes = null;
 		
@@ -48,14 +51,33 @@ public abstract class StrategieJeu {
 					}
 				}
 			}
-			return cartes.size();
+			nb = cartes.size();
 			
 		} else {
 			joueur.ramasserTas();
-			return -1;
+			nb = -1;
 		}
 		
+		boolean estMainVide = joueur.estMainVide();
+		boolean estFaceUpVide = joueur.estFaceUpVide();
+		boolean estFaceDownVide = joueur.estFaceDownVide();
 		
+		if (estMainVide && !estFaceUpVide) {
+			joueur.remplirMainAvecFaceUp();
+			System.out.println("La main de " + joueur.getNom() + " est vide, on prend les cartes visibles");
+		}
+			
+		
+		
+		if (estMainVide && estFaceUpVide && !estFaceDownVide) {
+			joueur.remplirMainAvecFaceDown();
+			System.out.println("La main de " + joueur.getNom() + " est vide, on prend les cartes cachees");
+
+		}
+			
+		System.out.println(joueur);
+		System.out.println("\n\n");
+		return nb;
 		
 		
 	}
