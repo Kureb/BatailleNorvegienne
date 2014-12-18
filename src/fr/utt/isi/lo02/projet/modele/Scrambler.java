@@ -14,6 +14,10 @@ public class Scrambler extends Joueur {
 		super(nom);
 	}
 	
+	public Scrambler(String nom, StrategieJeu strategie){
+		super(nom, strategie);
+	}
+	
 	
 	public void distribuerPaquet(Bataille bataille) {
 		JeuDeCartes jdc = bataille.getJeuDeCartes();
