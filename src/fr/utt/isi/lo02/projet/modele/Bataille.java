@@ -140,7 +140,7 @@ public class Bataille {
 			// on récupère le joueur devant jouer, il joue, on vérifie s'il a gagné
 			nbCartes = joueur.jouer();
 			fin = joueur.verifierGagner();
-			suivant = this.getJoueurSuivant(joueur, nbCartes); 
+			suivant = (nbCartes == -1 ? this.getJoueurPrecedent(joueur) : this.getJoueurSuivant(joueur, nbCartes)); 
 			joueur = suivant;
 			
 			
@@ -148,6 +148,30 @@ public class Bataille {
 		// Le gagnant est le dernier joueur si nous sommes ici
 		System.out.println(joueur.getNom() + " a gagne, bravo ! ");
 		
+	}
+
+	private Joueur getJoueurPrecedent(Joueur joueur) {
+		Joueur precedent = null;
+		int positionCourante = this.getPositionCourante(joueur);
+		
+		if (positionCourante == 0) return this.getJoueurs().get(this.getJoueurs().size()-1);
+		else return this.getJoueurs().get(positionCourante-1);
+				
+		
+		
+
+	}
+
+	private int getPositionCourante(Joueur joueur) {
+		Iterator<Joueur> it = this.getJoueurs().iterator();
+		int pos = 0;
+		while (it.hasNext()) {
+			if (it.next() == joueur)
+				break;
+			pos++;
+		}
+		
+		return pos;
 	}
 
 	/**
@@ -206,7 +230,7 @@ public class Bataille {
 	}
 
 	public Joueur JoueurSuivantCarteSpeciale(Carte derniereCarteJouee, Joueur joueurActuel, int nbCartesJouees) {
-		Joueur suivant = null;
+		Joueur suivant = null, victime = null;
 		
 		if (nbCartesJouees == 0) return JoueurSuivantCarteNormale(derniereCarteJouee, joueurActuel);
 		
@@ -224,7 +248,7 @@ public class Bataille {
 				this.getTable().clear();
 				System.out.println("Le tas est retire du jeu !");
 				break;
-			case 6:
+			case 6: // 8
 			//Le joueur suivant passe son tour(autant que de 8 posés)
 				for (int i = 0; i < nbCartesJouees; i++) {
 					suivant = JoueurSuivantCarteNormale(derniereCarteJouee, joueurActuel);
@@ -235,12 +259,34 @@ public class Bataille {
 				
 				break;
 			case 12: //As
-				//On doit envoyer le tas à un joueur, qui devient le joueur suivant !
-				suivant = joueurActuel.getStrategie().choisirQuiRalentir();
-				joueurActuel.envoyerTas(suivant);
+				//On doit envoyer le tas à un joueur, qui peut contrer!
+				boolean suivantPeutContrer = false;
+				Carte carteContre = null;
+				Joueur joueurActuelVrai = joueurActuel;
+				//TODO faire marcher
+				do {
+					victime = joueurActuel.getStrategie().choisirQuiRalentir();
+					suivantPeutContrer = victime.peutContrerAs();
+					if (suivantPeutContrer) {
+						carteContre = victime.getStrategie().choisirCarteContre(victime);
+						if (carteContre.getValeur() == 12) {
+							joueurActuel = victime;
+							victime = joueurActuel.getStrategie().choisirQuiRalentir();
+							suivantPeutContrer = victime.peutContrerAs();
+						} else { // si c'est un 2
+							suivant = JoueurSuivantCarteNormale(carteContre, joueurActuelVrai);
+						}
+					}
+				} while (suivantPeutContrer);
+				if (carteContre.getValeur() == 12) 
+					joueurActuel.envoyerTas(victime);
+				
+				suivant = JoueurSuivantCarteNormale(derniereCarteJouee, joueurActuelVrai);
+				
 				break;
 			default:
 				suivant = JoueurSuivantCarteNormale(derniereCarteJouee, joueurActuel); 
+				break;
 
 		}
 		return suivant;

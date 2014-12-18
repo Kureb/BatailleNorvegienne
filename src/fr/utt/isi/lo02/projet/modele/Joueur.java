@@ -299,18 +299,46 @@ public class Joueur {
 
 
 	public void envoyerTas(Joueur suivant) {
-		//TODO Null pointer exception quand Bluffer envoie
-		System.out.println(this.getNom() + " envoie le tas a " + suivant.getNom());
-		Iterator<Carte> it = Bataille.getInstance().getTable().iterator();
-		while (it.hasNext()) {
-			suivant.addMain(it.next());
-		}
+		if (!suivant.peutContrerAs()) {
+			System.out.println(this.getNom() + " envoie le tas a " + suivant.getNom());
+			Iterator<Carte> it = Bataille.getInstance().getTable().iterator();
+			while (it.hasNext()) {
+				suivant.addMain(it.next());
+			}
+			Bataille.getInstance().clearTable();
+		}/* else {
+			System.out.println(suivant.getNom() + " peut contrer.");
+			Carte contre = this.strategie.choisirCarteContre(this);
+			System.out.println("Il choisit " + contre);
+			if (contre.getValeur() == 12) {
+				Joueur joueurMalchanceux = this.strategie.choisirQuiRalentir();
+				//TODO continuer
+			} else {
+				//c'est un 2 donc ok
+			}
+			//TODO boucler tant qu'on peut contrer l267 Bataille
+		}*/
 		
-		Bataille.getInstance().clearTable();
-		
-		System.out.println(suivant.toString());
+		//System.out.println(suivant.toString());
 		
 	}
+
+	/**
+	 * Permet de savoir si un joueur peut contrer un As
+	 * Donc de savoir s'il possède un 2 ou un As dans sa main
+	 * @return vrai s'il peut contrer, faux sinon
+	 */
+	public boolean peutContrerAs() {
+		Iterator<Carte> it = this.getMain().iterator();
+		Carte carte = null;
+		while (it.hasNext()) {
+			carte = it.next();
+			if ((carte.getValeur() == 0) || (carte.getValeur() == 12))
+				return true;
+		}
+		return false;
+	}
+
 
 
 	/**
@@ -418,7 +446,6 @@ public class Joueur {
 	 * @return la plus petite carte de la main d'un joueur
 	 */
 	public Carte getPlusPetite() {
-		// TODO bug venant de défausser 
 		// On trie par ordre croissant la main
 		List<Carte> mainTriee = new ArrayList<Carte>(this.getMain());
 		//mainTriee.addAll(getMain());
@@ -453,8 +480,23 @@ public class Joueur {
 		
 		Bataille.getInstance().clearTable();
 		
-		System.out.println(this.toString());
+		//System.out.println(this.toString());
 		
+	}
+
+
+	/**
+	 * Permet de vérifier la présence d'une carte dans la main
+	 * @param i valeur de la carte que l'on cherche
+	 * @return vrai si oui; faux si non
+	 */
+	public boolean possede(int i) {
+		Iterator<Carte> it = this.getMain().iterator();
+		while (it.hasNext()) {
+			Carte carte = (Carte) it.next();
+			if (carte.getValeur() == i) return true;
+		}
+		return false;
 	}
 	
 	

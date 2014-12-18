@@ -138,4 +138,36 @@ public class StrategieRelle extends StrategieJeu {
 		return Bataille.getInstance().getJoueurs().get(rep);
 	}
 
+
+
+	@Override
+	// Donc il a un As ou un 2 ou les 2
+	//Va choisir l'As en priorité et l'envoyer
+	//au joueur possédant le moins de cartes en main
+	//TODO vérifier qu'elle fonctionne
+	public Carte choisirCarteContre(Joueur joueur) {
+		boolean deux = joueur.possede(0);
+		boolean as = joueur.possede(12);
+		int val = 0, rep = 0;
+		Scanner sc = new Scanner(System.in);
+		
+		if (deux && !as) val = 0;
+		if (!deux && as) val = 12;
+		if (deux && as) {
+			System.out.println("Que veux-tu poser, le Deux ou l'As ?");
+			do {
+				rep = sc.nextInt();
+			} while (rep != 1 && rep != 2);
+		if (rep == 1) val = 0; else val = 12;
+		}
+		
+		Iterator<Carte> it = joueur.getMain().iterator();
+		while (it.hasNext()) {
+			Carte carte = (Carte) it.next();
+			if (carte.getValeur() == val) return carte;
+		}
+		
+		return null;
+	}
+
 }

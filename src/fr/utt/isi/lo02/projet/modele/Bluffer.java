@@ -54,4 +54,27 @@ public class Bluffer extends StrategieJeu {
 		return cartes;
 	}
 
+	@Override
+	public Carte choisirCarteContre(Joueur joueur) {
+		//boolean deux = joueur.possede(0);
+		//boolean as = joueur.possede(12);
+		
+		
+		Iterator<Carte> it = joueur.getMain().iterator();
+		while (it.hasNext()) {
+			Carte carte = (Carte) it.next();
+			if (carte.getValeur() == 12) return carte;
+		}
+		
+		Iterator<Carte> itt = joueur.getMain().iterator();
+		while (itt.hasNext()) {
+			Carte carte = (Carte) itt.next();
+			if (carte.getValeur() == 0) return carte;
+		}
+		
+		return null;
+		
+		
+	}
+
 }

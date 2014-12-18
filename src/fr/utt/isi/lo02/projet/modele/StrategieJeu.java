@@ -52,13 +52,15 @@ public abstract class StrategieJeu {
 			
 		} else {
 			joueur.ramasserTas();
-			return 0;
+			return -1;
 		}
 		
 		
 		
 		
 	}
+
+	public abstract Carte choisirCarteContre(Joueur joueur);
 
 	
 
