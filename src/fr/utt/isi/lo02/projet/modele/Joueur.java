@@ -306,20 +306,7 @@ public class Joueur {
 				suivant.addMain(it.next());
 			}
 			Bataille.getInstance().clearTable();
-		}/* else {
-			System.out.println(suivant.getNom() + " peut contrer.");
-			Carte contre = this.strategie.choisirCarteContre(this);
-			System.out.println("Il choisit " + contre);
-			if (contre.getValeur() == 12) {
-				Joueur joueurMalchanceux = this.strategie.choisirQuiRalentir();
-				//TODO continuer
-			} else {
-				//c'est un 2 donc ok
-			}
-			//TODO boucler tant qu'on peut contrer l267 Bataille
-		}*/
-		
-		//System.out.println(suivant.toString());
+		}
 		
 	}
 

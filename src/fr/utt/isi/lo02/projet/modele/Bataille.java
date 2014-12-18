@@ -263,23 +263,28 @@ public class Bataille {
 				boolean suivantPeutContrer = false;
 				Carte carteContre = null;
 				Joueur joueurActuelVrai = joueurActuel;
-				//TODO faire marcher
 				do {
 					victime = joueurActuel.getStrategie().choisirQuiRalentir();
 					suivantPeutContrer = victime.peutContrerAs();
 					if (suivantPeutContrer) {
+						System.out.println("Mais " + victime.getNom() + " peut contrer");
 						carteContre = victime.getStrategie().choisirCarteContre(victime);
+						victime.poserCarteUnique(carteContre);
 						if (carteContre.getValeur() == 12) {
 							joueurActuel = victime;
 							victime = joueurActuel.getStrategie().choisirQuiRalentir();
+							System.out.println(joueurActuel.getNom() + " veut ralentir " + victime.getNom());
 							suivantPeutContrer = victime.peutContrerAs();
 						} else { // si c'est un 2
 							suivant = JoueurSuivantCarteNormale(carteContre, joueurActuelVrai);
 						}
+					} else {
+						joueurActuel.envoyerTas(victime);
 					}
 				} while (suivantPeutContrer);
-				if (carteContre.getValeur() == 12) 
-					joueurActuel.envoyerTas(victime);
+				if (carteContre != null)
+					if (carteContre.getValeur() == 12) 
+						joueurActuel.envoyerTas(victime);
 				
 				suivant = JoueurSuivantCarteNormale(derniereCarteJouee, joueurActuelVrai);
 				
