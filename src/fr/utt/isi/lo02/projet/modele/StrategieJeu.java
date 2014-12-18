@@ -66,14 +66,52 @@ public abstract class StrategieJeu {
 			joueur.remplirMainAvecFaceUp();
 			System.out.println("La main de " + joueur.getNom() + " est vide, on prend les cartes visibles");
 		}
+		
+		
+		
+		/**
+		 * Lorsqu'un joueur n'a de nouveau plus de cartes en main,
+		 * il pioche au hasard une des trois cartes retournées disposées
+		 * devant lui. Si celle-ci convient, il la pose et peut en 
+		 * prendre une autre qu'il posera à son tour si elle convient.
+		 * S'il ne peut jouer cette carte, le joueur ramasse le tas et doit 
+		 * éliminer les cartes qu'il a en main avant de pouvoir à nouveau
+		 * ramasser une des cartes devant lui.
+		 */
+		if (estMainVide && estFaceUpVide && !estFaceDownVide) {
+			// Vu qu'on prend aléatoirement on qu'on ne connait
+			// pas les cartes, autant prendre la première
+			// à chaque fois !
+			joueur.addMain(joueur.getFaceDown().getFirst());
+			joueur.getFaceDown().remove(0);
+			System.out.println("La main de " + joueur.getNom() + " est vide, on prend une carte cachee");
 			
+			jouerEstPossible = joueur.peutJouer();
+			
+			while (jouerEstPossible && !estFaceDownVide) {
+				System.out.println("il peut poser " + joueur.getMain().getFirst());
+				joueur.poserCarteUnique(joueur.getMain().getFirst());
+				joueur.addMain(joueur.getFaceDown().getFirst());
+				joueur.getFaceDown().remove(0);
+				estFaceDownVide = joueur.estFaceDownVide();
+			}
+			
+			// Si jouer n'est plus possible
+			// le joueur ramasse la pioche
+			if (!jouerEstPossible) {
+				System.out.println("Il ne peut pas jouer ! Il prend la pioche");
+				nb = -1;
+				
+			}
+		}
 		
-		
+		/*
 		if (estMainVide && estFaceUpVide && !estFaceDownVide) {
 			joueur.remplirMainAvecFaceDown();
 			System.out.println("La main de " + joueur.getNom() + " est vide, on prend les cartes cachees");
 
 		}
+		*/
 			
 		System.out.println(joueur);
 		System.out.println("\n\n");
