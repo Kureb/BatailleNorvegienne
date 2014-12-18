@@ -137,6 +137,7 @@ public class Bataille {
 		joueur = this.getJoueurs().get(position);
 		int nbCartes;
 		while (!fin) {
+			System.out.println("-- Tour de " + joueur.getNom());
 			// on récupère le joueur devant jouer, il joue, on vérifie s'il a gagné
 			nbCartes = joueur.jouer();
 			fin = joueur.verifierGagner();
@@ -249,9 +250,9 @@ public class Bataille {
 				System.out.println("Le tas est retire du jeu !");
 				break;
 			case 6: // 8
-			//Le joueur suivant passe son tour(autant que de 8 posés)
-				for (int i = 0; i < nbCartesJouees; i++) {
+			//Le joueur suivant passe son tour(autant que de 8 posés)	
 					suivant = JoueurSuivantCarteNormale(derniereCarteJouee, joueurActuel);
+				for (int i = 0; i < nbCartesJouees; i++) {
 					joueurActuel = suivant;
 					System.out.println(joueurActuel.getNom() + " passe son tour");
 					suivant = JoueurSuivantCarteNormale(derniereCarteJouee, joueurActuel);
@@ -282,6 +283,7 @@ public class Bataille {
 						joueurActuel.envoyerTas(victime);
 					}
 				} while (suivantPeutContrer);
+				
 				if (carteContre != null)
 					if (carteContre.getValeur() == 12) 
 						joueurActuel.envoyerTas(victime);
