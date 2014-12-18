@@ -316,12 +316,15 @@ public class Joueur {
 	 * @return vrai s'il peut contrer, faux sinon
 	 */
 	public boolean peutContrerAs() {
-		Iterator<Carte> it = this.getMain().iterator();
-		Carte carte = null;
-		while (it.hasNext()) {
-			carte = it.next();
-			if ((carte.getValeur() == 0) || (carte.getValeur() == 12))
-				return true;
+		
+		if (!this.estMainVide()) {
+			Iterator<Carte> it = this.getMain().iterator();
+			Carte carte = null;
+			while (it.hasNext()) {
+				carte = it.next();
+				if ((carte.getValeur() == 0) || (carte.getValeur() == 12))
+					return true;
+			}
 		}
 		return false;
 	}
@@ -497,7 +500,6 @@ public class Joueur {
 		return this.getFaceUp().isEmpty();
 	}
 	
-	// TODO vérifier les règles c'est sûrement pas ça !
 	public boolean estFaceDownVide () {
 		return this.getFaceDown().isEmpty();
 	}
@@ -516,15 +518,6 @@ public class Joueur {
 	}
 
 
-
-	public void remplirMainAvecFaceDown() {
-		Iterator<Carte> it = this.getFaceDown().iterator();
-		while (it.hasNext()) {
-			Carte carte = (Carte) it.next();
-			this.addMain(carte);
-		}
-		this.getFaceDown().clear();
-	}
 	
 	
 	
