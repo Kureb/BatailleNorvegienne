@@ -53,6 +53,7 @@ public abstract class StrategieJeu {
 									.remove(Bataille.getInstance().getPioche()
 											.size() - 1);
 						}
+						vide = Bataille.getInstance().getPioche().isEmpty();
 					}
 				}
 				nb = cartes.size();
@@ -98,6 +99,11 @@ public abstract class StrategieJeu {
 			while (jouerEstPossible && !estFaceDownVide) {
 				System.out.println("il peut poser " + joueur.getMain().getFirst());
 				joueur.poserCarteUnique(joueur.getMain().getFirst());
+				
+				//Test si carte spécial genre As, permet d'envoyer le tas quand même
+				//histoire de faire son fdp jsuqu'au bout
+				//if (joueur.getMain().getFirst().estSpeciale())
+					//Bataille.getInstance().JoueurSuivantCarteSpeciale(joueur.getMain().getFirst(), joueur, 1);
 				
 				estFaceDownVide = joueur.estFaceDownVide();
 				if (estFaceDownVide) break;

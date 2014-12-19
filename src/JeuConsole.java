@@ -17,7 +17,7 @@ public class JeuConsole {
 		// ou si Pas de joueur physique
 		
 		Joueur Maxime = new Joueur("Maxime", new Bluffer());
-		Scrambler Alexandre = new Scrambler("Alexandre", new Defausser());
+		Scrambler Alexandre = new Scrambler("Alexandre");
 		
 		Bataille bataille = Bataille.getInstance();
 		
