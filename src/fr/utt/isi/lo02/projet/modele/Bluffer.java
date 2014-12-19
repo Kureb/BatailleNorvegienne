@@ -10,7 +10,6 @@ public class Bluffer extends StrategieJeu {
 	
 
 	@Override
-	//TODO faire échanger les cartes boloss
 	/** Va chercher à créer des paires */
 	public void echangerCartes(Joueur joueur) {
 		boolean paire = joueur.peutFormerPaire();

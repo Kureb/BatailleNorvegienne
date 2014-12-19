@@ -65,7 +65,6 @@ public class Defausser extends StrategieJeu {
 	public Joueur choisirQuiRalentir(Joueur joueurActuel) {
 		// doit choisir le joueur avec le moins de cartes
 		// sans se choisir soit-même forcément
-		// TODO changer car se choisir soit même c'est débile putain
 		Iterator<Joueur> it = Bataille.getInstance().getJoueurs().iterator();
 		int nbCarteMain = 54, pos=0; //Le max de cartes par un joueur je pense TODO trouver ot'chose
 		while (it.hasNext()) {

@@ -124,7 +124,6 @@ public class StrategieRelle extends StrategieJeu {
 	}
 
 	@Override
-	//TODO seulement si le tas n'est pas vide
 	public Joueur choisirQuiRalentir(Joueur joueurActuel) {
 		System.out.println("A qui veux-tu envoyer le tas ? (numero)");
 		System.out.println(Bataille.getInstance().getJoueurs().toString());
@@ -144,7 +143,6 @@ public class StrategieRelle extends StrategieJeu {
 	// Donc il a un As ou un 2 ou les 2
 	//Va choisir l'As en priorité et l'envoyer
 	//au joueur possédant le moins de cartes en main
-	//TODO vérifier qu'elle fonctionne
 	public Carte choisirCarteContre(Joueur joueur) {
 		boolean deux = joueur.possede(0);
 		boolean as = joueur.possede(12);

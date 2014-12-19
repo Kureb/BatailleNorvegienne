@@ -184,7 +184,6 @@ public class Carte implements java.lang.Comparable {
 	 * @return -1 si objet en param plus grand; 1 si plus petit; 0 si égal
 	 */
 	public int compareTo(Object o) {
-		// TODO Auto-generated method stub
 		int valeurAutre = (((Carte) o).getValeur());
 		int valeurThis = this.getValeur();
 		int retour = 0;
