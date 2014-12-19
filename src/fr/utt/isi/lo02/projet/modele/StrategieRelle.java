@@ -125,7 +125,7 @@ public class StrategieRelle extends StrategieJeu {
 
 	@Override
 	//TODO seulement si le tas n'est pas vide
-	public Joueur choisirQuiRalentir() {
+	public Joueur choisirQuiRalentir(Joueur joueurActuel) {
 		System.out.println("A qui veux-tu envoyer le tas ? (numero)");
 		System.out.println(Bataille.getInstance().getJoueurs().toString());
 		int rep = -1;

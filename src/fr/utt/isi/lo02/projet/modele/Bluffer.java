@@ -2,6 +2,7 @@ package fr.utt.isi.lo02.projet.modele;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 /** Chercher à se débarasser le plus vite possible de ses cartes */
 public class Bluffer extends StrategieJeu {
@@ -9,11 +10,16 @@ public class Bluffer extends StrategieJeu {
 	
 
 	@Override
+	//TODO faire échanger les cartes boloss
 	/** Va chercher à créer des paires */
 	public void echangerCartes(Joueur joueur) {
 		boolean paire = joueur.peutFormerPaire();
 		if (paire) {
 			System.out.println(joueur.getNom() + " echange des cartes");
+			Carte carteUp = joueur.getCarteUpPourFormerPaire();
+			Carte carteMain = joueur.getCarteMainSacrificePourFormerPaire(carteUp);
+			joueur.echangerCarte(carteMain, carteUp);
+			System.out.println(joueur.getNom() + " a echange " + carteMain + " VS " + carteUp + " afin d'avoir une paire.");
 		} else {
 			System.out.println(joueur.getNom() + " n'a pas juge necessaire d'echanger des cartes");
 		}
@@ -21,24 +27,24 @@ public class Bluffer extends StrategieJeu {
 	}
 
 	@Override
-	public Joueur choisirQuiRalentir() {
-		// choisit le joueur 1 juste pour l'instant
-		// TODO chznger
-		
-		return Bataille.getInstance().getJoueurs().get(0);
+	public Joueur choisirQuiRalentir(Joueur joueurActuel) {
+		// choisit le joueur suivant simplement..
+		// bluffer n'est pas le plus intelligent
+		return Bataille.getInstance().JoueurSuivantCarteNormale(joueurActuel);
 	}
 
 	@Override
 	public ArrayList<Carte> choisirCarteAJouer(Joueur joueur) {
 		ArrayList<Carte> cartes = new ArrayList<>();
 		Carte derniereCarteJouee = null, carte = null;
-		
 		// Si la table n'est pas vide, il va jouer en fonction de la dernière carte jouée
 		if (!Bataille.getInstance().getTable().isEmpty()) {
-			carte = joueur.getMain().getLast();
+			int index = Bataille.getInstance().getTable().size()-1;
+			carte = joueur.getPlusPetite(Bataille.getInstance().getTable().get(index));
 		} else {
 			//Sinon il joue sa plus petite carte
-			carte = joueur.getMain().getFirst();
+			carte = joueur.getPlusPetite();
+			
 		}
 		cartes.add(carte);
 		
@@ -76,5 +82,7 @@ public class Bluffer extends StrategieJeu {
 		
 		
 	}
+
+	
 
 }

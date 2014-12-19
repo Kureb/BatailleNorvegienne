@@ -13,7 +13,7 @@ public abstract class StrategieJeu {
 	
 	public abstract void echangerCartes(Joueur joueur);
 	
-	public abstract Joueur choisirQuiRalentir();
+	public abstract Joueur choisirQuiRalentir(Joueur joueur);
 	
 	public abstract ArrayList<Carte> choisirCarteAJouer(Joueur joueur);
 

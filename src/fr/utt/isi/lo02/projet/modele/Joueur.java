@@ -358,6 +358,36 @@ public class Joueur {
 		return false;
 	}
 	
+	
+	public Carte getCarteUpPourFormerPaire() {
+		Iterator<Carte> it = this.getMain().iterator();
+		Iterator<Carte> itt = this.getFaceUp().iterator();
+		while (it.hasNext())
+			while (itt.hasNext()) {
+				Carte carteMain = it.next();
+				Carte carteUp = itt.next();
+				if (carteMain.getValeur() == carteUp.getValeur())
+					return carteUp;					
+			}
+				
+			
+		return null;
+	}
+	
+	
+	public Carte getCarteMainSacrificePourFormerPaire(Carte carteDouble) {
+		Iterator<Carte> it = this.getMain().iterator();
+		while (it.hasNext()) {
+			Carte carte = it.next();
+			if (carte.getValeur() != carteDouble.getValeur())
+				return carte;
+		}
+				
+			
+		return null;
+		
+	}
+	
 	/**
 	 * Permet de prendre la première carte normale disponible
 	 * dans la main du joueur
