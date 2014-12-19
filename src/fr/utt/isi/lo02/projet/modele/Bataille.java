@@ -144,8 +144,13 @@ public class Bataille {
 			if (fin)
 				System.out.println(joueur.getNom() + " a gagne, bravo ! ");
 			else {
-				suivant = (nbCartes == -1 ? this.getJoueurPrecedent(joueur) : this.getJoueurSuivant(joueur, nbCartes)); 
-				joueur = suivant;
+				//On peut très bien gagner suite à ce tour :/
+				suivant = (nbCartes == -1 ? this.getJoueurPrecedent(joueur) : this.getJoueurSuivant(joueur, nbCartes));
+				fin = joueur.verifierGagner();
+				if (!fin)
+					joueur = suivant;
+				else
+					System.out.println(joueur.getNom() + " a gagne, bravo ! ");
 			}
 			
 			
@@ -285,16 +290,31 @@ public class Bataille {
 				
 				break;
 			case 12: //As
+				
+				//TODO Maxime a joué As en derière carte de sa main
+				//Du coup il avai pu de carte au tour d'après et caca ..
+				// faire la vérifiation des cartes en fin de tour ?
+				
+				//TODO Maxime a contrer un AS avec un Deux, 
+				//il aurait dû gagner mais non ce boloss est une merde
+				
+				//TODO Gogole Maxime envoie As à Daussy mais Daussy peut contrer
+				// et gogole DAussy veut envoyer à Maxime mais il considère que Maxime a encore
+				// son AS donc caca
+				
+				
 				//On doit envoyer le tas à un joueur, qui peut contrer!
+				//Normalement à cette étape l'As est sur le tas
 				boolean suivantPeutContrer = false;
 				Carte carteContre = null;
 				Joueur joueurActuelVrai = joueurActuel;
 				do {
 					victime = joueurActuel.getStrategie().choisirQuiRalentir(joueurActuel);
+					System.out.println(joueurActuel.getNom() + " victimise " + victime.getNom());
 					suivantPeutContrer = victime.peutContrerAs();
 					if (suivantPeutContrer) {
-						System.out.println("Mais " + victime.getNom() + " peut contrer");
 						carteContre = victime.getStrategie().choisirCarteContre(victime);
+						System.out.println("Mais " + victime.getNom() + " peut contrer avec un " + carteContre);
 						victime.poserCarteUnique(carteContre);
 						if (carteContre.getValeur() == 12) {
 							joueurActuel = victime;
@@ -302,16 +322,18 @@ public class Bataille {
 							System.out.println(joueurActuel.getNom() + " veut ralentir " + victime.getNom());
 							suivantPeutContrer = victime.peutContrerAs();
 						} else { // si c'est un 2
-							suivant = JoueurSuivantCarteNormale(carteContre, joueurActuelVrai);
+							return JoueurSuivantCarteNormale(carteContre, joueurActuelVrai);
 						}
 					} else {
 						//On envoie le tas seulement si le mec a contré avec un As
-						if (carteContre.getValeur() == 12)
-							joueurActuel.envoyerTas(victime);
+						System.out.println(victime.getNom() + " ne peut pas contrer");
+						//if (carteContre != null)
+						//	if (carteContre.getValeur() == 12)
+								joueurActuel.envoyerTas(victime);
 					}
 				} while (suivantPeutContrer);
 				
-				
+				//REDONDANCE
 				if (carteContre != null)
 					if (carteContre.getValeur() == 12) 
 						joueurActuel.envoyerTas(victime);
