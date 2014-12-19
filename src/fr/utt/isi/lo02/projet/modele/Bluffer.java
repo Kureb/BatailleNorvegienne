@@ -66,7 +66,7 @@ public class Bluffer extends StrategieJeu {
 		}
 		
 		
-		System.out.print(joueur.getNom() + " joue ");
+		System.out.print(joueur.getNom() + " joue et");
 		Iterator<Carte> itt = cartes.iterator();
 		while (itt.hasNext()) {
 			System.out.print(itt.next() + " ");

@@ -49,7 +49,7 @@ public class Defausser extends StrategieJeu {
 		System.out.print(joueur.getNom() + " joue ");
 		Iterator<Carte> itt = cartes.iterator();
 		while (itt.hasNext()) {
-			System.out.print(itt.next() + " ");
+			System.out.print(itt.next() + " et");
 		}
 		System.out.println("");
 		
