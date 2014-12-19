@@ -320,7 +320,6 @@ public class Bataille {
 					}
 				} while (suivantPeutContrer);
 				
-				//REDONDANCE
 				if (carteContre != null)
 					if (carteContre.getValeur() == 12) 
 						joueurActuel.envoyerTas(victime);

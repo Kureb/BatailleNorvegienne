@@ -2,6 +2,7 @@ package fr.utt.isi.lo02.projet.modele;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 /** Chercher à se débarasser le plus vite possible de ses cartes */
@@ -33,6 +34,7 @@ public class Bluffer extends StrategieJeu {
 	}
 
 	@Override
+	//TODO il peut peut être en jouer plusieurs, vérifier
 	public ArrayList<Carte> choisirCarteAJouer(Joueur joueur) {
 		ArrayList<Carte> cartes = new ArrayList<>();
 		Carte derniereCarteJouee = null, carte = null;
@@ -48,10 +50,26 @@ public class Bluffer extends StrategieJeu {
 		cartes.add(carte);
 		
 		
+		LinkedList<Carte> copyOfMain = new LinkedList<>(joueur.getMain());
+		copyOfMain.remove(cartes.get(0));
+		
+		Iterator<Carte> it = copyOfMain.iterator();
+		while(it.hasNext()) {
+			boolean autre = false;
+			Carte carteCourante = it.next();
+			autre = (cartes.get(0)).aMemeValeur(carteCourante);
+			if (autre) {
+				cartes.add(carteCourante);
+				
+				
+			}
+		}
+		
+		
 		System.out.print(joueur.getNom() + " joue ");
-		Iterator<Carte> it = cartes.iterator();
-		while (it.hasNext()) {
-			System.out.print(it.next());
+		Iterator<Carte> itt = cartes.iterator();
+		while (itt.hasNext()) {
+			System.out.print(itt.next() + " ");
 		}
 		System.out.println("");
 		
