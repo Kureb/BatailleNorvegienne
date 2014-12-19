@@ -20,45 +20,50 @@ public abstract class StrategieJeu {
 	public int jouerCarte(Joueur joueur) {
 		//System.out.println(joueur);
 		System.out.println(joueur);
-		
-		boolean jouerEstPossible  = joueur.peutJouer();
+		boolean estMainVide = joueur.estMainVide();
+		boolean jouerEstPossible = false;
 		int nb = 0;
-		
-		ArrayList<Carte> cartes = null;
-		
-		if (jouerEstPossible) {
-			cartes = this.choisirCarteAJouer(joueur);
-			int taille = cartes.size(); //nb de cartes à piocher
-			Iterator<Carte> it = cartes.iterator();
-			while (it.hasNext()) {
-				joueur.poserCarteUnique(it.next());
-			}
-			boolean vide = Bataille.getInstance().getPioche().isEmpty();
-			//Si la pioche n'est pas vide
-			if (!vide) {
-				// Pour chq carte posée
-				for (int i = 0; i < taille; i++) {
-					// On redonne au joueur une carte de la pioche
-					if (!vide) {
-						joueur.recevoirCarte(Bataille
-								.getInstance()
-								.getPioche()
-								.get(Bataille.getInstance().getPioche().size() - 1));
-						Bataille.getInstance()
-								.getPioche()
-								.remove(Bataille.getInstance().getPioche()
-										.size() - 1);
+		if (!estMainVide) {
+			jouerEstPossible = joueur.peutJouer();
+			
+
+			ArrayList<Carte> cartes = null;
+
+			if (jouerEstPossible) {
+				cartes = this.choisirCarteAJouer(joueur);
+				int taille = cartes.size(); // nb de cartes à piocher
+				Iterator<Carte> it = cartes.iterator();
+				while (it.hasNext()) {
+					joueur.poserCarteUnique(it.next());
+				}
+				boolean vide = Bataille.getInstance().getPioche().isEmpty();
+				// Si la pioche n'est pas vide
+				if (!vide) {
+					// Pour chq carte posée
+					for (int i = 0; i < taille; i++) {
+						// On redonne au joueur une carte de la pioche
+						if (!vide) {
+							joueur.recevoirCarte(Bataille
+									.getInstance()
+									.getPioche()
+									.get(Bataille.getInstance().getPioche()
+											.size() - 1));
+							Bataille.getInstance()
+									.getPioche()
+									.remove(Bataille.getInstance().getPioche()
+											.size() - 1);
+						}
 					}
 				}
+				nb = cartes.size();
+
+			} else {
+				joueur.ramasserTas();
+				nb = -1;
 			}
-			nb = cartes.size();
-			
-		} else {
-			joueur.ramasserTas();
-			nb = -1;
 		}
 		
-		boolean estMainVide = joueur.estMainVide();
+		//boolean estMainVide = joueur.estMainVide();
 		boolean estFaceUpVide = joueur.estFaceUpVide();
 		boolean estFaceDownVide = joueur.estFaceDownVide();
 		
@@ -81,8 +86,6 @@ public abstract class StrategieJeu {
 		 * ramasser une des cartes devant lui.
 		 */
 		if (estMainVide && estFaceUpVide && !estFaceDownVide) {
-			//TODO corriger dernier bug muthafucka
-			
 			//TODO si un As est joué dans la boucle, ça ne sera pas pris en compte
 			//dire que c'est normal ? S'il peut jouer après pourquoi pas ..
 			
@@ -112,6 +115,8 @@ public abstract class StrategieJeu {
 			// le joueur ramasse la pioche
 			if (!jouerEstPossible) {
 				System.out.println("Il ne peut pas jouer ! Il prend la pioche");
+				if (!Bataille.getInstance().getTable().isEmpty())
+					joueur.ramasserTas();
 				nb = -1;
 				
 			}

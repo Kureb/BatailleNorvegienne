@@ -290,19 +290,6 @@ public class Bataille {
 				
 				break;
 			case 12: //As
-				
-				//TODO Maxime a joué As en derière carte de sa main
-				//Du coup il avai pu de carte au tour d'après et caca ..
-				// faire la vérifiation des cartes en fin de tour ?
-				
-				//TODO Maxime a contrer un AS avec un Deux, 
-				//il aurait dû gagner mais non ce boloss est une merde
-				
-				//TODO Gogole Maxime envoie As à Daussy mais Daussy peut contrer
-				// et gogole DAussy veut envoyer à Maxime mais il considère que Maxime a encore
-				// son AS donc caca
-				
-				
 				//On doit envoyer le tas à un joueur, qui peut contrer!
 				//Normalement à cette étape l'As est sur le tas
 				boolean suivantPeutContrer = false;
