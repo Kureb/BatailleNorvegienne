@@ -141,13 +141,18 @@ public class Bataille {
 			// on récupère le joueur devant jouer, il joue, on vérifie s'il a gagné
 			nbCartes = joueur.jouer();
 			fin = joueur.verifierGagner();
-			suivant = (nbCartes == -1 ? this.getJoueurPrecedent(joueur) : this.getJoueurSuivant(joueur, nbCartes)); 
-			joueur = suivant;
+			if (fin)
+				System.out.println(joueur.getNom() + " a gagne, bravo ! ");
+			else {
+				suivant = (nbCartes == -1 ? this.getJoueurPrecedent(joueur) : this.getJoueurSuivant(joueur, nbCartes)); 
+				joueur = suivant;
+			}
+			
 			
 			
 		}
 		// Le gagnant est le dernier joueur si nous sommes ici
-		System.out.println(joueur.getNom() + " a gagne, bravo ! ");
+		
 		
 	}
 
