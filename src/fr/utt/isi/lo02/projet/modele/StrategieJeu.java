@@ -69,6 +69,8 @@ public abstract class StrategieJeu {
 		
 		
 		
+		
+		
 		/**
 		 * Lorsqu'un joueur n'a de nouveau plus de cartes en main,
 		 * il pioche au hasard une des trois cartes retournées disposées
@@ -79,21 +81,31 @@ public abstract class StrategieJeu {
 		 * ramasser une des cartes devant lui.
 		 */
 		if (estMainVide && estFaceUpVide && !estFaceDownVide) {
-			// Vu qu'on prend aléatoirement on qu'on ne connait
-			// pas les cartes, autant prendre la première
-			// à chaque fois !
+			//TODO corriger dernier bug muthafucka
+			
+			//TODO si un As est joué dans la boucle, ça ne sera pas pris en compte
+			//dire que c'est normal ? S'il peut jouer après pourquoi pas ..
+			
 			joueur.addMain(joueur.getFaceDown().getFirst());
 			joueur.getFaceDown().remove(0);
-			System.out.println("La main de " + joueur.getNom() + " est vide, on prend une carte cachee");
+			System.out.println("La main de " + joueur.getNom() + " est vide, on prend une carte cachee " + joueur.getMain().getFirst());
 			
 			jouerEstPossible = joueur.peutJouer();
 			
 			while (jouerEstPossible && !estFaceDownVide) {
 				System.out.println("il peut poser " + joueur.getMain().getFirst());
 				joueur.poserCarteUnique(joueur.getMain().getFirst());
-				joueur.addMain(joueur.getFaceDown().getFirst());
-				joueur.getFaceDown().remove(0);
+				
 				estFaceDownVide = joueur.estFaceDownVide();
+				if (estFaceDownVide) break;
+				
+				
+				//Il a pu posr toutes les cartes à la suite
+				joueur.addMain(joueur.getFaceDown().getFirst());
+				joueur.getFaceDown().remove(0); // cette ligne merde
+				System.out.println("La main de " + joueur.getNom() + " est vide, on prend une carte cachee " + joueur.getMain().getFirst());
+				
+				jouerEstPossible = joueur.peutJouer();
 			}
 			
 			// Si jouer n'est plus possible
@@ -105,13 +117,7 @@ public abstract class StrategieJeu {
 			}
 		}
 		
-		/*
-		if (estMainVide && estFaceUpVide && !estFaceDownVide) {
-			joueur.remplirMainAvecFaceDown();
-			System.out.println("La main de " + joueur.getNom() + " est vide, on prend les cartes cachees");
-
-		}
-		*/
+		
 			
 		System.out.println(joueur);
 		System.out.println("\n\n");
