@@ -66,17 +66,17 @@ public class Defausser extends StrategieJeu {
 		// doit choisir le joueur avec le moins de cartes
 		// sans se choisir soit-même forcément
 		Iterator<Joueur> it = Bataille.getInstance().getJoueurs().iterator();
-		int nbCarteMain = 54, pos=0; //Le max de cartes par un joueur je pense TODO trouver ot'chose
+		int nbCarteMain = 100000, pos=0; //TODO dégueu donc trouve autre chose
 		while (it.hasNext()) {
 			Joueur joueur = (Joueur) it.next();
-			if (joueur != joueurActuel)
+			if (joueur != joueurActuel) {
 				if (joueur.getMain().size() < nbCarteMain)
 					nbCarteMain = joueur.getMain().size();
+			}
 			pos++;
 		}
 		
-		
-		return Bataille.getInstance().getJoueurs().get(pos);
+		return Bataille.getInstance().getJoueurs().get(pos-1);
 	}
 
 	@Override
