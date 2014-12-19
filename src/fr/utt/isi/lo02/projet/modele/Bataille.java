@@ -306,9 +306,6 @@ public class Bataille {
 					}
 				} while (suivantPeutContrer);
 				
-				//TODO Maxime a envoyé le tas à Alex
-				//Alex pouvait contrer avec un 2 il  posé le2
-				//Mais le tas a quand même été envoyé à Alex avec le 2 et l'As :(
 				
 				if (carteContre != null)
 					if (carteContre.getValeur() == 12) 
