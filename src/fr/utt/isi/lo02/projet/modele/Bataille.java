@@ -210,6 +210,26 @@ public class Bataille {
 
 	}
 	
+	public Joueur JoueurSuivantCarteNormale(Joueur joueurActuel) {
+		Iterator<Joueur> it = joueurs.iterator();
+		int i = 0;
+		while (it.hasNext())
+			if (it.next() == joueurActuel)
+				break;
+			else
+				i++;
+				
+		if (i + 1 < this.getJoueurs().size())
+			i++;
+		// Sinon c'est qu'on est à la fin de la liste, donc on retourne au début
+		else
+			i = 0;
+
+		Joueur joueurSuivant = this.getJoueurs().get(i);
+		
+		return joueurSuivant;
+	}
+	
 	public Joueur JoueurSuivantCarteNormale(Carte derniereCarteJouee, Joueur joueurActuel) {
 		Iterator<Joueur> it = joueurs.iterator();
 		int i = 0;
@@ -265,7 +285,7 @@ public class Bataille {
 				Carte carteContre = null;
 				Joueur joueurActuelVrai = joueurActuel;
 				do {
-					victime = joueurActuel.getStrategie().choisirQuiRalentir();
+					victime = joueurActuel.getStrategie().choisirQuiRalentir(joueurActuel);
 					suivantPeutContrer = victime.peutContrerAs();
 					if (suivantPeutContrer) {
 						System.out.println("Mais " + victime.getNom() + " peut contrer");
@@ -273,16 +293,22 @@ public class Bataille {
 						victime.poserCarteUnique(carteContre);
 						if (carteContre.getValeur() == 12) {
 							joueurActuel = victime;
-							victime = joueurActuel.getStrategie().choisirQuiRalentir();
+							victime = joueurActuel.getStrategie().choisirQuiRalentir(joueurActuel);
 							System.out.println(joueurActuel.getNom() + " veut ralentir " + victime.getNom());
 							suivantPeutContrer = victime.peutContrerAs();
 						} else { // si c'est un 2
 							suivant = JoueurSuivantCarteNormale(carteContre, joueurActuelVrai);
 						}
 					} else {
-						joueurActuel.envoyerTas(victime);
+						//On envoie le tas seulement si le mec a contré avec un As
+						if (carteContre.getValeur() == 12)
+							joueurActuel.envoyerTas(victime);
 					}
 				} while (suivantPeutContrer);
+				
+				//TODO Maxime a envoyé le tas à Alex
+				//Alex pouvait contrer avec un 2 il  posé le2
+				//Mais le tas a quand même été envoyé à Alex avec le 2 et l'As :(
 				
 				if (carteContre != null)
 					if (carteContre.getValeur() == 12) 
