@@ -34,7 +34,6 @@ public class Bluffer extends StrategieJeu {
 	}
 
 	@Override
-	//TODO il peut peut être en jouer plusieurs, vérifier
 	public ArrayList<Carte> choisirCarteAJouer(Joueur joueur) {
 		ArrayList<Carte> cartes = new ArrayList<>();
 		Carte derniereCarteJouee = null, carte = null;
