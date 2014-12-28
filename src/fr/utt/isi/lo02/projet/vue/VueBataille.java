@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -69,15 +71,13 @@ public class VueBataille implements Observer {
 		
 		JPanel panelTapis = new JPanel();
 		JLabel imgTapis = new JLabel(new ImageIcon("img/Tapis.jpg"));
+	
+		
+		tas = new JLabel(new ImageIcon("img/b1fv.png")); //Tas vide de base
 		
 		
-		
-		 tas = new JLabel(new ImageIcon("img/b1fv.png")); //Tas vide
-		
-		
-		imgTapis.setLayout(new FlowLayout()); // Pas le meilleur mais ça marche pour l'instant
-											  // Faudrait pouvoir le centrer plus !
-		imgTapis.add(getTas());
+		imgTapis.setLayout(new GridLayout()); 
+		imgTapis.add(tas);
 		panelTapis.add(imgTapis);
 		
 		Container reservoir = fenetre.getContentPane();
@@ -95,11 +95,6 @@ public class VueBataille implements Observer {
 		log = new JTextArea();
 		log.setRows(5);
 		scrollPane = new JScrollPane(log);
-		//log.setPreferredSize(new Dimension(reservoir.getWidth(), 100));
-		//TODO c'est pas vraiment scrollable et on voit pas bien le dernier text à chaque fois !
-		
-		
-		
 		
 		reservoir.add(scrollPane, BorderLayout.SOUTH);
 		reservoir.add(panelJoueur, BorderLayout.WEST);
