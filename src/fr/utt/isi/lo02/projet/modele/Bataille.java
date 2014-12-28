@@ -384,8 +384,8 @@ public class Bataille extends BatailleAbstraite {
 
 	public void clearTable() {
 		this.table.clear();
-		//setChanged();
-		//notifyObservers();
+		setChanged();
+		notifyObservers("Le tas est vide");
 	}
 
 
