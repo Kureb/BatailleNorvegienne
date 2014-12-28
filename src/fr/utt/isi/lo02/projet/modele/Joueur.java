@@ -14,7 +14,7 @@ import java.util.Scanner;
  * @author daussy - obeidat
  * 
  */
-public class Joueur {
+public class Joueur extends BatailleAbstraite{
 
 	/** Le nom du joueur */
 	private String nom;
@@ -145,6 +145,9 @@ public class Joueur {
 			this.main.add(carteVisible);
 			this.faceUp.remove(carteVisible);
 		}
+		
+		setChanged();
+		notifyObservers(this);
 	}
 
 	/**
@@ -162,6 +165,8 @@ public class Joueur {
 		Carte carteMain = this.main.get(--carteM);
 		Carte carteVisible = this.faceUp.get(--carteV);
 		this.echangerCarte(carteMain, carteVisible);
+		
+		
 	}
 	
 	/**
@@ -545,6 +550,20 @@ public class Joueur {
 		this.getFaceUp().clear();
 
 		
+	}
+
+
+
+	public int getPosition() {
+		Bataille bataille = Bataille.getInstance();
+		Iterator<Joueur> it = bataille.getJoueurs().iterator();
+		int i = 0;
+		while (it.hasNext()) {
+			if (it.next() == this) return i;
+			i++;
+		}
+				
+		return 0;
 	}
 
 

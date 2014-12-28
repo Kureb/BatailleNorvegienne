@@ -2,10 +2,11 @@ package fr.utt.isi.lo02.projet.modele;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Scanner;
+import java.util.Observable;
 
 
-public class Bataille {
+
+public class Bataille extends BatailleAbstraite {
 
 	/**
 	 * Suit le modèle Singleton car ne pourra être instancié qu'une fois par
@@ -30,6 +31,9 @@ public class Bataille {
 		jeuDeCartes = new JeuDeCartes();
 		pioche = new ArrayList<>();
 		table = new ArrayList<>();
+		
+
+		
 	}
 	
 	/**
@@ -49,6 +53,8 @@ public class Bataille {
 
 	public void setTable(ArrayList<Carte> table) {
 		this.table = table;
+		//setChanged();
+		//notifyObservers();
 	}
 
 	public ArrayList<Carte> getPioche() {
@@ -57,11 +63,15 @@ public class Bataille {
 
 	public void setPioche(ArrayList<Carte> pioche) {
 		this.pioche = pioche;
+		//setChanged();
+		//notifyObservers();
 	}
 
 	
 	public void addTable(Carte carte) {
 		this.table.add(carte);
+		setChanged();
+		notifyObservers(carte);
 	}
 	
 	/**
@@ -76,6 +86,8 @@ public class Bataille {
 		if (!this.joueurs.contains(j)) {
 			this.joueurs.add(j);
 		}
+		//setChanged();
+		//notifyObservers();
 
 	}
 
@@ -88,6 +100,8 @@ public class Bataille {
 		// On le supprime seulement s'il existe
 		if (this.joueurs.contains(j))
 			this.joueurs.remove(j);
+		//setChanged();
+		//notifyObservers();
 	}
 
 	public ArrayList<Joueur> getJoueurs() {
@@ -96,6 +110,8 @@ public class Bataille {
 
 	public void setJoueurs(ArrayList<Joueur> joueurs) {
 		this.joueurs = joueurs;
+		//setChanged();
+		//notifyObservers();
 	}
 
 	public JeuDeCartes getJeuDeCartes() {
@@ -104,6 +120,8 @@ public class Bataille {
 
 	public void setJeuDeCartes(JeuDeCartes jeuDeCartes) {
 		this.jeuDeCartes = jeuDeCartes;
+		//setChanged();
+		//notifyObservers();
 	}
 
 	public String toString() {
@@ -118,8 +136,13 @@ public class Bataille {
 		Joueur joueur;
 		while (it.hasNext()) {
 			 joueur = it.next();
-			 joueur.echangerCartes();;
+			 joueur.echangerCartes();
+			 
+			 //setChanged();
+			 //notifyObservers(joueur);
 		}
+		
+		
 	}
 	
 	
@@ -137,6 +160,11 @@ public class Bataille {
 		joueur = this.getJoueurs().get(position);
 		int nbCartes;
 		while (!fin) {
+			try {
+				Thread.sleep(1000);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			System.out.println("-- Tour de " + joueur.getNom());
 			// on récupère le joueur devant jouer, il joue, on vérifie s'il a gagné
 			nbCartes = joueur.jouer();
@@ -162,7 +190,6 @@ public class Bataille {
 	}
 
 	private Joueur getJoueurPrecedent(Joueur joueur) {
-		Joueur precedent = null;
 		int positionCourante = this.getPositionCourante(joueur);
 		
 		if (positionCourante == 0) return this.getJoueurs().get(this.getJoueurs().size()-1);
@@ -357,6 +384,8 @@ public class Bataille {
 
 	public void clearTable() {
 		this.table.clear();
+		//setChanged();
+		//notifyObservers();
 	}
 
 
