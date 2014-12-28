@@ -2,6 +2,7 @@ package fr.utt.isi.lo02.projet.vue;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,6 +17,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 import fr.utt.isi.lo02.projet.controleur.BatailleControleur;
 import fr.utt.isi.lo02.projet.controleur.ControleurAbstrait;
@@ -42,8 +45,9 @@ public class VueBataille implements Observer {
 	
 	private JLabel tas; 
 	
-	private JLabel log;
+	private JTextArea log;
 	
+	private JScrollPane scrollPane;
 	
 	
 	
@@ -88,9 +92,16 @@ public class VueBataille implements Observer {
 			
 		}
 		
-		log = new JLabel("tas ");
+		log = new JTextArea();
+		log.setRows(5);
+		scrollPane = new JScrollPane(log);
+		//log.setPreferredSize(new Dimension(reservoir.getWidth(), 100));
+		//TODO c'est pas vraiment scrollable et on voit pas bien le dernier text à chaque fois !
 		
-		reservoir.add(log, BorderLayout.SOUTH);
+		
+		
+		
+		reservoir.add(scrollPane, BorderLayout.SOUTH);
 		reservoir.add(panelJoueur, BorderLayout.WEST);
 		reservoir.add(panelTapis, BorderLayout.EAST);
 		
@@ -110,15 +121,32 @@ public class VueBataille implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		//controleur.changerTas(((Carte) arg));	
+		// controleur.changerTas(((Carte) arg));
+
 		if (arg instanceof Carte) {
-			log.setText("Dernière carte jouée : " + ((Carte) arg).toString());
+			String text = log.getText();
+			//log.insert("derniere carte jouée " + ((Carte) arg).toString() + "\n", log.getDoc);
+			//log.setText(text + "Dernière carte jouée : "
+			//		+ ((Carte) arg).toString() + "\n");
+			log.append("Dernière carte jouée : "
+					+ ((Carte) arg).toString() + "\n");
+
 			this.majTas(((Carte) arg));
+		} else if (arg instanceof String) {
+			String lolz = ((String) arg.toString());
+			if (lolz.equals("Le tas est vide")) {
+				String text = log.getText();
+				//log.setText(text + lolz.toString() + "\n");
+				log.append(lolz.toString()+ "\n");
+				this.majTas(null);
+			}
+
 		}
+		//Ne semble pas fonctionner
+		log.setCaretPosition(log.getDocument().getLength());
 		
-		
+
 	}
-	
 	
 	
 
@@ -131,8 +159,14 @@ public class VueBataille implements Observer {
 	}
 
 	public void majTas(Carte carte) {
-		String chemin = "img/" + carte.VALEURS[carte.getValeur()] + "_" + carte.COULEURS[carte.getCouleur()] + ".png";
-		this.setTas(chemin);
+		if (carte != null) {
+			String chemin = "img/" + carte.VALEURS[carte.getValeur()] + "_" + carte.COULEURS[carte.getCouleur()] + ".png";
+			this.setTas(chemin);
+		} else {
+			String chemin = "img/b1fv.png";
+			this.setTas(chemin);
+		}
+		
 	}
 
 }
