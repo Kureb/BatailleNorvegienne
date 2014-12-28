@@ -93,6 +93,7 @@ public class VueBataille implements Observer {
 		}
 		
 		log = new JTextArea();
+		log.setEditable(false);
 		log.setRows(5);
 		scrollPane = new JScrollPane(log);
 		
