@@ -1,6 +1,6 @@
 import fr.utt.isi.lo02.projet.modele.Bataille;
-import fr.utt.isi.lo02.projet.modele.Bluffer;
-import fr.utt.isi.lo02.projet.modele.Defausser;
+import fr.utt.isi.lo02.projet.modele.StrategieRapide;
+import fr.utt.isi.lo02.projet.modele.StrategieSpeciale;
 import fr.utt.isi.lo02.projet.modele.Joueur;
 import fr.utt.isi.lo02.projet.modele.Scrambler;
 
@@ -10,13 +10,14 @@ public class JeuConsole {
 	
 	public static void main(String[] args) {
 
-		Joueur Benjamin = new Joueur("Benjamin", new Bluffer());
-		Joueur Diane = new Joueur("Diane", new Defausser());
+		
+		Joueur Benjamin = new Joueur("Benjamin", new StrategieRapide());
+		Joueur Diane = new Joueur("Diane", new StrategieSpeciale());
 		
 		// TODO : ajouter une exception si plus d'un joueur physique ? Ou si plusieurs Scrambler ?
 		// ou si Pas de joueur physique
 		
-		Joueur Maxime = new Joueur("Maxime", new Bluffer());
+		Joueur Maxime = new Joueur("Maxime", new StrategieSpeciale());
 		Scrambler Alexandre = new Scrambler("Alexandre");
 		
 		Bataille bataille = Bataille.getInstance();
@@ -37,7 +38,7 @@ public class JeuConsole {
 		// seconde phase de la bataille
 		 bataille.lancerPartie();
 		
-	
+		
 		
 		
 		
