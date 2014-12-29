@@ -110,8 +110,6 @@ public class Bataille extends BatailleAbstraite {
 
 	public void setJoueurs(ArrayList<Joueur> joueurs) {
 		this.joueurs = joueurs;
-		//setChanged();
-		//notifyObservers();
 	}
 
 	public JeuDeCartes getJeuDeCartes() {
@@ -120,8 +118,6 @@ public class Bataille extends BatailleAbstraite {
 
 	public void setJeuDeCartes(JeuDeCartes jeuDeCartes) {
 		this.jeuDeCartes = jeuDeCartes;
-		//setChanged();
-		//notifyObservers();
 	}
 
 	public String toString() {
@@ -135,11 +131,13 @@ public class Bataille extends BatailleAbstraite {
 		Iterator<Joueur> it = this.joueurs.iterator();
 		Joueur joueur;
 		while (it.hasNext()) {
+			try {
+				Thread.sleep(1000);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			 joueur = it.next();
 			 joueur.echangerCartes();
-			 
-			 //setChanged();
-			 //notifyObservers(joueur);
 		}
 		
 		
@@ -180,6 +178,8 @@ public class Bataille extends BatailleAbstraite {
 				else
 					System.out.println(joueur.getNom() + " a gagne, bravo ! ");
 			}
+			
+		
 			
 			
 			
@@ -386,6 +386,10 @@ public class Bataille extends BatailleAbstraite {
 		this.table.clear();
 		setChanged();
 		notifyObservers("Le tas est vide");
+	}
+	
+	public void clearPioche() {
+		this.pioche.clear();
 	}
 
 

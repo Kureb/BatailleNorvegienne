@@ -1,26 +1,20 @@
 package fr.utt.isi.lo02.projet.vue;
 
-import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
-import fr.utt.isi.lo02.projet.modele.Bataille;
-import fr.utt.isi.lo02.projet.modele.StrategieRapide;
 import fr.utt.isi.lo02.projet.modele.Carte;
 import fr.utt.isi.lo02.projet.modele.Joueur;
-import fr.utt.isi.lo02.projet.modele.Scrambler;
-import fr.utt.isi.lo02.projet.modele.StrategieRelle;
+import fr.utt.isi.lo02.projet.modele.StrategieJeu;
 
 /**
  * Représente graphiquement un joueur
@@ -37,7 +31,7 @@ public class VueJoueur implements Observer{
 	/**
 	 * Panel du joueur, pour placer ses cartes !
 	 */
-	private JPanel jpanel;
+	private JPanel main;
 	
 	
 	private LinkedList<VueCarte> carteGraphique = new LinkedList<>();
@@ -54,20 +48,19 @@ public class VueJoueur implements Observer{
 	public VueJoueur(Joueur joueur) {
 		this.joueur = joueur;
 		this.joueur.addObserver(this);
+		this.joueur.getStrategie().addObserver(this); 
 		this.nom = new JLabel(joueur.getNom());
 		
-		
-		jpanel = new JPanel();
-		jpanel.setLayout(new FlowLayout());
-		
-		
-		
-		
-		
-		//LinkedList<Carte> cartes = joueur.getMain();
-		//Iterator<Carte> it = cartes.iterator();
+		main = new JPanel();
+		FlowLayout fl = new FlowLayout(FlowLayout.LEFT);
+		//main.setSize(new Dimension(200, 200));
+		//main.setMaximumSize(new Dimension(400, 800));;
+		main.setLayout(fl);
 		
 		dessinerCarteMain();
+		
+		//JScrollPane jsp = new JScrollPane(main);
+		
 		
 //		while (it.hasNext()) {
 //			VueCarte vc = new VueCarte(it.next());
@@ -98,29 +91,33 @@ public class VueJoueur implements Observer{
 	
 	
 	public void dessinerCarteMain() {
-		jpanel.removeAll();
-
-		JLabel typeCarte = new JLabel("Main " + joueur.getNom());
-		jpanel.add(typeCarte);
+		JLabel typeCarte = new JLabel(joueur.getNom());
+		main.add(typeCarte);
+	
 		
 		LinkedList<Carte> cartesJoueur = joueur.getMain();
 		Iterator<Carte> it = cartesJoueur.iterator();
 		
-		int index = 0;
 		while (it.hasNext()) {
 			VueCarte vc = new VueCarte(it.next());
+			carteGraphique.add(vc);
 			JLabel carte = vc.getImage();
-			//if (vc != this.carteGraphique.get(index)) {
-			//	jpanel.add(vc.getImage());
-			//}
-			//this.carteGraphique.get(index).setImage(vc.getImage());
-			jpanel.add(carte);
-			index++;
-			
+			main.add(carte);
 		}
 		
-			
-			
+		//Si pas de carte on ajoute quand même
+		//une fausse carte, afin de garder la
+		//mise en page
+		if (cartesJoueur.size() == 0)
+			main.add(new JLabel(new ImageIcon("img/cartevide.png")));
+		
+	}
+	
+	
+	public void majCartesMain() {
+		main.removeAll();
+		dessinerCarteMain();
+		main.updateUI(); // Sans ça, ça ne mettait pas à jour :(
 	}
 
 	
@@ -153,61 +150,30 @@ public class VueJoueur implements Observer{
 
 
 	public JPanel getJpanel() {
-		return jpanel;
+		return main;
 	}
 
 
 
-	public void setJpanel(JPanel jpanel) {
-		this.jpanel = jpanel;
+	public void setJpanel(JPanel main) {
+		this.main = main;
 	}
 	
 	
-	public static void main(String[] args) {
-		Bataille bataille = Bataille.getInstance();
-		
-		Scrambler Alex = new Scrambler("Alex");
-		bataille.addJoueur(new Joueur("Lol", new StrategieRapide()));
-		bataille.addJoueur(new Joueur("Lol2", new StrategieRapide()));
-		bataille.addJoueur(Alex);
-		
-		Alex.distribuerPaquet(bataille);
-		
-		//bataille.lancerPartie();
-		
-		JFrame fenetre = new JFrame("Test Joueur");
-		fenetre.setLayout(new FlowLayout());
-		Container reservoir = fenetre.getContentPane();
-
-		VueJoueur vj = new VueJoueur(Alex);
-		reservoir.add(vj.getJpanel());
-		
-		//vj.carteGraphique.get(0).setImage(new VueCarte(new Carte(0, 0)).getImage());
-		
-		
-
-		//this.carteGraphique.get(index).setImage(vc.getImage());
-		//reservoir.add(carteGraphique2.getImage()); 
-		
-		
-		
-		fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		fenetre.pack();
-		fenetre.setVisible(true);
-		
-		
-	}
+	
 
 
 	@Override
 	public void update(Observable o, Object arg) {
-		if (arg instanceof Joueur) {
-			int position = ((Joueur) arg).getPosition();
-			//texte.setText("echange de carte en cours");
-			this.dessinerCarteMain();
+		if (arg instanceof Joueur) { //échange de cartes
+			this.majCartesMain();
+		} else if (arg instanceof StrategieJeu) { //jeu
+			this.majCartesMain();
 		}
 	}
 	
+	
+
 	
 	
 	
