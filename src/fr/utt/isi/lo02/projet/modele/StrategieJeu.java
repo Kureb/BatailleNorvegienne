@@ -9,7 +9,7 @@ import java.util.Iterator;
  * @author daussy
  *
  */
-public abstract class StrategieJeu {
+public abstract class StrategieJeu extends BatailleAbstraite{
 	
 	public abstract void echangerCartes(Joueur joueur);
 	
@@ -55,7 +55,7 @@ public abstract class StrategieJeu {
 						}
 						vide = Bataille.getInstance().getPioche().isEmpty();
 					}
-				}
+				} 
 				nb = cartes.size();
 
 			} else {
@@ -70,7 +70,7 @@ public abstract class StrategieJeu {
 		
 		if (estMainVide && !estFaceUpVide) {
 			joueur.remplirMainAvecFaceUp();
-			System.out.println("La main de " + joueur.getNom() + " est vide, on prend les cartes visibles");
+			System.out.println("La main de " + joueur.getNom() + " est vide, il prend les cartes visibles");
 		}
 		
 		
@@ -92,18 +92,15 @@ public abstract class StrategieJeu {
 			
 			joueur.addMain(joueur.getFaceDown().getFirst());
 			joueur.getFaceDown().remove(0);
-			System.out.println("La main de " + joueur.getNom() + " est vide, on prend une carte cachee " + joueur.getMain().getFirst());
+			System.out.println("La main de " + joueur.getNom() + " est vide, il prend une carte cachée " + joueur.getMain().getFirst());
 			
 			jouerEstPossible = joueur.peutJouer();
 			
 			while (jouerEstPossible && !estFaceDownVide) {
-				System.out.println("il peut poser " + joueur.getMain().getFirst());
+				System.out.println(joueur.getNom() + " peut poser " + joueur.getMain().getFirst());
 				joueur.poserCarteUnique(joueur.getMain().getFirst());
 				
-				//Test si carte spécial genre As, permet d'envoyer le tas quand même
-				//histoire de faire son fdp jsuqu'au bout
-				//if (joueur.getMain().getFirst().estSpeciale())
-					//Bataille.getInstance().JoueurSuivantCarteSpeciale(joueur.getMain().getFirst(), joueur, 1);
+				
 				
 				estFaceDownVide = joueur.estFaceDownVide();
 				if (estFaceDownVide) break;
@@ -112,7 +109,7 @@ public abstract class StrategieJeu {
 				//Il a pu posr toutes les cartes à la suite
 				joueur.addMain(joueur.getFaceDown().getFirst());
 				joueur.getFaceDown().remove(0); // cette ligne merde
-				System.out.println("La main de " + joueur.getNom() + " est vide, on prend une carte cachee " + joueur.getMain().getFirst());
+				System.out.println("La main de " + joueur.getNom() + " est vide, il prend une carte cachée " + joueur.getMain().getFirst());
 				
 				jouerEstPossible = joueur.peutJouer();
 			}
@@ -120,7 +117,7 @@ public abstract class StrategieJeu {
 			// Si jouer n'est plus possible
 			// le joueur ramasse la pioche
 			if (!jouerEstPossible) {
-				System.out.println("Il ne peut pas jouer ! Il prend la pioche");
+				System.out.println(joueur.getNom() + " ne peut pas jouer ! Il prend la pioche");
 				if (!Bataille.getInstance().getTable().isEmpty())
 					joueur.ramasserTas();
 				nb = -1;
@@ -132,6 +129,10 @@ public abstract class StrategieJeu {
 			
 		System.out.println(joueur);
 		System.out.println("\n\n");
+		
+		setChanged();
+		notifyObservers(this);
+		
 		return nb;
 		
 		
