@@ -1,7 +1,6 @@
 package fr.utt.isi.lo02.projet.modele;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -138,22 +137,29 @@ public class Joueur extends BatailleAbstraite{
 	 *            forcément rangées dans le même ordre
 	 */
 	public void echangerCarte(Carte carteMain, Carte carteVisible) {
-		// On vérifie que les cartes sont bien à l'endroit indiqué
+		// On vérifie que les cartes sont bien à l'endroit indiqué TODO essayer
 		if (this.faceUp.contains(carteVisible) && this.main.contains(carteMain)) {
 			this.faceUp.add(carteMain);
 			this.main.remove(carteMain);
 			this.main.add(carteVisible);
 			this.faceUp.remove(carteVisible);
+			
+			setChanged();
+			notifyObservers(this);
+			
 		}
 		
-		setChanged();
-		notifyObservers(this);
+		
 	}
 
 	/**
 	 * Permet de proposer l'échange de cartes à un joueur
 	 */
 	public void proposerChangerCartes() {
+		
+		//new proposerChangerCartesVue(this);
+		
+		
 		//System.out.println(this.toString());
 		System.out.println(this);
 		Scanner sc = new Scanner(System.in);
