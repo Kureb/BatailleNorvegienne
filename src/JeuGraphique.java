@@ -1,3 +1,4 @@
+import fr.utt.isi.lo02.projet.controleur.BatailleControleur;
 import fr.utt.isi.lo02.projet.modele.Bataille;
 import fr.utt.isi.lo02.projet.modele.StrategieRapide;
 import fr.utt.isi.lo02.projet.modele.StrategieSpeciale;
@@ -6,7 +7,7 @@ import fr.utt.isi.lo02.projet.modele.Scrambler;
 import fr.utt.isi.lo02.projet.vue.VueBataille;
 
 
-public class JeuGraphique  {
+public class JeuGraphique implements Runnable {
 	
 	
  
@@ -42,7 +43,7 @@ public class JeuGraphique  {
 		
 		
 		VueBataille vueBataille = new VueBataille(bataille);
-		//BatailleControleur batailleControleur = new BatailleControleur(bataille, vueBataille);
+		BatailleControleur batailleControleur = new BatailleControleur(bataille, vueBataille);
 		bataille.addObserver(vueBataille);
 		
 		
@@ -56,23 +57,22 @@ public class JeuGraphique  {
 	}
 
 	
-	//@Override
-	//public void run() {
-		// TODO Auto-generated method stub
-		//new JeuGraphique();
-	//}
+	@Override
+	public void run() {
+		new JeuGraphique();
+	}
 	
 	public static void main(String[] args) {
-		
-		//Thread partie = new Thread(new JeuGraphique());
-		//partie.start();
-		//javax.swing.SwingUtilities.invokeLater (new Runnable () {
-			//public void run () {
-				new JeuGraphique();
-			//}
-		//});
-		
+		/*
+		Thread partie = new Thread(new JeuGraphique());
+		partie.start();
+		javax.swing.SwingUtilities.invokeLater (new Runnable () {
+			public void run () {
+				*/new JeuGraphique();/*
+			}
+		});
+*/		
 	}
 
-	
+
 }
