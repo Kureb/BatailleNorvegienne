@@ -311,7 +311,12 @@ public class Joueur extends BatailleAbstraite{
 
 	public void envoyerTas(Joueur suivant) {
 		if (!suivant.peutContrerAs()) {
-			System.out.println(this.getNom() + " envoie le tas a " + suivant.getNom());
+			String message = this.getNom() + " envoie le tas à " + suivant.getNom();
+			System.out.println(message.replace("à", "a"));
+			
+			setChanged();
+			notifyObservers(message);
+			
 			Iterator<Carte> it = Bataille.getInstance().getTable().iterator();
 			while (it.hasNext()) {
 				suivant.addMain(it.next());
@@ -503,7 +508,12 @@ public class Joueur extends BatailleAbstraite{
 
 
 	public void ramasserTas() {
-		System.out.println(this.getNom() + " ramasse le tas car il ne peut pas jouer");
+		String message = this.getNom() + " ramasse le tas car il ne peut pas jouer";
+		System.out.println(message);
+		
+		setChanged();
+		notifyObservers(message);
+		
 		Iterator<Carte> it = Bataille.getInstance().getTable().iterator();
 		while (it.hasNext()) {
 			this.addMain(it.next());
@@ -511,7 +521,7 @@ public class Joueur extends BatailleAbstraite{
 		
 		Bataille.getInstance().clearTable();
 		
-		//System.out.println(this.toString());
+
 		
 	}
 

@@ -8,7 +8,7 @@ public class BatailleControleur {
 
 	private Bataille bataille;
 	
-	private VueBataille vueBataille;
+	private static VueBataille vueBataille;
 	
 	public BatailleControleur(Bataille bataille,VueBataille vueBataille) {
 		this.bataille = bataille;
@@ -17,6 +17,11 @@ public class BatailleControleur {
 	
 	public void changerTas(Carte carte) {
 		vueBataille.majTas(carte);
+	}
+	
+	
+	public static void updateJTextArea(String message) {
+		vueBataille.updateJTextArea(message);
 	}
 	
 	

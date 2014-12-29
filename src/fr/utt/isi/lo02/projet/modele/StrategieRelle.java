@@ -91,11 +91,17 @@ public class StrategieRelle extends StrategieJeu {
 			}
 		}
 		
-		System.out.print(joueur.getNom() + " joue ");
+		String message = joueur.getNom() + " joue ";
+		//System.out.print(joueur.getNom() + " joue ");
 		Iterator<Carte> itt = cartes.iterator();
 		while (itt.hasNext()) {
-			System.out.print(itt.next() + " ");
-		}System.out.println("");
+			message += itt.next() + " ";
+			//System.out.print(itt.next() + " ");
+		}
+		System.out.println(message);
+		
+		setChanged();
+		notifyObservers();
 		
 		
 		return cartes;

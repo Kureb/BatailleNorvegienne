@@ -44,13 +44,19 @@ public class StrategieSpeciale extends StrategieJeu {
 			}
 		}
 		
-		
-		System.out.print(joueur.getNom() + " joue ");
+		String message;
+		message = joueur.getNom() + " joue ";
+		//System.out.print(joueur.getNom() + " joue ");
 		Iterator<Carte> itt = cartes.iterator();
 		while (itt.hasNext()) {
-			System.out.print(itt.next() + " ");
+			message += itt.next() + " ";
+			//System.out.print(itt.next() + " ");
 		}
-		System.out.println("");
+		message += ".";
+		System.out.println(message);
+		
+		setChanged();
+		notifyObservers(message);
 		
 		
 		return cartes;
@@ -60,16 +66,17 @@ public class StrategieSpeciale extends StrategieJeu {
 	public void echangerCartes(Joueur joueur) {
 		boolean spec = joueur.possedeCarteSpeciales();
 		boolean mainNormal = joueur.possedeCarteNormale();
+		String message = "";
 		//int compteur = 0;
 		// Logiquement ça ne passera pas plus de 3 fois
 		if (spec && mainNormal) {
 			while (spec && mainNormal) {
 				Carte carteSpec = joueur.getCarteSpecialeFaceUp();
 				Carte main = joueur.getCarteNormalMain();
-				System.out.println(joueur.getNom() + "(carte spec/defausser) echange des cartes\n" 
-													+ "Maintenant elle a\n" 
-													+ "\t en main : " + carteSpec
-													+ "\n\t face visible : " + main);
+				message = (joueur.getNom() + " a sacrifié " + main + " pour avoir " + carteSpec + "."); 
+						
+				System.out.println(message.replace("é", "e"));
+				
 				joueur.echangerCarte(main, carteSpec);
 				//System.out.println(joueur);
 				spec = joueur.possedeCarteSpeciales();
@@ -77,8 +84,14 @@ public class StrategieSpeciale extends StrategieJeu {
 				//compteur++;
 			}
 			
-		} else
-			System.out.println(joueur.getNom() + " ne juge pas utile d'echanger des cartes");
+		} else {
+			message = joueur.getNom() + " n'a pas jugé utile d'échanger ses cartes.";
+			System.out.println(message.replace("é", "e"));
+		}
+		
+		setChanged();
+		notifyObservers(message);
+			
 			
 	}
 
@@ -87,7 +100,8 @@ public class StrategieSpeciale extends StrategieJeu {
 		// doit choisir le joueur avec le moins de cartes
 		// sans se choisir soit-même forcément
 		Iterator<Joueur> it = Bataille.getInstance().getJoueurs().iterator();
-		int nbCarteMain = 100000, pos=0; //TODO dégueu donc trouve autre chose
+		int nbCarteMain = Bataille.getInstance().getJoueurs().size() * 9 + 7; //Au max un joueur a toutes les cartes..
+		int pos=0; 
 		while (it.hasNext()) {
 			Joueur joueur = (Joueur) it.next();
 			if (joueur != joueurActuel) {
@@ -103,8 +117,6 @@ public class StrategieSpeciale extends StrategieJeu {
 	@Override
 	//Va choisir le 2 en priorité
 	public Carte choisirCarteContre(Joueur joueur) {
-		//boolean deux = joueur.possede(0);
-		//boolean as = joueur.possede(12);
 		
 		
 		Iterator<Carte> it = joueur.getMain().iterator();

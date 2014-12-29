@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import fr.utt.isi.lo02.projet.controleur.BatailleControleur;
 import fr.utt.isi.lo02.projet.modele.Carte;
 import fr.utt.isi.lo02.projet.modele.Joueur;
 import fr.utt.isi.lo02.projet.modele.StrategieJeu;
@@ -41,11 +42,15 @@ public class VueJoueur implements Observer{
 	 */
 	private JLabel nom;
 	
+	
+	private BatailleControleur controleur;
+	
 
 	
 	
 	
 	public VueJoueur(Joueur joueur) {
+		//this.controleur = controleur;
 		this.joueur = joueur;
 		this.joueur.addObserver(this);
 		this.joueur.getStrategie().addObserver(this); 
@@ -53,8 +58,7 @@ public class VueJoueur implements Observer{
 		
 		main = new JPanel();
 		FlowLayout fl = new FlowLayout(FlowLayout.LEFT);
-		//main.setSize(new Dimension(200, 200));
-		//main.setMaximumSize(new Dimension(400, 800));;
+		//TODO à cause du nom qui n'est pas de la même taille, ce n'est pas forcément aligné..
 		main.setLayout(fl);
 		
 		dessinerCarteMain();
@@ -92,6 +96,7 @@ public class VueJoueur implements Observer{
 	
 	public void dessinerCarteMain() {
 		JLabel typeCarte = new JLabel(joueur.getNom());
+		//TODO faire en sorte que les cartes soient alignées sur la gauche
 		main.add(typeCarte);
 	
 		
@@ -169,6 +174,8 @@ public class VueJoueur implements Observer{
 			this.majCartesMain();
 		} else if (arg instanceof StrategieJeu) { //jeu
 			this.majCartesMain();
+		} else if (arg instanceof String) {
+			BatailleControleur.updateJTextArea((String)arg);
 		}
 	}
 	

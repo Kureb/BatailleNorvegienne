@@ -69,9 +69,14 @@ public abstract class StrategieJeu extends BatailleAbstraite{
 		boolean estFaceUpVide = joueur.estFaceUpVide();
 		boolean estFaceDownVide = joueur.estFaceDownVide();
 		
+		
 		if (estMainVide && !estFaceUpVide) {
 			joueur.remplirMainAvecFaceUp();
-			System.out.println("La main de " + joueur.getNom() + " est vide, il prend les cartes visibles");
+			String message = "La main de " + joueur.getNom() + " est vide, il prend les cartes visibles.";
+			System.out.println(message);
+			
+			setChanged();
+			notifyObservers();
 		}
 		
 		
@@ -93,12 +98,22 @@ public abstract class StrategieJeu extends BatailleAbstraite{
 			
 			joueur.addMain(joueur.getFaceDown().getFirst());
 			joueur.getFaceDown().remove(0);
-			System.out.println("La main de " + joueur.getNom() + " est vide, il prend une carte cachée " + joueur.getMain().getFirst());
+			String message = "La main de " + joueur.getNom() + " est vide, il prend une carte cachée " + joueur.getMain().getFirst();
+			System.out.println(message);
+			
+			setChanged();
+			notifyObservers(message);
+			
 			
 			jouerEstPossible = joueur.peutJouer();
 			
 			while (jouerEstPossible && !estFaceDownVide) {
-				System.out.println(joueur.getNom() + " peut poser " + joueur.getMain().getFirst());
+				message = joueur.getNom() + " pose " + joueur.getMain().getFirst();
+				
+				setChanged();
+				notifyObservers(message);
+				
+				System.out.println(message);
 				joueur.poserCarteUnique(joueur.getMain().getFirst());
 				
 				
@@ -109,8 +124,14 @@ public abstract class StrategieJeu extends BatailleAbstraite{
 				
 				//Il a pu posr toutes les cartes à la suite
 				joueur.addMain(joueur.getFaceDown().getFirst());
-				joueur.getFaceDown().remove(0); // cette ligne merde
-				System.out.println("La main de " + joueur.getNom() + " est vide, il prend une carte cachée " + joueur.getMain().getFirst());
+				joueur.getFaceDown().remove(0); 
+				
+				message = "La main de " + joueur.getNom() + " est vide, il prend une carte cachée " + joueur.getMain().getFirst();
+				System.out.println(message);
+				
+				
+				setChanged();
+				notifyObservers(message);
 				
 				jouerEstPossible = joueur.peutJouer();
 			}
@@ -118,7 +139,12 @@ public abstract class StrategieJeu extends BatailleAbstraite{
 			// Si jouer n'est plus possible
 			// le joueur ramasse la pioche
 			if (!jouerEstPossible) {
-				System.out.println(joueur.getNom() + " ne peut pas jouer ! Il prend la pioche");
+				message = joueur.getNom() + " ne peut pas jouer ! Il prend la pioche";
+				System.out.println(message);
+				
+				setChanged();
+				notifyObservers(message);
+				
 				if (!Bataille.getInstance().getTable().isEmpty())
 					joueur.ramasserTas();
 				nb = -1;

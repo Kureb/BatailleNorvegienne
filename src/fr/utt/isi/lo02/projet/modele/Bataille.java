@@ -152,6 +152,7 @@ public class Bataille extends BatailleAbstraite {
 	public void lancerPartie() {
 		Joueur joueur = null, suivant = null;
 		boolean fin = false;
+		String message = "", mesConsole = "";
 		// position du premier joueur
 		int position = this.getPositionPremierJoueur();
 		// tant que personne n'a gagn&
@@ -167,25 +168,27 @@ public class Bataille extends BatailleAbstraite {
 			// on récupère le joueur devant jouer, il joue, on vérifie s'il a gagné
 			nbCartes = joueur.jouer();
 			fin = joueur.verifierGagner();
-			if (fin)
-				System.out.println(joueur.getNom() + " a gagne, bravo ! ");
-			else {
-				//On peut très bien gagner suite à ce tour :/
+			if (fin) {
+				message = joueur.getNom() + " à gagné, bravo ! ";
+				mesConsole = message.replace("à", "a");
+				mesConsole = message.replace("é", "e");
+				System.out.println(mesConsole);
+			} else {
 				suivant = (nbCartes == -1 ? this.getJoueurPrecedent(joueur) : this.getJoueurSuivant(joueur, nbCartes));
 				fin = joueur.verifierGagner();
 				if (!fin)
 					joueur = suivant;
-				else
-					System.out.println(joueur.getNom() + " a gagne, bravo ! ");
+				else {//On peut très bien gagner suite à ce tour donc on refait le test
+					message = joueur.getNom() + " à gagné, bravo ! ";
+					mesConsole = message.replace("à", "a");
+					mesConsole = message.replace("é", "e");
+					System.out.println(mesConsole);
+				}
 			}
 			
-		
-			
-			
-			
+			setChanged();
+			notifyObservers(message);
 		}
-		// Le gagnant est le dernier joueur si nous sommes ici
-		
 		
 	}
 
@@ -289,7 +292,7 @@ public class Bataille extends BatailleAbstraite {
 
 	public Joueur JoueurSuivantCarteSpeciale(Carte derniereCarteJouee, Joueur joueurActuel, int nbCartesJouees) {
 		Joueur suivant = null, victime = null;
-		
+		String message = "";
 		if (nbCartesJouees == 0) return JoueurSuivantCarteNormale(derniereCarteJouee, joueurActuel);
 		
 		
@@ -304,14 +307,20 @@ public class Bataille extends BatailleAbstraite {
 			case 8:
 				suivant = JoueurSuivantCarteNormale(derniereCarteJouee, joueurActuel);
 				this.getTable().clear();
-				System.out.println("Le tas est retire du jeu !");
+				message = "Le tas est retiré du jeu !";
+				setChanged();
+				notifyObservers(message);
+				System.out.println(message.replace("é", "e"));
 				break;
 			case 6: // 8
 			//Le joueur suivant passe son tour(autant que de 8 posés)	
 					suivant = JoueurSuivantCarteNormale(derniereCarteJouee, joueurActuel);
 				for (int i = 0; i < nbCartesJouees; i++) {
 					joueurActuel = suivant;
-					System.out.println(joueurActuel.getNom() + " passe son tour");
+					message = joueurActuel.getNom() + " passe son tour";
+					setChanged();
+					notifyObservers(message);
+					System.out.println(message);
 					suivant = JoueurSuivantCarteNormale(derniereCarteJouee, joueurActuel);
 				}
 				
@@ -324,23 +333,33 @@ public class Bataille extends BatailleAbstraite {
 				Joueur joueurActuelVrai = joueurActuel;
 				do {
 					victime = joueurActuel.getStrategie().choisirQuiRalentir(joueurActuel);
-					System.out.println(joueurActuel.getNom() + " victimise " + victime.getNom());
+					message = joueurActuel.getNom() + " victimise " + victime.getNom();
+					System.out.println(message);
 					suivantPeutContrer = victime.peutContrerAs();
 					if (suivantPeutContrer) {
 						carteContre = victime.getStrategie().choisirCarteContre(victime);
-						System.out.println("Mais " + victime.getNom() + " peut contrer avec un " + carteContre);
+						message = "Mais " + victime.getNom() + " peut contrer avec un " + carteContre;
+						setChanged();
+						notifyObservers(message);
+						System.out.println(message);
 						victime.poserCarteUnique(carteContre);
 						if (carteContre.getValeur() == 12) {
 							joueurActuel = victime;
 							victime = joueurActuel.getStrategie().choisirQuiRalentir(joueurActuel);
-							System.out.println(joueurActuel.getNom() + " veut ralentir " + victime.getNom());
+							message = joueurActuel.getNom() + " veut ralentir " + victime.getNom();
+							System.out.println(message);
+							setChanged();
+							notifyObservers(message);
 							suivantPeutContrer = victime.peutContrerAs();
 						} else { // si c'est un 2
 							return JoueurSuivantCarteNormale(carteContre, joueurActuelVrai);
 						}
 					} else {
 						//On envoie le tas seulement si le mec a contré avec un As
-						System.out.println(victime.getNom() + " ne peut pas contrer");
+						message = victime.getNom() + " ne peut pas contrer";
+						System.out.println(message);
+						setChanged();
+						notifyObservers();
 						//if (carteContre != null)
 						//	if (carteContre.getValeur() == 12)
 								joueurActuel.envoyerTas(victime);

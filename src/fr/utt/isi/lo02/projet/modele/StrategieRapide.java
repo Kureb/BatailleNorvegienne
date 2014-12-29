@@ -3,7 +3,6 @@ package fr.utt.isi.lo02.projet.modele;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
 
 /** Chercher à se débarasser le plus vite possible de ses cartes */
 public class StrategieRapide extends StrategieJeu {
@@ -14,15 +13,21 @@ public class StrategieRapide extends StrategieJeu {
 	/** Va chercher à créer des paires */
 	public void echangerCartes(Joueur joueur) {
 		boolean paire = joueur.peutFormerPaire();
+		String message = "";
 		if (paire) {
-			System.out.println(joueur.getNom() + " echange des cartes");
 			Carte carteUp = joueur.getCarteUpPourFormerPaire();
 			Carte carteMain = joueur.getCarteMainSacrificePourFormerPaire(carteUp);
 			joueur.echangerCarte(carteMain, carteUp);
-			System.out.println(joueur.getNom() + " a echange " + carteMain + " VS " + carteUp + " afin d'avoir une paire.");
+			message = joueur.getNom() + " a echangé " + carteMain + " VS " + carteUp + " afin d'avoir une paire.";
+			System.out.println(message);
 		} else {
-			System.out.println(joueur.getNom() + " n'a pas juge necessaire d'echanger des cartes");
+			message = joueur.getNom() + " n'a pas jugé nécessaire d'échanger des cartes.";
+			System.out.println(message);
 		}
+		
+		setChanged();
+		notifyObservers(message);
+		
 		
 	}
 
@@ -64,13 +69,17 @@ public class StrategieRapide extends StrategieJeu {
 			}
 		}
 		
-		
-		System.out.print(joueur.getNom() + " joue ");
+		String message = joueur.getNom() + " joue ";
+		System.out.print(message);
 		Iterator<Carte> itt = cartes.iterator();
 		while (itt.hasNext()) {
-			System.out.print(itt.next() + " ");
+			message += itt.next() + " ";
+			//System.out.print(itt.next() + " ");
 		}
-		System.out.println("");
+		System.out.println(message);
+		
+		setChanged();
+		notifyObservers(message);
 		
 		
 		return cartes;
