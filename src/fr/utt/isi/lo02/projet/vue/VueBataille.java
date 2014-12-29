@@ -143,13 +143,13 @@ public class VueBataille implements Observer {
 				log.append(lolz.toString()+ "\n");
 				this.majTas(null);
 			} else if (lolz.equals("pioche")) {
-				log.append("ramasse le tas\n");
+				log.append("La pioche est maintenant vide"); //= "ramasse le tas\n";
 				this.effacePioche();
 			}
 
 		}
 		
-		log.setCaretPosition(log.getDocument().getLength());
+		log.setCaretPosition(log.getDocument().getLength()); //Pour scroller automatiquement
 		
 
 	}
@@ -157,7 +157,7 @@ public class VueBataille implements Observer {
 	
 
 	private void effacePioche() {
-		this.pile.setIcon(null);
+		this.pile.setIcon(new ImageIcon("img/tasvide.png"));
 		
 	}
 

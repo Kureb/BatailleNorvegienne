@@ -390,6 +390,8 @@ public class Bataille extends BatailleAbstraite {
 	
 	public void clearPioche() {
 		this.pioche.clear();
+		setChanged();
+		notifyObservers("pioche");
 	}
 
 

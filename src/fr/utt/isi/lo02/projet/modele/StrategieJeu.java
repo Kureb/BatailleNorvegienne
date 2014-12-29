@@ -54,6 +54,7 @@ public abstract class StrategieJeu extends BatailleAbstraite{
 											.size() - 1);
 						}
 						vide = Bataille.getInstance().getPioche().isEmpty();
+						if (vide) Bataille.getInstance().clearPioche();
 					}
 				} 
 				nb = cartes.size();
