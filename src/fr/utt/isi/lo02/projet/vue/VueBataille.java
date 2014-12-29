@@ -1,10 +1,9 @@
 package fr.utt.isi.lo02.projet.vue;
 
 import java.awt.BorderLayout;
-import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.io.PrintStream;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Observable;
@@ -12,6 +11,7 @@ import java.util.Observer;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -19,7 +19,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import fr.utt.isi.lo02.projet.controleur.BatailleControleur;
-import fr.utt.isi.lo02.projet.controleur.JTextAreaPerso;
 import fr.utt.isi.lo02.projet.modele.Bataille;
 import fr.utt.isi.lo02.projet.modele.Carte;
 import fr.utt.isi.lo02.projet.modele.Joueur;
@@ -51,7 +50,7 @@ public class VueBataille implements Observer {
 	
 	
 	
-	public VueBataille(Bataille modele) {
+	public VueBataille(final Bataille modele) {
 		
 		this.modele = modele;
 		modele.addObserver(this);
@@ -107,8 +106,18 @@ public class VueBataille implements Observer {
 		*/
 		scrollPane = new JScrollPane(log);
 		
-		fenetre.add(scrollPane, BorderLayout.SOUTH);
+		JButton continuer = new JButton("continuer");
+		
+		continuer.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent me) {
+				modele.continuer();
+			}
+		});
+		
+		
+		fenetre.add(scrollPane, BorderLayout.NORTH);
 		fenetre.add(scroll, BorderLayout.WEST);
+		fenetre.add(continuer, BorderLayout.SOUTH);
 		fenetre.add(panelTapis, BorderLayout.EAST);
 		
 		
@@ -130,33 +139,33 @@ public class VueBataille implements Observer {
 		// controleur.changerTas(((Carte) arg));
 
 		if (arg instanceof Carte) {
-			String text = log.getText();
-			log.append("Dernière carte jouée : "
-					+ ((Carte) arg).toString() + "\n");
-
 			this.majTas(((Carte) arg));
 		} else if (arg instanceof String) {
 			String lolz = ((String) arg.toString());
 			if (lolz.equals("Le tas est vide")) {
-				String text = log.getText();
-				//log.setText(text + lolz.toString() + "\n");
-				log.append(lolz.toString()+ "\n");
 				this.majTas(null);
 			} else if (lolz.equals("pioche")) {
-				log.append("La pioche est maintenant vide"); //= "ramasse le tas\n";
+				this.updateJTextArea("La pioche est maintenant vide"); 
 				this.effacePioche();
+			} else if (lolz.contains("gagné")){
+				this.updateJTextArea(lolz.toString());
 			}
 
 		}
 		
-		log.setCaretPosition(log.getDocument().getLength()); //Pour scroller automatiquement
+		
 		
 
 	}
 	
 	
+	public void updateJTextArea(String message) {
+		this.log.append(message + "\n");
+		log.setCaretPosition(log.getDocument().getLength()); //Pour scroller automatiquement
+	}
+	
 
-	private void effacePioche() {
+	public void effacePioche() {
 		this.pile.setIcon(new ImageIcon("img/tasvide.png"));
 		
 	}

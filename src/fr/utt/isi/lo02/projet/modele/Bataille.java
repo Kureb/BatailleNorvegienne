@@ -6,7 +6,7 @@ import java.util.Observable;
 
 
 
-public class Bataille extends BatailleAbstraite {
+public class Bataille extends BatailleAbstraite{
 
 	/**
 	 * Suit le modèle Singleton car ne pourra être instancié qu'une fois par
@@ -21,6 +21,8 @@ public class Bataille extends BatailleAbstraite {
 	private ArrayList<Carte> pioche;
 	/** tas où les joueurs posent leurs cartes */
 	private ArrayList<Carte> table;
+	
+	private boolean continuer;
 
 	/**
 	 * Constructeur privé d'une bataille pour garantir
@@ -31,7 +33,7 @@ public class Bataille extends BatailleAbstraite {
 		jeuDeCartes = new JeuDeCartes();
 		pioche = new ArrayList<>();
 		table = new ArrayList<>();
-		
+		continuer = false;
 
 		
 	}
@@ -159,18 +161,14 @@ public class Bataille extends BatailleAbstraite {
 		joueur = this.getJoueurs().get(position);
 		int nbCartes;
 		while (!fin) {
-			try {
-				Thread.sleep(1000);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
 			System.out.println("-- Tour de " + joueur.getNom());
 			// on récupère le joueur devant jouer, il joue, on vérifie s'il a gagné
 			nbCartes = joueur.jouer();
 			fin = joueur.verifierGagner();
+			// this.attendre(); //TODO trouver pour mettre en pause et reprendre à l'appui du bouton
 			if (fin) {
-				message = joueur.getNom() + " à gagné, bravo ! ";
-				mesConsole = message.replace("à", "a");
+				message = joueur.getNom() + " a gagné, bravo ! ";
+				//mesConsole = message.replace("à", "a");
 				mesConsole = message.replace("é", "e");
 				System.out.println(mesConsole);
 			} else {
@@ -179,17 +177,36 @@ public class Bataille extends BatailleAbstraite {
 				if (!fin)
 					joueur = suivant;
 				else {//On peut très bien gagner suite à ce tour donc on refait le test
-					message = joueur.getNom() + " à gagné, bravo ! ";
-					mesConsole = message.replace("à", "a");
+					message = joueur.getNom() + " a gagné, bravo ";
+					//mesConsole = message.replace("à", "a");
 					mesConsole = message.replace("é", "e");
 					System.out.println(mesConsole);
+					
 				}
 			}
 			
 			setChanged();
 			notifyObservers(message);
+			
+			//continuer = false;
 		}
 		
+		
+	}
+
+	
+	public void attendre() {
+		while (!continuer) {
+			try {
+				Thread.sleep(200);
+			} catch (Exception e) {
+				//e.printStackTrace();
+			}
+		}
+	}
+	
+	public void continuer() {
+		this.continuer = true;
 	}
 
 	private Joueur getJoueurPrecedent(Joueur joueur) {
@@ -412,6 +429,9 @@ public class Bataille extends BatailleAbstraite {
 		setChanged();
 		notifyObservers("pioche");
 	}
+
+	
+
 
 
 }
