@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Observable;
@@ -18,6 +19,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import fr.utt.isi.lo02.projet.controleur.BatailleControleur;
+import fr.utt.isi.lo02.projet.controleur.JTextAreaPerso;
 import fr.utt.isi.lo02.projet.modele.Bataille;
 import fr.utt.isi.lo02.projet.modele.Carte;
 import fr.utt.isi.lo02.projet.modele.Joueur;
@@ -59,8 +61,8 @@ public class VueBataille implements Observer {
 		
 		fenetre = new JFrame("Bataille Norvégienne");
 		fenetre.setLayout(new BorderLayout());
-		fenetre.setMaximumSize(new Dimension(1000, 800));
-		
+		//fenetre.setMaximumSize(new Dimension(1000, 1000));
+		fenetre.setResizable(false);
 		
 		//Container reservoir = fenetre.getContentPane();
 		
@@ -95,6 +97,14 @@ public class VueBataille implements Observer {
 		log = new JTextArea();
 		log.setEditable(false);
 		log.setRows(5);
+		/*
+		// Redirection de la sortie vers notre jtextareaperso
+		JTextAreaPerso jtap = new JTextAreaPerso(log);
+		PrintStream printStream = new PrintStream(jtap);
+		System.setOut(printStream);
+		System.setErr(printStream);
+		// Fin redirection de la sortie vers notre jtextareaperso
+		*/
 		scrollPane = new JScrollPane(log);
 		
 		fenetre.add(scrollPane, BorderLayout.SOUTH);
@@ -104,10 +114,10 @@ public class VueBataille implements Observer {
 		
 		
 		
-		
 		fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		fenetre.pack();
 		fenetre.setVisible(true);
+		fenetre.setLocationRelativeTo(null);;
 		
 		
 		
