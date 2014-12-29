@@ -27,15 +27,16 @@ public class JeuGraphique  {
 		// ou si Pas de joueur physique
 		
 		Joueur Maxime = new Joueur("Maxime", new StrategieRapide());
-		Scrambler Alexandre = new Scrambler("Alexandre");
-	
+		Scrambler Alexandre = new Scrambler("Alexandre", new StrategieSpeciale());
+		Joueur Robin = new Joueur("Robin", new StrategieRapide());
 		
 		
 		
-		((Bataille) bataille).addJoueur(Alexandre);
-		((Bataille) bataille).addJoueur(Diane);
-		((Bataille) bataille).addJoueur(Benjamin);
-		((Bataille) bataille).addJoueur(Maxime);
+		bataille.addJoueur(Alexandre);
+		bataille.addJoueur(Diane);
+		bataille.addJoueur(Benjamin);
+		bataille.addJoueur(Maxime);
+		bataille.addJoueur(Robin);
 	
 		Alexandre.distribuerPaquet((Bataille) bataille);
 		
@@ -46,16 +47,11 @@ public class JeuGraphique  {
 		
 		
 		// première phase de la bataille
-		((Bataille) bataille).echangerCartes();
+		bataille.echangerCartes();
 		
-		//batailleControleur.changerTas();
 		
 		bataille.lancerPartie();
 		
-		//vueBataille.majTas();
-		
-		// seconde phase de la bataille
-		// Bataille.getInstance().lancerPartie();
 		
 	}
 
