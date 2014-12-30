@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Scanner;
+
 
 /**
  * Représente le Joueur
@@ -138,7 +138,8 @@ public class Joueur extends BatailleAbstraite{
 	 */
 	public void echangerCarte(Carte carteMain, Carte carteVisible) {
 		// On vérifie que les cartes sont bien à l'endroit indiqué TODO essayer
-		if (this.faceUp.contains(carteVisible) && this.main.contains(carteMain)) {
+		if (this.possedeFaceUp(carteVisible) && this.possedeMain(carteMain)) { 
+			//System.out.println("ca semble ok");
 			this.faceUp.add(carteMain);
 			this.main.remove(carteMain);
 			this.main.add(carteVisible);
@@ -146,8 +147,7 @@ public class Joueur extends BatailleAbstraite{
 			
 			setChanged();
 			notifyObservers(this);
-			
-		}
+		}	
 		
 		
 	}
@@ -157,10 +157,12 @@ public class Joueur extends BatailleAbstraite{
 	 */
 	public void proposerChangerCartes() {
 		
-		//new proposerChangerCartesVue(this);
-		
+		//new ProposerChangerCartes(this);
+		setChanged();
+		notifyObservers("echange");
 		
 		//System.out.println(this.toString());
+		/*
 		System.out.println(this);
 		Scanner sc = new Scanner(System.in);
 		System.out.print(this.getNom()
@@ -171,7 +173,7 @@ public class Joueur extends BatailleAbstraite{
 		Carte carteMain = this.main.get(--carteM);
 		Carte carteVisible = this.faceUp.get(--carteV);
 		this.echangerCarte(carteMain, carteVisible);
-		
+		*/
 		
 	}
 	
@@ -312,7 +314,7 @@ public class Joueur extends BatailleAbstraite{
 	public void envoyerTas(Joueur suivant) {
 		if (!suivant.peutContrerAs()) {
 			String message = this.getNom() + " envoie le tas à " + suivant.getNom();
-			System.out.println(message.replace("à", "a"));
+			//System.out.println(message.replace("à", "a"));
 			
 			setChanged();
 			notifyObservers(message);
@@ -509,7 +511,7 @@ public class Joueur extends BatailleAbstraite{
 
 	public void ramasserTas() {
 		String message = this.getNom() + " ramasse le tas car il ne peut pas jouer";
-		System.out.println(message);
+		//System.out.println(message);
 		
 		setChanged();
 		notifyObservers(message);
@@ -540,6 +542,31 @@ public class Joueur extends BatailleAbstraite{
 		return false;
 	}
 	
+	
+	public boolean possedeFaceUp(Carte carte) {
+		Iterator<Carte> it = this.getFaceUp().iterator();
+		Carte c = null;
+		while (it.hasNext()){
+			c = it.next();
+			if (c.getCouleur() == carte.getCouleur() && c.getValeur() == carte.getValeur())
+				return true;
+		}
+		
+		return false;
+	}
+	
+	
+	public boolean possedeMain(Carte carte) {
+		Iterator<Carte> it = this.getMain().iterator();
+		Carte c = null;
+		while (it.hasNext()){
+			c = it.next();
+			if (c.getCouleur() == carte.getCouleur() && c.getValeur() == carte.getValeur())
+				return true;
+		}
+		
+		return false;
+	}
 	
 	
 	public boolean estMainVide () {

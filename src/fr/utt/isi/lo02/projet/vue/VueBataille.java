@@ -93,9 +93,9 @@ public class VueBataille implements Observer {
 			
 		}
 		
-		log = new JTextArea();
-		log.setEditable(false);
-		log.setRows(5);
+		setLog(new JTextArea());
+		getLog().setEditable(false);
+		getLog().setRows(5);
 		/*
 		// Redirection de la sortie vers notre jtextareaperso
 		JTextAreaPerso jtap = new JTextAreaPerso(log);
@@ -104,7 +104,7 @@ public class VueBataille implements Observer {
 		System.setErr(printStream);
 		// Fin redirection de la sortie vers notre jtextareaperso
 		*/
-		scrollPane = new JScrollPane(log);
+		scrollPane = new JScrollPane(getLog());
 		
 		JButton continuer = new JButton("continuer");
 		
@@ -145,10 +145,10 @@ public class VueBataille implements Observer {
 			if (lolz.equals("Le tas est vide")) {
 				this.majTas(null);
 			} else if (lolz.equals("pioche")) {
-				this.updateJTextArea("La pioche est maintenant vide"); 
+				controleur.updateJTextArea("La pioche est maintenant vide"); 
 				this.effacePioche();
 			} else if (lolz.contains("gagné")){
-				this.updateJTextArea(lolz.toString());
+				controleur.updateJTextArea(lolz.toString());
 			}
 
 		}
@@ -158,11 +158,11 @@ public class VueBataille implements Observer {
 
 	}
 	
-	
+	/*
 	public void updateJTextArea(String message) {
-		this.log.append(message + "\n");
-		log.setCaretPosition(log.getDocument().getLength()); //Pour scroller automatiquement
-	}
+		this.getLog().append(message + "\n");
+		getLog().setCaretPosition(getLog().getDocument().getLength()); //Pour scroller automatiquement
+	}*/
 	
 
 	public void effacePioche() {
@@ -187,6 +187,14 @@ public class VueBataille implements Observer {
 			this.tas.setIcon(new ImageIcon(chemin));
 		}
 		
+	}
+
+	public JTextArea getLog() {
+		return log;
+	}
+
+	public void setLog(JTextArea log) {
+		this.log = log;
 	}
 
 }

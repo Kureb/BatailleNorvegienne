@@ -28,7 +28,7 @@ public class JeuGraphique implements Runnable {
 		// ou si Pas de joueur physique
 		
 		Joueur Maxime = new Joueur("Maxime", new StrategieRapide());
-		Scrambler Alexandre = new Scrambler("Alexandre", new StrategieSpeciale());
+		Scrambler Alexandre = new Scrambler("Alexandre");
 		Joueur Robin = new Joueur("Robin", new StrategieRapide());
 		
 		

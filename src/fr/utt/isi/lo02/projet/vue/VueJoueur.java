@@ -2,6 +2,8 @@ package fr.utt.isi.lo02.projet.vue;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Observable;
@@ -13,16 +15,18 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import fr.utt.isi.lo02.projet.controleur.BatailleControleur;
+import fr.utt.isi.lo02.projet.controleur.ControleurAbstrait;
 import fr.utt.isi.lo02.projet.modele.Carte;
 import fr.utt.isi.lo02.projet.modele.Joueur;
 import fr.utt.isi.lo02.projet.modele.StrategieJeu;
+import fr.utt.isi.lo02.projet.modele.StrategieRelle;
 
 /**
  * Représente graphiquement un joueur
  * @author daussy
  *
  */
-public class VueJoueur implements Observer{
+public class VueJoueur implements Observer {
 	
 	/**
 	 * Le joueur a représenter 
@@ -106,7 +110,17 @@ public class VueJoueur implements Observer{
 		while (it.hasNext()) {
 			VueCarte vc = new VueCarte(it.next());
 			carteGraphique.add(vc);
-			JLabel carte = vc.getImage();
+			final JLabel carte = vc.getImage();
+			if (joueur.getStrategie() instanceof StrategieRelle) {
+				carte.addMouseListener(new MouseAdapter() {
+					public void mouseClicked(MouseEvent me) {
+						if (carte.getBorder() == null) 
+							carte.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+						else
+							carte.setBorder(null);
+					}				
+				});
+			}
 			main.add(carte);
 		}
 		
@@ -175,7 +189,10 @@ public class VueJoueur implements Observer{
 		} else if (arg instanceof StrategieJeu) { //jeu
 			this.majCartesMain();
 		} else if (arg instanceof String) {
-			BatailleControleur.updateJTextArea((String)arg);
+			if (((String) arg.toString()).equals("echange"))
+				BatailleControleur.fenetreChoixEchangeJoueurReel(this.getJoueur());
+			else
+				BatailleControleur.updateJTextArea((String)arg);
 		}
 	}
 	

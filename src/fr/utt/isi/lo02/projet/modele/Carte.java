@@ -4,6 +4,7 @@ package fr.utt.isi.lo02.projet.modele;
  * Classe modélisant une carte
  * @author daussy
  * source : utt moodle
+ * modifiée pour correspondre à nos besoins
  */
 
 public class Carte implements java.lang.Comparable {
@@ -193,6 +194,12 @@ public class Carte implements java.lang.Comparable {
 		if (valeurAutre > valeurThis) retour = -1;
 		
 		return retour;
+	}
+	
+	
+	@Override
+	public boolean equals(Object o) {
+		return this.compareTo(o) == 0 ? true : false;		
 	}
 	
 	

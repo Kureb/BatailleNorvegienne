@@ -133,13 +133,14 @@ public class Bataille extends BatailleAbstraite{
 		Iterator<Joueur> it = this.joueurs.iterator();
 		Joueur joueur;
 		while (it.hasNext()) {
-			try {
+		/*	try {
 				Thread.sleep(1000);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			 joueur = it.next();
-			 joueur.echangerCartes();
+			*/
+			joueur = it.next();
+			joueur.echangerCartes();
 		}
 		
 		
@@ -161,16 +162,16 @@ public class Bataille extends BatailleAbstraite{
 		joueur = this.getJoueurs().get(position);
 		int nbCartes;
 		while (!fin) {
-			System.out.println("-- Tour de " + joueur.getNom());
+			//System.out.println("-- Tour de " + joueur.getNom());
 			// on récupère le joueur devant jouer, il joue, on vérifie s'il a gagné
 			nbCartes = joueur.jouer();
 			fin = joueur.verifierGagner();
-			// this.attendre(); //TODO trouver pour mettre en pause et reprendre à l'appui du bouton
+			this.attendre(); //TODO trouver pour mettre en pause et reprendre à l'appui du bouton
 			if (fin) {
 				message = joueur.getNom() + " a gagné, bravo ! ";
 				//mesConsole = message.replace("à", "a");
 				mesConsole = message.replace("é", "e");
-				System.out.println(mesConsole);
+				//System.out.println(mesConsole);
 			} else {
 				suivant = (nbCartes == -1 ? this.getJoueurPrecedent(joueur) : this.getJoueurSuivant(joueur, nbCartes));
 				fin = joueur.verifierGagner();
@@ -180,7 +181,7 @@ public class Bataille extends BatailleAbstraite{
 					message = joueur.getNom() + " a gagné, bravo ";
 					//mesConsole = message.replace("à", "a");
 					mesConsole = message.replace("é", "e");
-					System.out.println(mesConsole);
+					//System.out.println(mesConsole);
 					
 				}
 			}
@@ -188,7 +189,7 @@ public class Bataille extends BatailleAbstraite{
 			setChanged();
 			notifyObservers(message);
 			
-			//continuer = false;
+			continuer = false;
 		}
 		
 		
@@ -327,7 +328,7 @@ public class Bataille extends BatailleAbstraite{
 				message = "Le tas est retiré du jeu !";
 				setChanged();
 				notifyObservers(message);
-				System.out.println(message.replace("é", "e"));
+				//System.out.println(message.replace("é", "e"));
 				break;
 			case 6: // 8
 			//Le joueur suivant passe son tour(autant que de 8 posés)	
@@ -337,7 +338,7 @@ public class Bataille extends BatailleAbstraite{
 					message = joueurActuel.getNom() + " passe son tour";
 					setChanged();
 					notifyObservers(message);
-					System.out.println(message);
+					//System.out.println(message);
 					suivant = JoueurSuivantCarteNormale(derniereCarteJouee, joueurActuel);
 				}
 				
@@ -351,20 +352,20 @@ public class Bataille extends BatailleAbstraite{
 				do {
 					victime = joueurActuel.getStrategie().choisirQuiRalentir(joueurActuel);
 					message = joueurActuel.getNom() + " victimise " + victime.getNom();
-					System.out.println(message);
+					//System.out.println(message);
 					suivantPeutContrer = victime.peutContrerAs();
 					if (suivantPeutContrer) {
 						carteContre = victime.getStrategie().choisirCarteContre(victime);
 						message = "Mais " + victime.getNom() + " peut contrer avec un " + carteContre;
 						setChanged();
 						notifyObservers(message);
-						System.out.println(message);
+						//System.out.println(message);
 						victime.poserCarteUnique(carteContre);
 						if (carteContre.getValeur() == 12) {
 							joueurActuel = victime;
 							victime = joueurActuel.getStrategie().choisirQuiRalentir(joueurActuel);
 							message = joueurActuel.getNom() + " veut ralentir " + victime.getNom();
-							System.out.println(message);
+							//System.out.println(message);
 							setChanged();
 							notifyObservers(message);
 							suivantPeutContrer = victime.peutContrerAs();
@@ -374,7 +375,7 @@ public class Bataille extends BatailleAbstraite{
 					} else {
 						//On envoie le tas seulement si le mec a contré avec un As
 						message = victime.getNom() + " ne peut pas contrer";
-						System.out.println(message);
+						//System.out.println(message);
 						setChanged();
 						notifyObservers();
 						//if (carteContre != null)

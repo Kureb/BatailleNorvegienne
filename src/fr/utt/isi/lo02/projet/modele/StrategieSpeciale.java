@@ -53,7 +53,7 @@ public class StrategieSpeciale extends StrategieJeu {
 			//System.out.print(itt.next() + " ");
 		}
 		message += ".";
-		System.out.println(message);
+		//System.out.println(message);
 		
 		setChanged();
 		notifyObservers(message);
@@ -75,7 +75,7 @@ public class StrategieSpeciale extends StrategieJeu {
 				Carte main = joueur.getCarteNormalMain();
 				message = (joueur.getNom() + " a sacrifié " + main + " pour avoir " + carteSpec + "."); 
 						
-				System.out.println(message.replace("é", "e"));
+				//System.out.println(message.replace("é", "e"));
 				
 				joueur.echangerCarte(main, carteSpec);
 				//System.out.println(joueur);
@@ -86,7 +86,7 @@ public class StrategieSpeciale extends StrategieJeu {
 			
 		} else {
 			message = joueur.getNom() + " n'a pas jugé utile d'échanger ses cartes.";
-			System.out.println(message.replace("é", "e"));
+			//System.out.println(message.replace("é", "e"));
 		}
 		
 		setChanged();

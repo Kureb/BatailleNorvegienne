@@ -19,10 +19,10 @@ public class StrategieRapide extends StrategieJeu {
 			Carte carteMain = joueur.getCarteMainSacrificePourFormerPaire(carteUp);
 			joueur.echangerCarte(carteMain, carteUp);
 			message = joueur.getNom() + " a echangé " + carteMain + " VS " + carteUp + " afin d'avoir une paire.";
-			System.out.println(message);
+			//System.out.println(message);
 		} else {
 			message = joueur.getNom() + " n'a pas jugé nécessaire d'échanger des cartes.";
-			System.out.println(message);
+			//System.out.println(message);
 		}
 		
 		setChanged();
@@ -70,13 +70,13 @@ public class StrategieRapide extends StrategieJeu {
 		}
 		
 		String message = joueur.getNom() + " joue ";
-		System.out.print(message);
+		//System.out.print(message);
 		Iterator<Carte> itt = cartes.iterator();
 		while (itt.hasNext()) {
 			message += itt.next() + " ";
 			//System.out.print(itt.next() + " ");
 		}
-		System.out.println(message);
+		//System.out.println(message);
 		
 		setChanged();
 		notifyObservers(message);

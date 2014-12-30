@@ -1,15 +1,11 @@
 package fr.utt.isi.lo02.projet.vue;
 
-import java.awt.BorderLayout;
-import java.awt.Container;
-import java.awt.FlowLayout;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import fr.utt.isi.lo02.projet.modele.Carte;
@@ -66,7 +62,7 @@ public class VueCarte {
 		this.image = image;
 	}
 	
-	
+/*	
 	public static void main(String[] args) {
 		Carte carte = new Carte(2, 2);
 		Carte carte2 = new Carte(10, 0);
@@ -86,6 +82,6 @@ public class VueCarte {
 		
 		
 	}
-	
+*/	
 	
 }

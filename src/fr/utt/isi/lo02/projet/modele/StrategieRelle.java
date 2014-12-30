@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Scanner;
 
+
 /**
  * Permet de définir comment va jouer un joueur réel
  * @author daussy
@@ -32,8 +33,8 @@ public class StrategieRelle extends StrategieJeu {
 		if (!Bataille.getInstance().getTable().isEmpty()) {
 			int indexDernierElement = Bataille.getInstance().getTable().size()-1;
 			derniereCarteJouee = Bataille.getInstance().getTable().get(indexDernierElement);
-			System.out.println("La derniere carte jouee etait : "
-					+ derniereCarteJouee);
+			//System.out.println("La derniere carte jouee etait : "
+			//		+ derniereCarteJouee);
 
 		}
 		boolean choix_ok = false;
@@ -98,10 +99,10 @@ public class StrategieRelle extends StrategieJeu {
 			message += itt.next() + " ";
 			//System.out.print(itt.next() + " ");
 		}
-		System.out.println(message);
+		//System.out.println(message);
 		
 		setChanged();
-		notifyObservers();
+		notifyObservers(message);
 		
 		
 		return cartes;
@@ -115,6 +116,7 @@ public class StrategieRelle extends StrategieJeu {
 	 */
 	@Override
 	public void echangerCartes(Joueur joueur) {
+		/*
 		System.out.println(joueur);
 		int rep;
 		Scanner sc = new Scanner(System.in);
@@ -127,6 +129,8 @@ public class StrategieRelle extends StrategieJeu {
 				joueur.proposerChangerCartes();
 			
 		} while (rep != 2);
+	*/
+		joueur.proposerChangerCartes();
 	}
 
 	@Override

@@ -19,7 +19,7 @@ public abstract class StrategieJeu extends BatailleAbstraite{
 
 	public int jouerCarte(Joueur joueur) {
 		//System.out.println(joueur);
-		System.out.println(joueur);
+		//System.out.println(joueur);
 		boolean estMainVide = joueur.estMainVide();
 		boolean jouerEstPossible = false;
 		int nb = 0;
@@ -73,10 +73,10 @@ public abstract class StrategieJeu extends BatailleAbstraite{
 		if (estMainVide && !estFaceUpVide) {
 			joueur.remplirMainAvecFaceUp();
 			String message = "La main de " + joueur.getNom() + " est vide, il prend les cartes visibles.";
-			System.out.println(message);
+			//System.out.println(message);
 			
 			setChanged();
-			notifyObservers();
+			notifyObservers(message);
 		}
 		
 		
@@ -99,7 +99,7 @@ public abstract class StrategieJeu extends BatailleAbstraite{
 			joueur.addMain(joueur.getFaceDown().getFirst());
 			joueur.getFaceDown().remove(0);
 			String message = "La main de " + joueur.getNom() + " est vide, il prend une carte cachée " + joueur.getMain().getFirst();
-			System.out.println(message);
+			//System.out.println(message);
 			
 			setChanged();
 			notifyObservers(message);
@@ -113,7 +113,7 @@ public abstract class StrategieJeu extends BatailleAbstraite{
 				setChanged();
 				notifyObservers(message);
 				
-				System.out.println(message);
+				//System.out.println(message);
 				joueur.poserCarteUnique(joueur.getMain().getFirst());
 				
 				
@@ -127,7 +127,7 @@ public abstract class StrategieJeu extends BatailleAbstraite{
 				joueur.getFaceDown().remove(0); 
 				
 				message = "La main de " + joueur.getNom() + " est vide, il prend une carte cachée " + joueur.getMain().getFirst();
-				System.out.println(message);
+				//System.out.println(message);
 				
 				
 				setChanged();
@@ -140,7 +140,7 @@ public abstract class StrategieJeu extends BatailleAbstraite{
 			// le joueur ramasse la pioche
 			if (!jouerEstPossible) {
 				message = joueur.getNom() + " ne peut pas jouer ! Il prend la pioche";
-				System.out.println(message);
+				//System.out.println(message);
 				
 				setChanged();
 				notifyObservers(message);
@@ -154,8 +154,8 @@ public abstract class StrategieJeu extends BatailleAbstraite{
 		
 		
 			
-		System.out.println(joueur);
-		System.out.println("\n\n");
+		//System.out.println(joueur);
+		//System.out.println("\n\n");
 		
 		setChanged();
 		notifyObservers(this);
