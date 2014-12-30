@@ -8,10 +8,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -20,13 +20,15 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import fr.utt.isi.lo02.projet.controleur.BatailleControleur;
-import fr.utt.isi.lo02.projet.controleur.ControleurAbstrait;
 import fr.utt.isi.lo02.projet.modele.Carte;
 import fr.utt.isi.lo02.projet.modele.Joueur;
 import fr.utt.isi.lo02.projet.modele.StrategieRelle;
 
 public class DialogChangerCartes extends JDialog {
 	
+	
+	private ArrayList<Carte> cartesMain;
+	private ArrayList<Carte> cartesVisibles;
 	private JLabel icon;
 	private JTextField nom;
 	private Carte carteMain;
@@ -36,6 +38,8 @@ public class DialogChangerCartes extends JDialog {
 	
 	 public DialogChangerCartes(JFrame parent, String title, boolean modal, Joueur joueur){
 		    super(parent, title, modal);
+		    this.cartesMain = new ArrayList<>();
+		    this.cartesVisibles = new ArrayList<>();
 		    this.joueur = joueur;
 		    this.setSize(550, 270);
 		    this.setLocationRelativeTo(null);
@@ -74,11 +78,15 @@ public class DialogChangerCartes extends JDialog {
 							if (vc.getImage().getBorder() == null) {
 								vc.getImage().setBorder(BorderFactory.createLineBorder(Color.black));
 								carteMain = new Carte(vc.getCarte().getValeur(), vc.getCarte().getCouleur());
-								//String msg = vc.getCarte().getValeur() + " " + vc.getCarte().getCouleur();
-								//valider.setText(msg);
+								if (!cartesMain.contains(carteMain))
+									cartesMain.add(carteMain);
 							} else {
+								carteMain = new Carte(vc.getCarte().getValeur(), vc.getCarte().getCouleur());
+								if (cartesMain.contains(carteMain))
+									cartesMain.remove(carteMain);
 								vc.getImage().setBorder(null);
 								carteMain = null;
+								
 							}	
 						}				
 					});
@@ -102,7 +110,12 @@ public class DialogChangerCartes extends JDialog {
 							if (vc.getImage().getBorder() == null) {
 								vc.getImage().setBorder(BorderFactory.createLineBorder(Color.black));
 								carteVisible = new Carte(vc.getCarte().getValeur(), vc.getCarte().getCouleur());
+								if (!cartesVisibles.contains(carteVisible))
+									cartesVisibles.add(carteVisible);
 							} else {
+								carteVisible = new Carte(vc.getCarte().getValeur(), vc.getCarte().getCouleur());
+								if (cartesVisibles.contains(carteVisible))
+									cartesVisibles.remove(carteVisible);
 								vc.getImage().setBorder(null);
 								carteVisible = null;
 							}
@@ -118,7 +131,7 @@ public class DialogChangerCartes extends JDialog {
 		    
 		    okBouton.addActionListener(new ActionListener(){
 		      public void actionPerformed(ActionEvent e) {  
-		    	  if (carteVisible != null && carteMain != null)
+		    	  if (cartesVisibles.size() != 0 && cartesVisibles.size() == cartesMain.size())
 		    		  //BatailleControleur.echange(joueur, carteVisible, carteMain);
 		    		  //joueur.echangerCarte(carteMain, carteVisible);
 		    	  	  setVisible(false);
@@ -184,6 +197,21 @@ public class DialogChangerCartes extends JDialog {
 	public void setJoueur(Joueur joueur) {
 		this.joueur = joueur;
 	}  
+	
+	
+	public ArrayList<Carte> getCartesMain() {
+		return cartesMain;
+	}
+
+
+
+	public ArrayList<Carte> getCartesVisibles() {
+		return cartesVisibles;
+	}
+
+
+
+	
   
   
   
