@@ -184,7 +184,7 @@ public class VueJoueur implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		if (arg instanceof Joueur) { //échange de cartes
+		if (arg instanceof Joueur) { //échange de cartes ou se prend la pioche
 			this.majCartesMain();
 		} else if (arg instanceof StrategieJeu) { //jeu
 			this.majCartesMain();

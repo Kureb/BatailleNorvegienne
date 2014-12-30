@@ -145,10 +145,12 @@ public class VueBataille implements Observer {
 			if (lolz.equals("Le tas est vide")) {
 				this.majTas(null);
 			} else if (lolz.equals("pioche")) {
-				controleur.updateJTextArea("La pioche est maintenant vide"); 
+				BatailleControleur.updateJTextArea("La pioche est maintenant vide"); 
 				this.effacePioche();
 			} else if (lolz.contains("gagné")){
-				controleur.updateJTextArea(lolz.toString());
+				BatailleControleur.updateJTextArea(lolz.toString());
+			} else {
+				BatailleControleur.updateJTextArea(lolz.toString());
 			}
 
 		}
