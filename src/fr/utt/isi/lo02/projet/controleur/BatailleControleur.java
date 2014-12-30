@@ -52,14 +52,14 @@ public class BatailleControleur {
 	}
 	
 	
-	public static Carte fenetreChoixCarteJouer(Joueur joueur) {
+	public static ArrayList<Carte> fenetreChoixCarteJouer(Joueur joueur) {
 		
 		DialogJouerCarte dialog = new DialogJouerCarte(null, "Quelle carte jouer ?", true, joueur);
 		//Carte carte = DialogJouerCarte.openForm(null, joueur);
 		dialog.setVisible(true);
-		Carte carte = dialog.getCarteMain();
-		if (dialog.getCarteMain() != null)
-			return carte;
+		ArrayList<Carte> cartes = dialog.getCartes();
+		if (cartes.size() != 0)
+			return cartes;
 		else return null;
 		//dialog.setVisible(true);
 		//if (dialog.getCarteMain() != null){
@@ -68,10 +68,10 @@ public class BatailleControleur {
 		//}
 	}
 
-	private static void jouer(Joueur joueur, Carte carteMain) {
-		joueur.poserCarteUnique(carteMain);
+//	private static void jouer(Joueur joueur, Carte carteMain) {
+//		joueur.poserCarteUnique(carteMain);
 		
-	}
+//	}
 
 	public static void echange(Joueur joueur, ArrayList<Carte> carteVisible, ArrayList<Carte> carteMain) {
 		Carte v, m;

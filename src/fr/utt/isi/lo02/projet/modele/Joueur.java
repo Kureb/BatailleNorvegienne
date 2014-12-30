@@ -85,7 +85,6 @@ public class Joueur extends BatailleAbstraite{
 	 * @return vrai ou faux (peut jouer ou non)
 	 */
 	public boolean peutJouer(Carte derniereCarte) {
-		boolean result = false;
 		Carte carte = null;
 		
 		Iterator<Carte> it = this.getMain().iterator();
@@ -94,7 +93,7 @@ public class Joueur extends BatailleAbstraite{
 			if (derniereCarte.estRecouvrablePar(carte))
 				return true;
 		
-		return result;
+		return false;
 	}
 	
 	

@@ -2,13 +2,13 @@ package fr.utt.isi.lo02.projet.vue;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.swing.BorderFactory;
@@ -28,10 +28,13 @@ public class DialogJouerCarte extends JDialog {
 	
 	private Carte carteMain;
 	
+	private ArrayList<Carte> cartes;
+	
 	public DialogJouerCarte(JFrame parent, String title, boolean modal, Joueur joueur) {
 		super(parent, title, modal);
 		this.joueur = joueur;
-		this.setLocationRelativeTo(null);
+		this.cartes = new ArrayList<>();
+		//this.setLocationRelativeTo(null);
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		this.initComponent();
@@ -58,9 +61,14 @@ public class DialogJouerCarte extends JDialog {
 						if (vc.getImage().getBorder() == null) {
 							vc.getImage().setBorder(BorderFactory.createLineBorder(Color.black));
 							carteMain = new Carte(vc.getCarte().getValeur(), vc.getCarte().getCouleur());
+							//if (!cartes.contains(carteMain))
+							cartes.add(carteMain);
 							//String msg = vc.getCarte().getValeur() + " " + vc.getCarte().getCouleur();
 							//valider.setText(msg);
 						} else {
+							carteMain = new Carte(vc.getCarte().getValeur(), vc.getCarte().getCouleur());
+							//if (cartes.contains(carteMain))
+							cartes.remove(carteMain);
 							vc.getImage().setBorder(null);
 							carteMain = null;
 						}	
@@ -80,10 +88,10 @@ public class DialogJouerCarte extends JDialog {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (carteMain != null) {
+				if (cartes.size() != 0 && this.toutesPareil()) {
 					if (!Bataille.getInstance().getTable().isEmpty()) {
 						int index = Bataille.getInstance().getTable().size()-1;
-						if (Bataille.getInstance().getTable().get(index).estRecouvrablePar(carteMain))
+						if (Bataille.getInstance().getTable().get(index).estRecouvrablePar(cartes.get(0)))
 							setVisible(false);
 						else
 							okBouton.setText("carte injouable");
@@ -92,6 +100,18 @@ public class DialogJouerCarte extends JDialog {
 					}
 				} else
 					okBouton.setText("sélectionne une carte");
+			}
+
+			private boolean toutesPareil() {
+				Iterator<Carte> it = cartes.iterator();
+				Carte c;
+				Carte temoin = cartes.get(0);
+				while (it.hasNext()) {
+					c = it.next();
+					if (!c.equals(temoin)) return false;
+				}
+				
+				return true;
 			}
 		});
 	    //okBouton.setMaximumSize(new Dimension(10,10));
@@ -103,6 +123,11 @@ public class DialogJouerCarte extends JDialog {
 	    this.pack();
 		
 	}
+	
+	public ArrayList<Carte> getCartes() {
+		return cartes;
+	}
+	
 	
 	
 	public Carte getCarteMain() {
