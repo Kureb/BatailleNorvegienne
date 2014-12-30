@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Scanner;
 
+import fr.utt.isi.lo02.projet.controleur.BatailleControleur;
+
 
 /**
  * Permet de définir comment va jouer un joueur réel
@@ -23,10 +25,20 @@ public class StrategieRelle extends StrategieJeu {
 	 */
 	public ArrayList<Carte> choisirCarteAJouer(Joueur joueur) {
 		// L'arraylist qui contient les cartes qu'il veut poser
+		
+		//BatailleControleur.fenetreChoixCarteJouer(joueur);
+		
+		//return new ArrayList<Carte>();
+		
+		Carte carte = null;
 		ArrayList<Carte> cartes = new ArrayList<>();
-		Scanner sc = new Scanner(System.in);
+		//Carte carte = BatailleControleur.fenetreChoixCarteJouer(joueur);
+		//cartes.add(carte);
+		//return cartes;
+		
+		//Scanner sc = new Scanner(System.in);
 		Carte derniereCarteJouee = null;
-		int choix = -1;
+		//int choix = -1;
 		
 		
 		// Si la table n'est pas vide on lui montre la dernière carte jouée
@@ -40,25 +52,24 @@ public class StrategieRelle extends StrategieJeu {
 		boolean choix_ok = false;
 		
 		// On lui montre ses cartes et on demande ce qu'il veut jouer
-		System.out.println(joueur.getNom() + " : " + joueur.getMain());
+		//System.out.println(joueur.getNom() + " : " + joueur.getMain());
 
-		do {
-			do {
-				System.out.print("Quelle carte veux-tu jouer ? ");
-				choix = sc.nextInt();
+		//do {
+		//	do {
+				//System.out.print("Quelle carte veux-tu jouer ? ");
+				carte = BatailleControleur.fenetreChoixCarteJouer(joueur);
 				//Si y'a une carte sur la table on vérifie que
 				//la carte choisie peut être posée dessus
-				if (derniereCarteJouee != null)
-					choix_ok = derniereCarteJouee.estRecouvrablePar(joueur
-							.getMain().get(choix - 1));
-				else
-					choix_ok = true;
-			} while (choix > joueur.getMain().size());
-			if (!choix_ok)
-				System.out.println("Tu ne peux pas poser cette carte.");
-		} while (!choix_ok);
+				//if (derniereCarteJouee != null)
+					//choix_ok = derniereCarteJouee.estRecouvrablePar(carte);
+				//else
+				//	choix_ok = true;
+		//	} while (choix > joueur.getMain().size());
+			//if (!choix_ok)
+				//System.out.println("Tu ne peux pas poser cette carte.");
+		//} while (!choix_ok);
 		//On ajoute son choix à la liste des cartes que retourne la méthode
-		cartes.add(joueur.getMain().get(choix-1));
+		cartes.add(carte);
 
 		
 		// Ici on vérifie s'il a dans sa main une autre carte de la même valeur
@@ -68,24 +79,25 @@ public class StrategieRelle extends StrategieJeu {
 		
 		
 		//On crée une copie de la main auquelle on enlève la carte choisie
+
 		LinkedList<Carte> copyOfMain = new LinkedList<>(joueur.getMain());
 		copyOfMain.remove(cartes.get(0));
 		
 		Iterator<Carte> it = copyOfMain.iterator();
 		while(it.hasNext()) {
-			int reponse = 0;
+			//int reponse = 0;
 			boolean autre = false;
 			Carte carteCourante = it.next();
 			autre = (cartes.get(0)).aMemeValeur(carteCourante);
 			if (autre) {
-				System.out.println("Tu as une carte de la meme valeur.");
+				/*System.out.println("Tu as une carte de la meme valeur.");
 				do {
 					System.out.print("Poser " + carteCourante + " (1 (oui)/2 (non)) ");
 					reponse = sc.nextInt();
 				} while (reponse != 1 && reponse != 2);
 				
 				
-				if (reponse == 1)
+				if (reponse == 1)*/
 					cartes.add(carteCourante);
 				
 				
@@ -106,6 +118,8 @@ public class StrategieRelle extends StrategieJeu {
 		
 		
 		return cartes;
+		
+		
 	}
 
 	
@@ -135,6 +149,7 @@ public class StrategieRelle extends StrategieJeu {
 
 	@Override
 	public Joueur choisirQuiRalentir(Joueur joueurActuel) {
+		/*
 		System.out.println("A qui veux-tu envoyer le tas ? (numero)");
 		System.out.println(Bataille.getInstance().getJoueurs().toString());
 		int rep = -1;
@@ -145,6 +160,12 @@ public class StrategieRelle extends StrategieJeu {
 		rep--;
 		
 		return Bataille.getInstance().getJoueurs().get(rep);
+		
+		*/
+		
+		Joueur joueur = BatailleControleur.fenetreChoixVictimeAs(joueurActuel);
+		return joueur;
+		
 	}
 
 
