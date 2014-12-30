@@ -15,12 +15,30 @@ public abstract class StrategieJeu extends BatailleAbstraite{
 	
 	public abstract Joueur choisirQuiRalentir(Joueur joueur);
 	
+	public abstract Carte choisirCarteContre(Joueur joueur);
+	
 	public abstract ArrayList<Carte> choisirCarteAJouer(Joueur joueur);
 
 	public int jouerCarte(Joueur joueur) {
-		//System.out.println(joueur);
-		//System.out.println(joueur);
+
+		// boolean estMainVide = joueur.estMainVide();
+		boolean estFaceUpVide = joueur.estFaceUpVide();
+		boolean estFaceDownVide = joueur.estFaceDownVide();
 		boolean estMainVide = joueur.estMainVide();
+
+		if (estMainVide && !estFaceUpVide) {
+			joueur.remplirMainAvecFaceUp();
+			String message = "La main de " + joueur.getNom()
+					+ " est vide, il prend les cartes visibles.";
+			// System.out.println(message);
+
+			setChanged();
+			notifyObservers(message);
+		}
+
+		// System.out.println(joueur);
+		// System.out.println(joueur);
+		estMainVide = joueur.estMainVide();
 		boolean jouerEstPossible = false;
 		int nb = 0;
 		if (!estMainVide) {
@@ -65,19 +83,6 @@ public abstract class StrategieJeu extends BatailleAbstraite{
 			}
 		}
 		
-		//boolean estMainVide = joueur.estMainVide();
-		boolean estFaceUpVide = joueur.estFaceUpVide();
-		boolean estFaceDownVide = joueur.estFaceDownVide();
-		
-		
-		if (estMainVide && !estFaceUpVide) {
-			joueur.remplirMainAvecFaceUp();
-			String message = "La main de " + joueur.getNom() + " est vide, il prend les cartes visibles.";
-			//System.out.println(message);
-			
-			setChanged();
-			notifyObservers(message);
-		}
 		
 		
 		
@@ -165,7 +170,7 @@ public abstract class StrategieJeu extends BatailleAbstraite{
 		
 	}
 
-	public abstract Carte choisirCarteContre(Joueur joueur);
+	
 
 	
 
