@@ -324,6 +324,9 @@ public class Joueur extends BatailleAbstraite{
 				suivant.addMain(it.next());
 			}
 			Bataille.getInstance().clearTable();
+			
+			setChanged();
+			notifyObservers(suivant);
 		}
 		
 	}
