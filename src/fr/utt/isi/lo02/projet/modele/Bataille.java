@@ -353,6 +353,8 @@ public class Bataille extends BatailleAbstraite{
 					victime = joueurActuel.getStrategie().choisirQuiRalentir(joueurActuel);
 					message = joueurActuel.getNom() + " victimise " + victime.getNom();
 					//System.out.println(message);
+					setChanged();
+					notifyObservers(message);
 					suivantPeutContrer = victime.peutContrerAs();
 					if (suivantPeutContrer) {
 						carteContre = victime.getStrategie().choisirCarteContre(victime);
@@ -429,6 +431,18 @@ public class Bataille extends BatailleAbstraite{
 		this.pioche.clear();
 		setChanged();
 		notifyObservers("pioche");
+	}
+
+	public Joueur getJoueurs(String nom) {
+		Iterator<Joueur> it = this.getJoueurs().iterator();
+		while (it.hasNext()){
+			Joueur j = it.next();
+			if (j.getNom().equalsIgnoreCase(nom))
+				return j;
+		}
+		
+		return null;
+		
 	}
 
 	
