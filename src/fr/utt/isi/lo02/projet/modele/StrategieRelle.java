@@ -175,6 +175,14 @@ public class StrategieRelle extends StrategieJeu {
 	//Va choisir l'As en priorité et l'envoyer
 	//au joueur possédant le moins de cartes en main
 	public Carte choisirCarteContre(Joueur joueur) {
+		//On appelle la fenetre de choix de carte
+		//Car de toute façon une vérif est faite sur la faisabilité du mouvement
+		
+		Carte carte = BatailleControleur.fenetreChoixCarteJouer(joueur);
+		return carte;
+		
+		//TODO faire pareil que la méthode du dessus
+		/*
 		boolean deux = joueur.possede(0);
 		boolean as = joueur.possede(12);
 		int val = 0, rep = 0;
@@ -196,7 +204,7 @@ public class StrategieRelle extends StrategieJeu {
 			if (carte.getValeur() == val) return carte;
 		}
 		
-		return null;
+		return null;*/
 	}
 
 }
