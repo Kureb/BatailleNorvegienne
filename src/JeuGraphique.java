@@ -14,46 +14,13 @@ public class JeuGraphique implements Runnable {
 	
 	public JeuGraphique() {
 		Bataille bataille = Bataille.getInstance(); //pas sûr..
-		//VueBataille vueBataille = new VueBataille();
-		
-		
-		
-		
-		
-		
-		Joueur Benjamin = new Joueur("Benjamin", new StrategieRapide());
-		Joueur Diane = new Joueur("Diane", new StrategieSpeciale());
-		
-		// TODO : ajouter une exception si plus d'un joueur physique ? Ou si plusieurs Scrambler ?
-		// ou si Pas de joueur physique
-		
-		Joueur Maxime = new Joueur("Maxime", new StrategieRapide());
-		Scrambler Alexandre = new Scrambler("Alexandre");
-		Joueur Robin = new Joueur("Robin", new StrategieRapide());
-		
-		
-		
-		bataille.addJoueur(Alexandre);
-		bataille.addJoueur(Diane);
-		bataille.addJoueur(Benjamin);
-		bataille.addJoueur(Maxime);
-		bataille.addJoueur(Robin);
-	
-		Alexandre.distribuerPaquet((Bataille) bataille);
-		
-		
+		bataille.init();
 		VueBataille vueBataille = new VueBataille(bataille);
 		BatailleControleur batailleControleur = new BatailleControleur(bataille, vueBataille);
 		bataille.addObserver(vueBataille);
 		
-		
-		// première phase de la bataille
 		bataille.echangerCartes();
-		
-		
 		bataille.lancerPartie();
-		
-		
 	}
 
 	
