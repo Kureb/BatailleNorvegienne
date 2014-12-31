@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Observable;
 
+import fr.utt.isi.lo02.projet.controleur.BatailleControleur;
+
 
 
 public class Bataille extends BatailleAbstraite{
@@ -21,6 +23,9 @@ public class Bataille extends BatailleAbstraite{
 	private ArrayList<Carte> pioche;
 	/** tas où les joueurs posent leurs cartes */
 	private ArrayList<Carte> table;
+	
+	private final static String[] COMPUTERS = {"Steve", "Bill", "Linus", "Cendrillon", "Schwarzy", "Obama", "Eustache", "Jack", "Wozniak", "Vador", "Alice", "Timothée", "Ariel"};
+	
 	
 	private boolean continuer;
 
@@ -114,8 +119,10 @@ public class Bataille extends BatailleAbstraite{
 		this.joueurs = joueurs;
 	}
 
-	public JeuDeCartes getJeuDeCartes() {
-		return jeuDeCartes;
+	public JeuDeCartes construireJeuDeCartes() {
+		JeuDeCartes jdc = new JeuDeCartes();
+		this.jeuDeCartes = jdc;
+		return jdc;
 	}
 
 	public void setJeuDeCartes(JeuDeCartes jeuDeCartes) {
@@ -155,7 +162,7 @@ public class Bataille extends BatailleAbstraite{
 	public void lancerPartie() {
 		Joueur joueur = null, suivant = null;
 		boolean fin = false;
-		String message = "", mesConsole = "";
+		String message = "";
 		// position du premier joueur
 		int position = this.getPositionPremierJoueur();
 		// tant que personne n'a gagn&
@@ -170,7 +177,7 @@ public class Bataille extends BatailleAbstraite{
 			if (fin) {
 				message = joueur.getNom() + " a gagné, bravo ! ";
 				//mesConsole = message.replace("à", "a");
-				mesConsole = message.replace("é", "e");
+				//mesConsole = message.replace("é", "e");
 				//System.out.println(mesConsole);
 			} else {
 				suivant = (nbCartes == -1 ? this.getJoueurPrecedent(joueur) : this.getJoueurSuivant(joueur, nbCartes));
@@ -180,7 +187,7 @@ public class Bataille extends BatailleAbstraite{
 				else {//On peut très bien gagner suite à ce tour donc on refait le test
 					message = joueur.getNom() + " a gagné, bravo ";
 					//mesConsole = message.replace("à", "a");
-					mesConsole = message.replace("é", "e");
+					//mesConsole = message.replace("é", "e");
 					//System.out.println(mesConsole);
 					
 				}
@@ -383,12 +390,15 @@ public class Bataille extends BatailleAbstraite{
 						//if (carteContre != null)
 						//	if (carteContre.getValeur() == 12)
 								joueurActuel.envoyerTas(victime);
+								
 					}
 				} while (suivantPeutContrer);
 				
 				if (carteContre != null)
-					if (carteContre.getValeur() == 12) 
+					if (carteContre.getValeur() == 12)  {
 						joueurActuel.envoyerTas(victime);
+					}
+						
 				
 				suivant = JoueurSuivantCarteNormale(derniereCarteJouee, joueurActuelVrai);
 				
@@ -418,7 +428,10 @@ public class Bataille extends BatailleAbstraite{
 			} 
 
 		}
-		return ++positionScrambler;
+		if (positionScrambler != 1)
+			return ++positionScrambler;
+		else
+			return joueurs.size()-1;
 	}
 
 	public void clearTable() {
@@ -443,6 +456,49 @@ public class Bataille extends BatailleAbstraite{
 		
 		return null;
 		
+	}
+	
+	
+	//public String[] computersNames() {
+	//	return this.COMPUTERS;
+	//}
+
+	
+	
+	public void init() {
+		
+		/*
+		 * 
+		 * if (joueurs == null) {
+			Joueur Benjamin = new Joueur("Benjamin", new StrategieRapide());
+			Joueur Diane = new Joueur("Diane", new StrategieSpeciale());
+			
+			// TODO : ajouter une exception si plus d'un joueur physique ? Ou si plusieurs Scrambler ?
+			// ou si Pas de joueur physique
+			
+			Joueur Maxime = new Joueur("Maxime", new StrategieRapide());
+			Scrambler Toi = new Scrambler("Toi");
+			Joueur Robin = new Joueur("Robin", new StrategieRapide());
+			
+			this.addJoueur(Toi);
+			this.addJoueur(Diane);
+			this.addJoueur(Benjamin);
+			this.addJoueur(Maxime);
+			this.addJoueur(Robin);
+		
+			Toi.distribuerPaquet(this);
+		 */
+		
+		BatailleControleur.initialisationPartie();
+		
+		
+		
+		
+		
+	}
+
+	public static String[] getComputers() {
+		return COMPUTERS;
 	}
 
 	
