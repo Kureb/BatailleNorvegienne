@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-/** Chercher à se débarasser le plus vite possible de ses cartes */
+/**
+ * Cherche à se débarasser le plus vite possible de ses cartes 
+ * @author daussy
+ *
+ */
 public class StrategieRapide extends StrategieJeu {
 
 	
@@ -19,10 +23,8 @@ public class StrategieRapide extends StrategieJeu {
 			Carte carteMain = joueur.getCarteMainSacrificePourFormerPaire(carteUp);
 			joueur.echangerCarte(carteMain, carteUp);
 			message = joueur.getNom() + " a echangé " + carteMain + " VS " + carteUp + " afin d'avoir une paire.";
-			//System.out.println(message);
 		} else {
 			message = joueur.getNom() + " n'a pas jugé nécessaire d'échanger des cartes.";
-			//System.out.println(message);
 		}
 		
 		setChanged();
@@ -70,13 +72,10 @@ public class StrategieRapide extends StrategieJeu {
 		}
 		
 		String message = joueur.getNom() + " joue ";
-		//System.out.print(message);
 		Iterator<Carte> itt = cartes.iterator();
 		while (itt.hasNext()) {
 			message += itt.next() + " ";
-			//System.out.print(itt.next() + " ");
 		}
-		//System.out.println(message);
 		
 		setChanged();
 		notifyObservers(message);
@@ -87,10 +86,6 @@ public class StrategieRapide extends StrategieJeu {
 
 	@Override
 	public Carte choisirCarteContre(Joueur joueur) {
-		//boolean deux = joueur.possede(0);
-		//boolean as = joueur.possede(12);
-		
-		
 		Iterator<Carte> it = joueur.getMain().iterator();
 		while (it.hasNext()) {
 			Carte carte = (Carte) it.next();

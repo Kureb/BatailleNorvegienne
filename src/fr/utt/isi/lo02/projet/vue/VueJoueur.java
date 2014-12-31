@@ -1,6 +1,5 @@
 package fr.utt.isi.lo02.projet.vue;
 
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -12,10 +11,8 @@ import java.util.Observer;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 
 import fr.utt.isi.lo02.projet.controleur.BatailleControleur;
-import fr.utt.isi.lo02.projet.controleur.ControleurAbstrait;
 import fr.utt.isi.lo02.projet.modele.Carte;
 import fr.utt.isi.lo02.projet.modele.Joueur;
 import fr.utt.isi.lo02.projet.modele.StrategieJeu;

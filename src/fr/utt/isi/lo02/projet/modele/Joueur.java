@@ -5,15 +5,16 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Observable;
 
 
 /**
  * Représente le Joueur
  * 
- * @author daussy - obeidat
+ * @author daussy
  * 
  */
-public class Joueur extends BatailleAbstraite{
+public class Joueur extends Observable{
 
 	/** Le nom du joueur */
 	private String nom;
@@ -32,8 +33,8 @@ public class Joueur extends BatailleAbstraite{
 	/**
 	 * Constructeur du joueur réel
 	 * 
-	 * @param nom
-	 *            Nom du joueur
+	 * @param nom Nom du joueur
+	 * 
 	 */
 	public Joueur(String nom) {
 		this.strategie = new StrategieRelle();
@@ -63,11 +64,6 @@ public class Joueur extends BatailleAbstraite{
 		Joueur.NB_JOUEURS++;
 	}
 
-	
-	// ----------------- FIN ATTRIBUTS/CONSTRUCTEURS -----------------------
-	
-	
-	
 	
 	
 	
@@ -100,10 +96,17 @@ public class Joueur extends BatailleAbstraite{
 	}
 	
 	
+	/**
+	 * Permet de savoir si le joueur peut jouer
+	 * @return vrai ou faux
+	 */
 	public boolean peutJouer() {
+		//Si la table est vide retourne vrai
 		if (Bataille.getInstance().getTable().isEmpty()) 
 			return true;
 		else {
+			//Sinon on appelle la méthode qui prend en paramètre la dernière
+			//carte posée
 			int index = Bataille.getInstance().getTable().size()-1;
 			Carte derniere = Bataille.getInstance().getTable().get(index);
 			return peutJouer(derniere);
@@ -142,14 +145,13 @@ public class Joueur extends BatailleAbstraite{
 	 *            forcément rangées dans le même ordre
 	 */
 	public void echangerCarte(Carte carteMain, Carte carteVisible) {
-		// On vérifie que les cartes sont bien à l'endroit indiqué TODO essayer
+		// On vérifie que les cartes sont bien à l'endroit indiqué
 		if (this.possedeFaceUp(carteVisible) && this.possedeMain(carteMain)) { 
-			//System.out.println("ca semble ok");
 			this.faceUp.add(carteMain);
 			this.main.remove(carteMain);
 			this.main.add(carteVisible);
 			this.faceUp.remove(carteVisible);
-			
+			//On notifie la vue
 			setChanged();
 			notifyObservers(this);
 		}	
@@ -161,26 +163,10 @@ public class Joueur extends BatailleAbstraite{
 	 * Permet de proposer l'échange de cartes à un joueur
 	 */
 	public void proposerChangerCartes() {
-		
-		//new ProposerChangerCartes(this);
+		//On notifie la vue qui va appeler le controleur
 		setChanged();
 		notifyObservers("echange");
-		
-		//System.out.println(this.toString());
-		/*
-		System.out.println(this);
-		Scanner sc = new Scanner(System.in);
-		System.out.print(this.getNom()
-				+ ", quelle carte dans la main (1, 2 ou 3) : ");
-		int carteM = sc.nextInt();
-		System.out.print(this.getNom() + ", quelle carte visible ? (1, 2 ou 3) : ");
-		int carteV = sc.nextInt();
-		Carte carteMain = this.main.get(--carteM);
-		Carte carteVisible = this.faceUp.get(--carteV);
-		this.echangerCarte(carteMain, carteVisible);
-		*/
-		
-	}
+		}
 	
 	/**
 	 * Permet de poser une carte sur la table
@@ -213,12 +199,18 @@ public class Joueur extends BatailleAbstraite{
 		return sb.toString();
 	}
 
-	
+	/**
+	 * On vérifie que le joueur a gagné
+	 * Donc s'il lui reste des cartes ou non
+	 * @return
+	 */
 	public boolean verifierGagner() {
 		return (this.main.isEmpty() && this.faceDown.isEmpty() && this.faceUp.isEmpty());
 	}
 	
-	
+	/**
+	 * Permet au joueur d'échanger ses cartes en début de partie
+	 */
 	public void echangerCartes() {
 		this.getStrategie().echangerCartes(this);
 	}
@@ -226,8 +218,6 @@ public class Joueur extends BatailleAbstraite{
 	
 	
 	
-	// ---------------------- GETTER ET SETTER --------------------
-
 	/**
 	 * Getter de nom
 	 * 
@@ -274,22 +264,37 @@ public class Joueur extends BatailleAbstraite{
 		return main;
 	}
 
+	
+	/**
+	 * Setter de faceUp
+	 * @param les cartes à implémenter
+	 */
 	public void setFaceUp(LinkedList<Carte> faceUp) {
 		this.faceUp = faceUp;
 	}
 
 
-
+	/**
+	 * Setter de faceDown
+	 * @param faceDown les cartesà implémenter
+	 */
 	public void setFaceDown(LinkedList<Carte> faceDown) {
 		this.faceDown = faceDown;
 	}
 
 
-
+	/**
+	 * Setter de la main
+	 * @param main les cartes à implémenter
+	 */
 	public void setMain(LinkedList<Carte> main) {
 		this.main = main;
 	}
 	
+	/**
+	 * Permet d'ajouter une carte dans la main du joueur
+	 * @param carte Carte à ajouter
+	 */
 	public void addMain(Carte carte) {
 		this.main.add(carte);
 	}
@@ -305,34 +310,38 @@ public class Joueur extends BatailleAbstraite{
 		return strategie;
 	}
 	
-
+	/**
+	 * Setter de stratégie
+	 * @param strategie à implémenter
+	 */
 	public void setStrategieJeu(StrategieJeu strategie) {
 		if (this.strategie != null)
 			this.strategie = strategie;
-		// TODO : else en faire une exception ? Un joueur réel ne peut devenir
-		// un joueur virtuel
-		// et vérifier aussi le != null InstanceOf ?
 	}
 
 
-
+	/**
+	 * Permet d'envoyer le tas à un joueur
+	 * @param suivant
+	 */
 	public void envoyerTas(Joueur suivant) {
 		if (!suivant.peutContrerAs()) {
 			String message = this.getNom() + " envoie le tas à " + suivant.getNom();
-			//System.out.println(message.replace("à", "a"));
 			
 			setChanged();
 			notifyObservers(message);
 			
+			//Tant qu'il y a des cartes dans le tas on les ajoutes à la main
+			//du joueur
 			Iterator<Carte> it = Bataille.getInstance().getTable().iterator();
 			while (it.hasNext()) {
 				suivant.addMain(it.next());
 			}
+			//Puis on s'assure que la table est vide
 			Bataille.getInstance().clearTable();
 			
 			setChanged();
 			notifyObservers(suivant);
-			//TODO ne semble pas màj les cartes de la victime dans la vue..
 		}
 		
 	}
@@ -372,7 +381,12 @@ public class Joueur extends BatailleAbstraite{
 	}
 
 
-	
+	/**
+	 * Permet de savoir si le joueur peut faire des échanger
+	 * afin de former une paire (ou plus) et donc poser ses cartes
+	 * le plus vite possible
+	 * @return
+	 */
 	public boolean peutFormerPaire() {
 		Iterator<Carte> it = this.getMain().iterator();
 		Iterator<Carte> itt = this.getFaceUp().iterator();
@@ -386,6 +400,10 @@ public class Joueur extends BatailleAbstraite{
 	}
 	
 	
+	/**
+	 * Permet d'avoir la carte de faceUp à échanger pour avoir une paire
+	 * @return carte pour former une paire
+	 */
 	public Carte getCarteUpPourFormerPaire() {
 		Iterator<Carte> it = this.getMain().iterator();
 		Iterator<Carte> itt = this.getFaceUp().iterator();
@@ -401,7 +419,11 @@ public class Joueur extends BatailleAbstraite{
 		return null;
 	}
 	
-	
+	/**
+	 * Permet de sacrifier une carte de la main pour avoir une paire
+	 * @param carteDouble carte qu'il possède en faceUp qu'il veut lier
+	 * @return carte sacrifice
+	 */
 	public Carte getCarteMainSacrificePourFormerPaire(Carte carteDouble) {
 		Iterator<Carte> it = this.getMain().iterator();
 		while (it.hasNext()) {
@@ -450,7 +472,11 @@ public class Joueur extends BatailleAbstraite{
 	}
 
 
-
+	/**
+	 * Permet de savoir s'il reste des cartes normales
+	 * dans la main du joueur
+	 * @return vrai ou faux
+	 */
 	public boolean possedeCarteNormale() {
 		Iterator<Carte> it = this.main.iterator();
 		Carte carte = null;
@@ -503,7 +529,11 @@ public class Joueur extends BatailleAbstraite{
 	}
 
 
-
+	/**
+	 * Permet d'avoir la première carte spéciale dans 
+	 * la main du joueur
+	 * @return carte spéciale
+	 */
 	public Carte getCarteSpecialeMain() {
 		Iterator<Carte> it = this.getMain().iterator();
 		Carte carte = null;
@@ -517,22 +547,22 @@ public class Joueur extends BatailleAbstraite{
 	}
 
 
-
+	/**
+	 * Le joueur ramasse le tas
+	 */
 	public void ramasserTas() {
 		String message = this.getNom() + " ramasse le tas car il ne peut pas jouer";
-		//System.out.println(message);
-		
+		//On notifie les logs de la vue
 		setChanged();
 		notifyObservers(message);
 		
-		
-		
-		
+		//Le joueur ramasse
 		Iterator<Carte> it = Bataille.getInstance().getTable().iterator();
 		while (it.hasNext()) {
 			this.addMain(it.next());
 		}
 		
+		//On notifie la vue pour màj du tas et du joueur
 		setChanged();
 		notifyObservers(this);
 		
@@ -558,6 +588,11 @@ public class Joueur extends BatailleAbstraite{
 	}
 	
 	
+	/**
+	 * Permet de savoir s'il possède une carte dans son tas face visible
+	 * @param carte carte que l'on cherche
+	 * @return vrai ou faux
+	 */
 	public boolean possedeFaceUp(Carte carte) {
 		Iterator<Carte> it = this.getFaceUp().iterator();
 		Carte c = null;
@@ -571,6 +606,11 @@ public class Joueur extends BatailleAbstraite{
 	}
 	
 	
+	/**
+	 * Permet de savoir s'il possède une carte dans sa main
+	 * @param carte carte que l'on cherche
+	 * @return vrai ou faux
+	 */
 	public boolean possedeMain(Carte carte) {
 		Iterator<Carte> it = this.getMain().iterator();
 		Carte c = null;
@@ -584,21 +624,36 @@ public class Joueur extends BatailleAbstraite{
 	}
 	
 	
+	/**
+	 * Permet de savoir si la main est vide
+	 * @return vrai ou faux
+	 */
 	public boolean estMainVide () {
 		return this.getMain().isEmpty();
 	}
 	
-	
+	/**
+	 * Permet de savoir si faceUp est vide
+	 * @return vrai ou faux
+	 */
 	public boolean estFaceUpVide () {
 		return this.getFaceUp().isEmpty();
 	}
 	
+	
+	/**
+	 * Permet de savoir si faceDown est vide
+	 * @return vrai ou faux
+	 */
 	public boolean estFaceDownVide () {
 		return this.getFaceDown().isEmpty();
 	}
 
 
-
+	/**
+	 * Remplit la main du joueur
+	 * avec les cartes faceUp
+	 */
 	public void remplirMainAvecFaceUp() {
 		Iterator<Carte> it = this.getFaceUp().iterator();
 		while (it.hasNext()) {
@@ -606,7 +661,7 @@ public class Joueur extends BatailleAbstraite{
 			this.addMain(carte);
 		}
 		this.getFaceUp().clear();
-		
+		//màj de la vue
 		setChanged();
 		notifyObservers(this);
 
@@ -614,7 +669,10 @@ public class Joueur extends BatailleAbstraite{
 	}
 
 
-
+	/**
+	 * Permet de connaitre la position du joueur
+	 * @return position du joueur
+	 */
 	public int getPosition() {
 		Bataille bataille = Bataille.getInstance();
 		Iterator<Joueur> it = bataille.getJoueurs().iterator();

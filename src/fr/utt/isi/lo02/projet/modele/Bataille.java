@@ -7,8 +7,13 @@ import java.util.Observable;
 import fr.utt.isi.lo02.projet.controleur.BatailleControleur;
 
 
-
-public class Bataille extends BatailleAbstraite{
+/**
+ * Modèle de la Bataille,
+ * essence du jeu
+ * @author daussy
+ *
+ */
+public class Bataille extends Observable{
 
 	/**
 	 * Suit le modèle Singleton car ne pourra être instancié qu'une fois par
@@ -23,10 +28,9 @@ public class Bataille extends BatailleAbstraite{
 	private ArrayList<Carte> pioche;
 	/** tas où les joueurs posent leurs cartes */
 	private ArrayList<Carte> table;
-	
+	/** tableau de noms pour les joueurs fictifs */
 	private final static String[] COMPUTERS = {"Steve", "Bill", "Linus", "Cendrillon", "Schwarzy", "Obama", "Eustache", "Jack", "Wozniak", "Vador", "Alice", "Timothée", "Ariel"};
-	
-	
+	/** boolean permettant de faire pause dans le jeu */
 	private boolean continuer;
 
 	/**
@@ -39,8 +43,6 @@ public class Bataille extends BatailleAbstraite{
 		pioche = new ArrayList<>();
 		table = new ArrayList<>();
 		continuer = false;
-
-		
 	}
 	
 	/**
@@ -53,30 +55,46 @@ public class Bataille extends BatailleAbstraite{
 		
 		return singleton;
 	}
-
+	
+	/**
+	 * Getter de table
+	 * @return les cartes présentes sur la table
+	 */
 	public ArrayList<Carte> getTable() {
 		return table;
 	}
 
+	/**
+	 * Setter de table
+	 * @param table liste de cartes à mettre sur la table
+	 */
 	public void setTable(ArrayList<Carte> table) {
 		this.table = table;
-		//setChanged();
-		//notifyObservers();
 	}
 
+	/**
+	 * Getter de la pioche
+	 * @return les cartes présentes dans la pioche
+	 */
 	public ArrayList<Carte> getPioche() {
 		return pioche;
 	}
 
+	/**
+	 * Setter de la pioche
+	 * @param pioche liste des cartes à mettre dans la pioche
+	 */
 	public void setPioche(ArrayList<Carte> pioche) {
 		this.pioche = pioche;
-		//setChanged();
-		//notifyObservers();
 	}
 
-	
+	/**
+	 * Ajoute une carte sur la table
+	 * @param carte Carte à ajouter sur la table
+	 */
 	public void addTable(Carte carte) {
 		this.table.add(carte);
+		//Notifie la vue
 		setChanged();
 		notifyObservers(carte);
 	}
@@ -84,8 +102,7 @@ public class Bataille extends BatailleAbstraite{
 	/**
 	 * Permet d'ajouter un joueur à la partie
 	 * 
-	 * @param j
-	 *            le joueur à ajouter
+	 * @param j le joueur à ajouter
 	 * 
 	 */
 	public void addJoueur(Joueur j) {
@@ -93,9 +110,6 @@ public class Bataille extends BatailleAbstraite{
 		if (!this.joueurs.contains(j)) {
 			this.joueurs.add(j);
 		}
-		//setChanged();
-		//notifyObservers();
-
 	}
 
 	/**
@@ -107,46 +121,63 @@ public class Bataille extends BatailleAbstraite{
 		// On le supprime seulement s'il existe
 		if (this.joueurs.contains(j))
 			this.joueurs.remove(j);
-		//setChanged();
-		//notifyObservers();
 	}
 
+	/**
+	 * Getter de joueurs
+	 * @return la liste des joueurs de la partie
+	 */
 	public ArrayList<Joueur> getJoueurs() {
 		return joueurs;
 	}
 
+	
+	/**
+	 * Setter de joueurs
+	 * @param joueurs liste des joueurs à mettre dans la partie
+	 */
 	public void setJoueurs(ArrayList<Joueur> joueurs) {
 		this.joueurs = joueurs;
 	}
 
+	/**
+	 * Construit le jeu de carte en fonction du
+	 * nombre de joueurs
+	 * @return un jeu de carte
+	 */
 	public JeuDeCartes construireJeuDeCartes() {
 		JeuDeCartes jdc = new JeuDeCartes();
 		this.jeuDeCartes = jdc;
 		return jdc;
 	}
 
+	/**
+	 * Setter de jeu de cartes
+	 * @param jeuDeCartes Jeu à implémenter
+	 */
 	public void setJeuDeCartes(JeuDeCartes jeuDeCartes) {
 		this.jeuDeCartes = jeuDeCartes;
 	}
 
+	/**
+	 * toString de bataille
+	 * @return l'état du joueur (main, face visibles, face cachées) et l'état de la pioche et de la table
+	 */
 	public String toString() {
 		return joueurs.toString() + "\n pioche : " + pioche.toString() + "\n table" + table.toString();
 	}
 
 	
 	
-	
+	/**
+	 * Permet de proposer à tous les joueurs
+	 * d'échanger leurs cartes
+	 */
 	public void echangerCartes() {
 		Iterator<Joueur> it = this.joueurs.iterator();
 		Joueur joueur;
 		while (it.hasNext()) {
-		/*	try {
-				Thread.sleep(1000);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			*/
-			joueur = it.next();
+		joueur = it.next();
 			joueur.echangerCartes();
 		}
 		
@@ -169,16 +200,12 @@ public class Bataille extends BatailleAbstraite{
 		joueur = this.getJoueurs().get(position);
 		int nbCartes;
 		while (!fin) {
-			//System.out.println("-- Tour de " + joueur.getNom());
-			// on récupère le joueur devant jouer, il joue, on vérifie s'il a gagné
+			// on récupère le joueur qui doit jouer, il joue, on vérifie s'il a gagné
 			nbCartes = joueur.jouer();
 			fin = joueur.verifierGagner();
-			this.attendre(); //TODO trouver pour mettre en pause et reprendre à l'appui du bouton
+			this.attendre(); //Attend l'appui sur le bouton dans la vue
 			if (fin) {
 				message = joueur.getNom() + " a gagné, bravo ! ";
-				//mesConsole = message.replace("à", "a");
-				//mesConsole = message.replace("é", "e");
-				//System.out.println(mesConsole);
 			} else {
 				suivant = (nbCartes == -1 ? this.getJoueurPrecedent(joueur) : this.getJoueurSuivant(joueur, nbCartes));
 				fin = joueur.verifierGagner();
@@ -186,13 +213,9 @@ public class Bataille extends BatailleAbstraite{
 					joueur = suivant;
 				else {//On peut très bien gagner suite à ce tour donc on refait le test
 					message = joueur.getNom() + " a gagné, bravo ";
-					//mesConsole = message.replace("à", "a");
-					//mesConsole = message.replace("é", "e");
-					//System.out.println(mesConsole);
-					
 				}
 			}
-			
+			// On notifie la vue
 			setChanged();
 			notifyObservers(message);
 			
@@ -202,7 +225,9 @@ public class Bataille extends BatailleAbstraite{
 		
 	}
 
-	
+	/**
+	 * Attend tant que continuer ne passe pas à vrai
+	 */
 	public void attendre() {
 		while (!continuer) {
 			try {
@@ -213,10 +238,18 @@ public class Bataille extends BatailleAbstraite{
 		}
 	}
 	
+	/**
+	 * Passe le boolean continuer à vrai
+	 */
 	public void continuer() {
 		this.continuer = true;
 	}
 
+	/**
+	 * Permet d'avoir le joueur précédent
+	 * @param joueur Joueur suivant du précédent
+	 * @return joueur précédent celui passé en paramètre
+	 */
 	private Joueur getJoueurPrecedent(Joueur joueur) {
 		int positionCourante = this.getPositionCourante(joueur);
 		
@@ -228,6 +261,11 @@ public class Bataille extends BatailleAbstraite{
 
 	}
 
+	/**
+	 * Permet d'avoir la position d'un joueur
+	 * @param joueur dont on souhaite savoir la position
+	 * @return position du joueur
+	 */
 	private int getPositionCourante(Joueur joueur) {
 		Iterator<Joueur> it = this.getJoueurs().iterator();
 		int pos = 0;
@@ -260,12 +298,12 @@ public class Bataille extends BatailleAbstraite{
 	}
 	 
 	/** Retourne le joueur qui est censé jouer après 
-	 * @param nbCartesJouees */
+	 * @param nbCartesJouees 
+	 * */
 	public Joueur getJoueurSuivant(Joueur joueurActuel, int nbCartesJouees) {
 		int indexDernierElement = Bataille.getInstance().getTable().isEmpty() ? -1 : Bataille.getInstance().getTable().size()-1;
 		Carte derniereCarteJouee = (indexDernierElement == -1 ? null : Bataille.getInstance().getTable().get(indexDernierElement));
 		Joueur joueurSuivant = null;
-		//int nbCartesJouees = 1;
 		if (derniereCarteJouee != null && derniereCarteJouee.estSpeciale())
 			joueurSuivant = JoueurSuivantCarteSpeciale(derniereCarteJouee, joueurActuel, nbCartesJouees);
 		else 
@@ -275,6 +313,12 @@ public class Bataille extends BatailleAbstraite{
 
 	}
 	
+	/**
+	 * Retourne le joueur qui doit jouer après
+	 * dans le cas où ce n'est pas une carte spéciale
+	 * @param joueurActuel joueur qui vient de terminer son tour
+	 * @return
+	 */
 	public Joueur JoueurSuivantCarteNormale(Joueur joueurActuel) {
 		Iterator<Joueur> it = joueurs.iterator();
 		int i = 0;
@@ -295,6 +339,13 @@ public class Bataille extends BatailleAbstraite{
 		return joueurSuivant;
 	}
 	
+	/**
+	 * Retourne le joueur qui doit jouer après
+	 * dans le cas où ce n'est pas une carte spéciale
+	 * @param derniereCarteJouee dernière carte sur la table
+	 * @param joueurActuel joueur qui vient de terminer son tour
+	 * @return
+	 */
 	public Joueur JoueurSuivantCarteNormale(Carte derniereCarteJouee, Joueur joueurActuel) {
 		Iterator<Joueur> it = joueurs.iterator();
 		int i = 0;
@@ -315,37 +366,48 @@ public class Bataille extends BatailleAbstraite{
 		return joueurSuivant;
 	}
 
+	/**
+	 * Permet d'avoir le joueur suivant dans le cas où
+	 * la dernière carte jouée est une carte spéciale !
+	 * @param derniereCarteJouee dernière carete posée sur la table
+	 * @param joueurActuel joueur finissant son tour
+	 * @param nbCartesJouees nb de cartes jouées (surtout par rapport au 8)
+	 * @return joueur qui va jouer ensuite
+	 */
 	public Joueur JoueurSuivantCarteSpeciale(Carte derniereCarteJouee, Joueur joueurActuel, int nbCartesJouees) {
 		Joueur suivant = null, victime = null;
 		String message = "";
+		//Si le dernier joueur n'a posé aucune carte,on prend donc le suivant
 		if (nbCartesJouees == 0) return JoueurSuivantCarteNormale(derniereCarteJouee, joueurActuel);
 		
 		
-		// C'est pas très propre, mais c'est juste pour montrer
-		// que quand on a un 8 on passe le tour
+		// On regarde la valeur de la dernière carte jouée
 		switch (derniereCarteJouee.getValeur()) {
 			case 0:
 			case 5:
 			case 10:
+				//Le joueur est le suivant, suivant la logique des tours
 				suivant = JoueurSuivantCarteNormale(derniereCarteJouee, joueurActuel);
 				break;
-			case 8:
+			case 8: //10
+				//Le joueur est le suivant, suivant la logique des tours
 				suivant = JoueurSuivantCarteNormale(derniereCarteJouee, joueurActuel);
+				//Et on retire le tas
 				this.getTable().clear();
 				message = "Le tas est retiré du jeu !";
+				//On notifie la vue 
 				setChanged();
 				notifyObservers(message);
-				//System.out.println(message.replace("é", "e"));
 				break;
-			case 6: // 8
-			//Le joueur suivant passe son tour(autant que de 8 posés)	
-					suivant = JoueurSuivantCarteNormale(derniereCarteJouee, joueurActuel);
+			case 6: //8
+				//Le joueur suivant passe son tour(autant que de 8 posés)	
+				suivant = JoueurSuivantCarteNormale(derniereCarteJouee, joueurActuel);
 				for (int i = 0; i < nbCartesJouees; i++) {
 					joueurActuel = suivant;
 					message = joueurActuel.getNom() + " passe son tour";
+					//On notifie la vue pour mettre à jour les logs
 					setChanged();
 					notifyObservers(message);
-					//System.out.println(message);
 					suivant = JoueurSuivantCarteNormale(derniereCarteJouee, joueurActuel);
 				}
 				
@@ -356,44 +418,42 @@ public class Bataille extends BatailleAbstraite{
 				boolean suivantPeutContrer = false;
 				Carte carteContre = null;
 				Joueur joueurActuelVrai = joueurActuel;
-				do {
-					victime = joueurActuel.getStrategie().choisirQuiRalentir(joueurActuel);
-					message = joueurActuel.getNom() + " victimise " + victime.getNom();
-					//System.out.println(message);
+				do { //Tant que la victime peut contrer
+					victime = joueurActuel.getStrategie().choisirQuiRalentir(joueurActuel); //choix d'une victime
+					message = joueurActuel.getNom() + " victimise " + victime.getNom(); //notification de la vue
 					setChanged();
 					notifyObservers(message);
-					suivantPeutContrer = victime.peutContrerAs();
-					if (suivantPeutContrer) {
+					suivantPeutContrer = victime.peutContrerAs(); //On vérifie qu'il peut contrer un As
+					if (suivantPeutContrer) { //S'il peut on choisit sa carte de contre (As ou deux)
 						carteContre = victime.getStrategie().choisirCarteContre(victime);
 						message = "Mais " + victime.getNom() + " peut contrer avec un " + carteContre;
-						setChanged();
+						setChanged(); //Et on notifie la vue
 						notifyObservers(message);
-						//System.out.println(message);
 						victime.poserCarteUnique(carteContre);
-						if (carteContre.getValeur() == 12) {
-							joueurActuel = victime;
+						if (carteContre.getValeur() == 12) { //Si cette carte est un As
+							joueurActuel = victime; //La victime devient le joueur actuel
+							//Qui choisit une nouvelle victime
 							victime = joueurActuel.getStrategie().choisirQuiRalentir(joueurActuel);
 							message = joueurActuel.getNom() + " veut ralentir " + victime.getNom();
-							//System.out.println(message);
+							//On met à jour les logs
 							setChanged();
 							notifyObservers(message);
-							suivantPeutContrer = victime.peutContrerAs();
+							suivantPeutContrer = victime.peutContrerAs(); // On vérifie que sa nouvelle victime peut contrer
 						} else { // si c'est un 2
 							return JoueurSuivantCarteNormale(carteContre, joueurActuelVrai);
 						}
 					} else {
-						//On envoie le tas seulement si le mec a contré avec un As
+						//Ici, il n'a donc pas pu contrer
 						message = victime.getNom() + " ne peut pas contrer";
-						//System.out.println(message);
 						setChanged();
 						notifyObservers();
-						//if (carteContre != null)
-						//	if (carteContre.getValeur() == 12)
-								joueurActuel.envoyerTas(victime);
+						//il se prend le tas
+						joueurActuel.envoyerTas(victime);
 								
 					}
 				} while (suivantPeutContrer);
 				
+				//Si le premier a contré, il se prend le tas
 				if (carteContre != null)
 					if (carteContre.getValeur() == 12)  {
 						joueurActuel.envoyerTas(victime);
@@ -434,18 +494,29 @@ public class Bataille extends BatailleAbstraite{
 			return joueurs.size()-1;
 	}
 
+	/**
+	 * Vide la tas et notifie la vue
+	 */
 	public void clearTable() {
 		this.table.clear();
 		setChanged();
 		notifyObservers("Le tas est vide");
 	}
 	
+	/**
+	 * Vide la pioche et notifie la vue
+	 */
 	public void clearPioche() {
 		this.pioche.clear();
 		setChanged();
 		notifyObservers("pioche");
 	}
 
+	/**
+	 * Donne un joueur dont le nom a été passé en paramètre
+	 * @param nom du joueur que l'on cherche
+	 * @return le joueur avec le nom passé en paramètre
+	 */
 	public Joueur getJoueurs(String nom) {
 		Iterator<Joueur> it = this.getJoueurs().iterator();
 		while (it.hasNext()){
@@ -459,36 +530,13 @@ public class Bataille extends BatailleAbstraite{
 	}
 	
 	
-	//public String[] computersNames() {
-	//	return this.COMPUTERS;
-	//}
 
 	
-	
+	/**
+	 * Initialise la bataille
+	 * en ouvrant la fenêtre JDialog faite pour
+	 */
 	public void init() {
-		
-		/*
-		 * 
-		 * if (joueurs == null) {
-			Joueur Benjamin = new Joueur("Benjamin", new StrategieRapide());
-			Joueur Diane = new Joueur("Diane", new StrategieSpeciale());
-			
-			// TODO : ajouter une exception si plus d'un joueur physique ? Ou si plusieurs Scrambler ?
-			// ou si Pas de joueur physique
-			
-			Joueur Maxime = new Joueur("Maxime", new StrategieRapide());
-			Scrambler Toi = new Scrambler("Toi");
-			Joueur Robin = new Joueur("Robin", new StrategieRapide());
-			
-			this.addJoueur(Toi);
-			this.addJoueur(Diane);
-			this.addJoueur(Benjamin);
-			this.addJoueur(Maxime);
-			this.addJoueur(Robin);
-		
-			Toi.distribuerPaquet(this);
-		 */
-		
 		BatailleControleur.initialisationPartie();
 		
 		
@@ -497,6 +545,11 @@ public class Bataille extends BatailleAbstraite{
 		
 	}
 
+	/**
+	 * Permet d'avoir le tableau des noms
+	 * des joueurs ficitfs
+	 * @return tableau de noms
+	 */
 	public static String[] getComputers() {
 		return COMPUTERS;
 	}

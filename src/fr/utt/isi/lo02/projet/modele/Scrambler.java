@@ -5,22 +5,38 @@ import java.util.Iterator;
 
 /**
  * Représente le joueur capable de mélanger
- * @author daussy - obeidat
+ * @author daussy
  *
  */
 public class Scrambler extends Joueur {
 
+	/**
+	 * Constructeur
+	 * @param nom nom du joueur/scrambler
+	 */
 	public Scrambler(String nom) {
 		super(nom);
 	}
 	
+	/**
+	 * Constructeur
+	 * @param nom du joueur
+	 * @param strategie à adopter
+	 */
 	public Scrambler(String nom, StrategieJeu strategie){
 		super(nom, strategie);
 	}
 	
-	
-	public void distribuerPaquet(Bataille bataille) {
+	/**
+	 * Mélange le paquet de carte et fait
+	 * la disitribution à tous les joueurs
+	 * @param bataille
+	 */
+	public void distribuerPaquet() {
+		Bataille bataille = Bataille.getInstance();
+		//Construction du jeu en fonction du nombre de joueurs
 		JeuDeCartes jdc = bataille.construireJeuDeCartes();
+		//On mélange les cartes
 		jdc.melanger();
 		ArrayList<Joueur> joueurs = bataille.getJoueurs();
 		int nbCartesDistribuees = 0;
@@ -28,7 +44,6 @@ public class Scrambler extends Joueur {
 		
 		// tant que le paquet n'est pas vide
 		while (!jdc.estVide()) {
-			//Iterator de joueur
 			Iterator<Joueur> itj = joueurs.iterator();
 			while (itj.hasNext()) {		
 				((Joueur) itj.next()).recevoirCarte(jdc.tirerCarteDessus());

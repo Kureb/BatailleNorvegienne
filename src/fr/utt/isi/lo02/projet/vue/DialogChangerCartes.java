@@ -24,6 +24,11 @@ import fr.utt.isi.lo02.projet.modele.Carte;
 import fr.utt.isi.lo02.projet.modele.Joueur;
 import fr.utt.isi.lo02.projet.modele.StrategieRelle;
 
+/**
+ * JDialog perso permettant au joueur réel d'échanger ses cartes
+ * @author daussy
+ *
+ */
 public class DialogChangerCartes extends JDialog {
 	
 	
@@ -36,7 +41,15 @@ public class DialogChangerCartes extends JDialog {
 	private Joueur joueur;
 	private JButton valider;
 	
-	 public DialogChangerCartes(JFrame parent, String title, boolean modal, Joueur joueur){
+	
+	/**
+	 * Construit le JDialog perso
+	 * @param parent JFrame qui détient le JDialog
+	 * @param title titre
+	 * @param modal vrai ou faux
+	 * @param joueur qui joue
+	 */
+	public DialogChangerCartes(JFrame parent, String title, boolean modal, Joueur joueur){
 		    super(parent, title, modal);
 		    this.cartesMain = new ArrayList<>();
 		    this.cartesVisibles = new ArrayList<>();
@@ -45,33 +58,24 @@ public class DialogChangerCartes extends JDialog {
 		    this.setLocationRelativeTo(null);
 		    this.setResizable(false);
 		    this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
-		    this.initComponent();
+		    this.initComponent(); //initialisation
 		  }
 
 	
 	 
 	 private void initComponent(){
-		    //Icône
-		    //icon = new JLabel(new ImageIcon("images/icone.jpg"));
-		    
-		 	
-		 
-		 	JPanel fenetre = new JPanel();
+		    JPanel fenetre = new JPanel();
 		    fenetre.setBackground(Color.white);
 		    fenetre.setLayout(new GridLayout(0,1));
-		    //fenetre.add(icon);
 		    
-		  //Cartes en main
 		    JPanel main = new JPanel();
 			FlowLayout fl = new FlowLayout(FlowLayout.LEFT);
 			main.setLayout(fl);
 		
-			//TODO si on sélectionne une carte, déselectionner les autres..
-		
+			
 			Iterator<Carte> it = joueur.getMain().iterator();
 		    while (it.hasNext()) {
 		    	final VueCarte vc = new VueCarte(it.next());
-		    	//final JLabel carte = vc.getImage();
 		    	if (joueur.getStrategie() instanceof StrategieRelle) {
 					vc.getImage().addMouseListener(new MouseAdapter() {
 						public void mouseClicked(MouseEvent me) {
@@ -132,9 +136,7 @@ public class DialogChangerCartes extends JDialog {
 		    okBouton.addActionListener(new ActionListener(){
 		      public void actionPerformed(ActionEvent e) {  
 		    	  if (cartesVisibles.size() != 0 && cartesVisibles.size() == cartesMain.size())
-		    		  //BatailleControleur.echange(joueur, carteVisible, carteMain);
-		    		  //joueur.echangerCarte(carteMain, carteVisible);
-		    	  	  setVisible(false);
+		    		  setVisible(false);
 		    	  else
 		    		  okBouton.setText("invalide");
 		        

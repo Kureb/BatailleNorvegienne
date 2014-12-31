@@ -4,9 +4,15 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-/* Joue en priorité les cartes spéciales **/
+
+/**
+ * Joue en priorité les cartes spéciales
+ * @author daussy
+ *
+ */
 public class StrategieSpeciale extends StrategieJeu {
 
+	@Override
 	public ArrayList<Carte> choisirCarteAJouer(Joueur joueur) {
 		ArrayList<Carte> cartes = new ArrayList<>();
 		Carte derniereCarteJouee = null, carte = null;
@@ -46,14 +52,10 @@ public class StrategieSpeciale extends StrategieJeu {
 		
 		String message;
 		message = joueur.getNom() + " joue ";
-		//System.out.print(joueur.getNom() + " joue ");
 		Iterator<Carte> itt = cartes.iterator();
 		while (itt.hasNext()) {
 			message += itt.next() + " ";
-			//System.out.print(itt.next() + " ");
 		}
-		//message += "";
-		//System.out.println(message);
 		
 		setChanged();
 		notifyObservers(message);
@@ -62,31 +64,23 @@ public class StrategieSpeciale extends StrategieJeu {
 		return cartes;
 	}
 
+	
 	@Override
 	public void echangerCartes(Joueur joueur) {
 		boolean spec = joueur.possedeCarteSpeciales();
 		boolean mainNormal = joueur.possedeCarteNormale();
 		String message = "";
-		//int compteur = 0;
-		// Logiquement ça ne passera pas plus de 3 fois
 		if (spec && mainNormal) {
 			while (spec && mainNormal) {
 				Carte carteSpec = joueur.getCarteSpecialeFaceUp();
 				Carte main = joueur.getCarteNormalMain();
 				message = (joueur.getNom() + " a sacrifié " + main + " pour avoir " + carteSpec + "."); 
-						
-				//System.out.println(message.replace("é", "e"));
-				
 				joueur.echangerCarte(main, carteSpec);
-				//System.out.println(joueur);
 				spec = joueur.possedeCarteSpeciales();
 				mainNormal = joueur.possedeCarteNormale();
-				//compteur++;
 			}
-			
 		} else {
 			message = joueur.getNom() + " n'a pas jugé utile d'échanger ses cartes.";
-			//System.out.println(message.replace("é", "e"));
 		}
 		
 		setChanged();

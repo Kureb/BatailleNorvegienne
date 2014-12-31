@@ -3,8 +3,16 @@ package fr.utt.isi.lo02.projet.modele;
 import java.util.Collections;
 import java.util.LinkedList;
 
+/**
+ * Représente le jeu de carte (qui contient au minimum 52 cartes)
+ * @author daussy
+ *
+ */
 public class JeuDeCartes {
 
+	/**
+	 * Cartes constituant le jeu de cartes
+	 */
 	private LinkedList<Carte> tas;
 	
 	/**
@@ -56,17 +64,26 @@ public class JeuDeCartes {
 		return tas.isEmpty();
 	}
 
-
+	/**
+	 * Donne la taille du paquet
+	 * @return taille du jeu de cartes
+	 */
 	public int size() {
 		return tas.size();
 	}
 
-
+	/**
+	 * Permet d'avoir le jeu de carte
+	 * @return le jeu de carte
+	 */
 	public LinkedList<Carte> getTas() {
 		return tas;
 	}
 
-
+	/**
+	 * Setter du jeu de carte
+	 * @param tas liste de cartes à implémenter
+	 */
 	public void setTas(LinkedList<Carte> tas) {
 		this.tas = tas;
 	}

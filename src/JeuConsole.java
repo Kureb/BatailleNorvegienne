@@ -4,7 +4,11 @@ import fr.utt.isi.lo02.projet.modele.StrategieSpeciale;
 import fr.utt.isi.lo02.projet.modele.Joueur;
 import fr.utt.isi.lo02.projet.modele.Scrambler;
 
-
+/**
+ * Classe permettant de lancer le jeu en mode graphique
+ * @author daussy
+ *
+ */
 public class JeuConsole {
 	
 	
@@ -13,10 +17,6 @@ public class JeuConsole {
 		
 		Joueur Benjamin = new Joueur("Benjamin", new StrategieRapide());
 		Joueur Diane = new Joueur("Diane", new StrategieSpeciale());
-		
-		// TODO : ajouter une exception si plus d'un joueur physique ? Ou si plusieurs Scrambler ?
-		// ou si Pas de joueur physique
-		
 		Joueur Maxime = new Joueur("Maxime", new StrategieSpeciale());
 		Scrambler Alexandre = new Scrambler("Alexandre");
 		
@@ -29,7 +29,7 @@ public class JeuConsole {
 		bataille.addJoueur(Benjamin);
 		bataille.addJoueur(Maxime);
 	
-		Alexandre.distribuerPaquet(bataille);
+		Alexandre.distribuerPaquet();
 		
 		// première phase de la bataille
 		 bataille.echangerCartes();

@@ -2,6 +2,7 @@ package fr.utt.isi.lo02.projet.modele;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Observable;
 
 /**
  * Interface Stratégie
@@ -9,50 +10,71 @@ import java.util.Iterator;
  * @author daussy
  *
  */
-public abstract class StrategieJeu extends BatailleAbstraite{
+public abstract class StrategieJeu extends Observable{
 	
+	/**
+	 * Donne la possibilité d'échanger des cartes
+	 * @param joueur qui joue
+	 */
 	public abstract void echangerCartes(Joueur joueur);
 	
+	/**
+	 * Permet de choisir le joueur à ralentir lors de la pause d'un As
+	 * @param joueur qui joue
+	 * @return
+	 */
 	public abstract Joueur choisirQuiRalentir(Joueur joueur);
 	
+	/**
+	 * Permet de choisir la carte qu'il va utiliser pour contrer un As
+	 * @param joueur qui joue
+	 * @return Carte à jouer
+	 */
 	public abstract Carte choisirCarteContre(Joueur joueur);
 	
+	/**
+	 * Permet de choisir une ou plusieurs cartes à jouer
+	 * @param joueur qui joue
+	 * @return liste des cartes à jouer
+	 */
 	public abstract ArrayList<Carte> choisirCarteAJouer(Joueur joueur);
 
+	/**
+	 * Permet au joueur de jouer une ou plusieurs cartes
+	 * @param joueur qui joue
+	 * @return le nombre de cartes posées
+	 */
 	public int jouerCarte(Joueur joueur) {
-
-		// boolean estMainVide = joueur.estMainVide();
 		boolean estFaceUpVide = joueur.estFaceUpVide();
 		boolean estFaceDownVide = joueur.estFaceDownVide();
 		boolean estMainVide = joueur.estMainVide();
-
+		
+		//Si la main est vide mais pas faceup, il récupère ses cartes
 		if (estMainVide && !estFaceUpVide) {
 			joueur.remplirMainAvecFaceUp();
 			String message = "La main de " + joueur.getNom()
 					+ " est vide, il prend les cartes visibles.";
-			// System.out.println(message);
-
+			
 			setChanged();
 			notifyObservers(message);
 		}
 
-		// System.out.println(joueur);
-		// System.out.println(joueur);
 		estMainVide = joueur.estMainVide();
 		boolean jouerEstPossible = false;
 		int nb = 0;
+		//si sa main n'est pas vide
 		if (!estMainVide) {
 			jouerEstPossible = joueur.peutJouer();
 			
 
 			ArrayList<Carte> cartes = null;
-
+			//Si il a la possibilité de jouer
 			if (jouerEstPossible) {
-				cartes = this.choisirCarteAJouer(joueur);
+				cartes = this.choisirCarteAJouer(joueur); //Il choisit une ou plusieurs cartes
 				int taille = cartes.size(); // nb de cartes à piocher
 				Iterator<Carte> it = cartes.iterator();
 				while (it.hasNext()) {
-					joueur.poserCarteUnique(it.next());
+					joueur.poserCarteUnique(it.next());// Il les poses
 				}
 				boolean vide = Bataille.getInstance().getPioche().isEmpty();
 				// Si la pioche n'est pas vide
@@ -78,6 +100,7 @@ public abstract class StrategieJeu extends BatailleAbstraite{
 				nb = cartes.size();
 
 			} else {
+				//S'il n'a pas pu jouer il ramasse le tas
 				joueur.ramasserTas();
 				nb = -1;
 			}
@@ -98,13 +121,9 @@ public abstract class StrategieJeu extends BatailleAbstraite{
 		 * ramasser une des cartes devant lui.
 		 */
 		if (estMainVide && estFaceUpVide && !estFaceDownVide) {
-			//TODO si un As est joué dans la boucle, ça ne sera pas pris en compte
-			//dire que c'est normal ? S'il peut jouer après pourquoi pas ..
-			
 			joueur.addMain(joueur.getFaceDown().getFirst());
 			joueur.getFaceDown().remove(0);
 			String message = "La main de " + joueur.getNom() + " est vide, il prend une carte cachée " + joueur.getMain().getFirst();
-			//System.out.println(message);
 			
 			setChanged();
 			notifyObservers(message);
@@ -118,7 +137,6 @@ public abstract class StrategieJeu extends BatailleAbstraite{
 				setChanged();
 				notifyObservers(message);
 				
-				//System.out.println(message);
 				joueur.poserCarteUnique(joueur.getMain().getFirst());
 				
 				
@@ -127,12 +145,11 @@ public abstract class StrategieJeu extends BatailleAbstraite{
 				if (estFaceDownVide) break;
 				
 				
-				//Il a pu posr toutes les cartes à la suite
+				//Il a pu poesr toutes les cartes à la suite
 				joueur.addMain(joueur.getFaceDown().getFirst());
 				joueur.getFaceDown().remove(0); 
 				
 				message = "La main de " + joueur.getNom() + " est vide, il prend une carte cachée " + joueur.getMain().getFirst();
-				//System.out.println(message);
 				
 				
 				setChanged();
@@ -145,7 +162,6 @@ public abstract class StrategieJeu extends BatailleAbstraite{
 			// le joueur ramasse la pioche
 			if (!jouerEstPossible) {
 				message = joueur.getNom() + " ne peut pas jouer ! Il prend la pioche";
-				//System.out.println(message);
 				
 				setChanged();
 				notifyObservers(message);
@@ -157,10 +173,6 @@ public abstract class StrategieJeu extends BatailleAbstraite{
 			}
 		}
 		
-		
-			
-		//System.out.println(joueur);
-		//System.out.println("\n\n");
 		
 		setChanged();
 		notifyObservers(this);

@@ -31,8 +31,16 @@ public class Carte implements java.lang.Comparable {
 	public final static String[] COULEURS = {"Pic", "Coeur", "Carreau", "Trefle"};
 	public final static String[] VALEURS = {"Deux", "Trois", "Quatre", "Cinq", "Six", "Sept", "Huit", "Neuf", "Dix", "Valet", "Dame", "Roi", "As"};
 
+	/**
+	 * Couleur de la carte
+	 */
 	private int couleur;
+	
+	/**
+	 * Valeur de la carte
+	 */
 	private int valeur;
+	
 
 	/**
 	 * Constructeur d'une carte à partir de deux entiers
@@ -121,17 +129,27 @@ public class Carte implements java.lang.Comparable {
 		}
 	}
 
-
+	/**
+	 * Affiche la carte
+	 */
 	@Override
 	public String toString() {
 		return VALEURS[valeur] + " de " + COULEURS[couleur];
 	}
 	
+	/**
+	 * Permet de savoir si 2 cartes on la même valeur
+	 * @param carte à comparer à l'actuelle
+	 * @return vrai ou faux
+	 */
 	public boolean aMemeValeur(Carte carte) {
 		return (this.getValeur() == carte.getValeur());
 	}
 	
-	
+	/**
+	 * Permet de savoir si une carte est spéciale ou non
+	 * @return vrai ou faux
+	 */
 	public boolean estSpeciale() {
 		boolean bool = false;
 		if (this.valeur == 0) bool = true;
@@ -142,31 +160,21 @@ public class Carte implements java.lang.Comparable {
 		return bool;
 	}
 	
+	/**
+	 * Permet de savoir si une carte est normale
+	 * @return vrai ou faux
+	 */
 	public boolean estNormale() {
 		return (!(this.estSpeciale()));
 	}
 	
-	/*
-	 * On pose carte sur this
+	/**
+	 * Permet de savoir si une carte peut 
+	 * être posée sur une autre
+	 * @param carte carte à poser par dessus
+	 * @return vrai ou faux
 	 */
 	public boolean estRecouvrablePar(Carte carte) {
-		/*
-		boolean bool = false;
-		boolean estSpeciale = false;
-		if (this.estSpeciale())
-			estSpeciale = true;
-		if (estSpeciale) {
-			if (this.valeur == 5)
-				if (carte.getValeur() > this.getValeur())
-					bool = false;
-				else if (carte.getValeur() <= this.getValeur())
-					bool = true;
-
-		} else if (carte.getValeur() >= this.getValeur())
-			bool = true;
-		
-		*/
-		
 		if (carte.valeur == 0) return true; //si c'est un 2
 		else if (this.valeur == 5 && carte.valeur <= 5 ) return true; //si y'avait un 7 avant
 		else if (this.valeur == 5 && carte.valeur > 5) return false;
@@ -198,6 +206,11 @@ public class Carte implements java.lang.Comparable {
 	
 	
 	@Override
+	/**
+	 * Compare deux objets de type Carte
+	 * @param objet à comparer
+	 * @return vrai ou faux
+	 */
 	public boolean equals(Object o) {
 		return this.compareTo(o) == 0 ? true : false;		
 	}
