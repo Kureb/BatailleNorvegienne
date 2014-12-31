@@ -6,9 +6,14 @@ import java.util.Iterator;
 import fr.utt.isi.lo02.projet.modele.Bataille;
 import fr.utt.isi.lo02.projet.modele.Carte;
 import fr.utt.isi.lo02.projet.modele.Joueur;
+import fr.utt.isi.lo02.projet.modele.Scrambler;
+import fr.utt.isi.lo02.projet.modele.StrategieJeu;
+import fr.utt.isi.lo02.projet.modele.StrategieRapide;
+import fr.utt.isi.lo02.projet.modele.StrategieRelle;
 import fr.utt.isi.lo02.projet.vue.DialogChangerCartes;
 import fr.utt.isi.lo02.projet.vue.DialogEnvoyerTasJoueur;
 import fr.utt.isi.lo02.projet.vue.DialogJouerCarte;
+import fr.utt.isi.lo02.projet.vue.FenetreInitialisation;
 import fr.utt.isi.lo02.projet.vue.VueBataille;
 
 public class BatailleControleur {
@@ -68,10 +73,7 @@ public class BatailleControleur {
 		//}
 	}
 
-//	private static void jouer(Joueur joueur, Carte carteMain) {
-//		joueur.poserCarteUnique(carteMain);
-		
-//	}
+
 
 	public static void echange(Joueur joueur, ArrayList<Carte> carteVisible, ArrayList<Carte> carteMain) {
 		Carte v, m;
@@ -86,6 +88,37 @@ public class BatailleControleur {
 		
 		
 	}
+
+	public static void initialisationPartie() {
+		FenetreInitialisation dialog = new FenetreInitialisation(null, "Qui joue ?", true);
+		dialog.setVisible(true);
+		int nb = dialog.getNb();
+		String name = dialog.getNom(), n = "";
+		Scrambler j = new Scrambler(name);
+		StrategieJeu strat;
+		Bataille.getInstance().addJoueur(j);
+		int taille = Bataille.getComputers().length;
+		for (int i = 0; i < nb; i++) {
+			if (i % 2 == 0) strat = new StrategieRapide();
+			else strat = new StrategieRapide();
+			
+			if (i >= taille-1)
+				n = Bataille.getComputers()[i%taille] + "_" + i;
+			else
+				n = Bataille.getComputers()[i];
+			
+			
+			Joueur joueur = new Joueur(n, strat);
+			Bataille.getInstance().addJoueur(joueur);
+		}
+		
+		j.distribuerPaquet(Bataille.getInstance());
+		
+		
+		
+		
+	}
+	
 	
 	
 	
