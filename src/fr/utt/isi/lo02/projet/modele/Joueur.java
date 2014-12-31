@@ -86,23 +86,29 @@ public class Joueur extends BatailleAbstraite{
 	 */
 	public boolean peutJouer(Carte derniereCarte) {
 		Carte carte = null;
-		
+		if (derniereCarte == null) return true;
+		boolean rep = false;
 		Iterator<Carte> it = this.getMain().iterator();
-		while (it.hasNext())
+		while (it.hasNext()){
 			carte = it.next();
-			if (derniereCarte.estRecouvrablePar(carte))
-				return true;
-		
-		return false;
+			if (derniereCarte.estRecouvrablePar(carte)){
+				rep = true;
+				return rep;
+			}
+		}
+		return rep;
 	}
 	
 	
 	public boolean peutJouer() {
-		if (Bataille.getInstance().getTable().isEmpty()) return true;
+		if (Bataille.getInstance().getTable().isEmpty()) 
+			return true;
+		else {
+			int index = Bataille.getInstance().getTable().size()-1;
+			Carte derniere = Bataille.getInstance().getTable().get(index);
+			return peutJouer(derniere);
+		}
 		
-		int index = Bataille.getInstance().getTable().size()-1;
-		Carte derniere = Bataille.getInstance().getTable().get(index);
-		return peutJouer(derniere);
 	}
 
 	
@@ -326,6 +332,7 @@ public class Joueur extends BatailleAbstraite{
 			
 			setChanged();
 			notifyObservers(suivant);
+			//TODO ne semble pas màj les cartes de la victime dans la vue..
 		}
 		
 	}
@@ -518,10 +525,16 @@ public class Joueur extends BatailleAbstraite{
 		setChanged();
 		notifyObservers(message);
 		
+		
+		
+		
 		Iterator<Carte> it = Bataille.getInstance().getTable().iterator();
 		while (it.hasNext()) {
 			this.addMain(it.next());
 		}
+		
+		setChanged();
+		notifyObservers(this);
 		
 		Bataille.getInstance().clearTable();
 		
@@ -593,6 +606,9 @@ public class Joueur extends BatailleAbstraite{
 			this.addMain(carte);
 		}
 		this.getFaceUp().clear();
+		
+		setChanged();
+		notifyObservers(this);
 
 		
 	}

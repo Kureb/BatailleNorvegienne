@@ -65,7 +65,7 @@ public class VueJoueur implements Observer {
 		//TODO à cause du nom qui n'est pas de la même taille, ce n'est pas forcément aligné..
 		main.setLayout(fl);
 		
-		dessinerCarteMain();
+		dessinerCarteMain(joueur);
 		
 		//JScrollPane jsp = new JScrollPane(main);
 		
@@ -98,20 +98,20 @@ public class VueJoueur implements Observer {
 	}
 	
 	
-	public void dessinerCarteMain() {
-		JLabel typeCarte = new JLabel(joueur.getNom());
+	public void dessinerCarteMain(Joueur j) {
+		JLabel typeCarte = new JLabel(j.getNom());
 		//TODO faire en sorte que les cartes soient alignées sur la gauche
 		main.add(typeCarte);
 	
 		
-		LinkedList<Carte> cartesJoueur = joueur.getMain();
+		LinkedList<Carte> cartesJoueur = j.getMain();
 		Iterator<Carte> it = cartesJoueur.iterator();
 		
 		while (it.hasNext()) {
 			VueCarte vc = new VueCarte(it.next());
 			carteGraphique.add(vc);
 			final JLabel carte = vc.getImage();
-			if (joueur.getStrategie() instanceof StrategieRelle) {
+			if (j.getStrategie() instanceof StrategieRelle) {
 				carte.addMouseListener(new MouseAdapter() {
 					public void mouseClicked(MouseEvent me) {
 						if (carte.getBorder() == null) 
@@ -133,9 +133,9 @@ public class VueJoueur implements Observer {
 	}
 	
 	
-	public void majCartesMain() {
+	public void majCartesMain(Joueur j) {
 		main.removeAll();
-		dessinerCarteMain();
+		dessinerCarteMain(j);
 		main.updateUI(); // Sans ça, ça ne mettait pas à jour :(
 	}
 
@@ -185,9 +185,9 @@ public class VueJoueur implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		if (arg instanceof Joueur) { //échange de cartes ou se prend la pioche
-			this.majCartesMain();
+			this.majCartesMain((Joueur) arg);
 		} else if (arg instanceof StrategieJeu) { //jeu
-			this.majCartesMain();
+			this.majCartesMain(this.getJoueur());
 		} else if (arg instanceof String) {
 			if (((String) arg.toString()).equals("echange"))
 				BatailleControleur.fenetreChoixEchangeJoueurReel(this.getJoueur());

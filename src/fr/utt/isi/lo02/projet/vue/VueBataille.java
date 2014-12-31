@@ -61,7 +61,7 @@ public class VueBataille implements Observer {
 		fenetre = new JFrame("Bataille Norvégienne");
 		fenetre.setLayout(new BorderLayout());
 		//fenetre.setMaximumSize(new Dimension(1000, 1000));
-		fenetre.setResizable(false);
+		fenetre.setResizable(true);
 		
 		//Container reservoir = fenetre.getContentPane();
 		
@@ -153,7 +153,7 @@ public class VueBataille implements Observer {
 				BatailleControleur.updateJTextArea(lolz.toString());
 			}
 
-		}
+		} 
 		
 		
 		

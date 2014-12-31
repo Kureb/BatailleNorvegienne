@@ -169,7 +169,7 @@ public class Carte implements java.lang.Comparable {
 		
 		if (carte.valeur == 0) return true; //si c'est un 2
 		else if (this.valeur == 5 && carte.valeur <= 5 ) return true; //si y'avait un 7 avant
-		else if (this.valeur == 5 && carte.valeur > 7) return false;
+		else if (this.valeur == 5 && carte.valeur > 5) return false;
 		else if (this.valeur == 12 && carte.getValeur() == 12) return true;
 		else if (this.valeur == 12 && carte.getValeur() == 0) return true;
 		else if (this.getValeur() <= carte.getValeur()) return true;

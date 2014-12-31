@@ -49,10 +49,10 @@ public class StrategieSpeciale extends StrategieJeu {
 		//System.out.print(joueur.getNom() + " joue ");
 		Iterator<Carte> itt = cartes.iterator();
 		while (itt.hasNext()) {
-			message += itt.next() + ", ";
+			message += itt.next() + " ";
 			//System.out.print(itt.next() + " ");
 		}
-		message += ".";
+		//message += "";
 		//System.out.println(message);
 		
 		setChanged();
