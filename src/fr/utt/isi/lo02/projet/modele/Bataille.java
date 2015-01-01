@@ -23,6 +23,7 @@ public class Bataille extends Observable{
 	/** Liste des joueurs à batailler */
 	private ArrayList<Joueur> joueurs;
 	/** jeu de cartes */
+	@SuppressWarnings("unused")
 	private JeuDeCartes jeuDeCartes;
 	/** la pioche du jeu */
 	private ArrayList<Carte> pioche;

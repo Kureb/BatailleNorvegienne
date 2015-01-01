@@ -1,10 +1,5 @@
 package fr.utt.isi.lo02.projet.vue;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
@@ -29,59 +24,31 @@ public class VueCarte {
 	private JLabel image;
 	
 	
+	/**
+	 * Construit la vue d'une carte en fonction de la carte
+	 * @param carte Carte à représenter de façon graphique
+	 */
 	public VueCarte(Carte carte) {
 		this.carte = carte;
-		
-		String cheminImage = "img/" + carte.VALEURS[carte.getValeur()] + "_" + carte.COULEURS[carte.getCouleur()] + ".png";
-		
-		try {
-			BufferedImage img = ImageIO.read(new File(cheminImage));
-			image = new JLabel(new ImageIcon(cheminImage));
-		} catch (IOException e) {
-			//e.printStackTrace();
-		}
+		String cheminImage = "img/" + carte.getValeurs()[carte.getValeur()] + "_" + carte.getCouleurs()[carte.getCouleur()] + ".png";
+		this.image = new JLabel(new ImageIcon(cheminImage));
 	}
 
 
+	/**
+	 * Getter de carte
+	 * @return la carte à représenter
+	 */
 	public Carte getCarte() {
 		return carte;
 	}
 
-
-	public void setCarte(Carte carte) {
-		this.carte = carte;
-	}
-
-
+	/**
+	 * Getter de l'image
+	 * @return l'image (Jlabel) associée à la carte
+	 */
 	public JLabel getImage() {
 		return image;
 	}
 
-
-	public void setImage(JLabel image) {
-		this.image = image;
-	}
-	
-/*	
-	public static void main(String[] args) {
-		Carte carte = new Carte(2, 2);
-		Carte carte2 = new Carte(10, 0);
-		VueCarte carteGraphique = new VueCarte(carte);
-		VueCarte carteGraphique2 = new VueCarte(carte2);
-		
-		JFrame fenetre = new JFrame("Test Carte");
-		fenetre.setLayout(new FlowLayout());
-		Container reservoir = fenetre.getContentPane();
-
-		reservoir.add(carteGraphique.getImage()); 
-		reservoir.add(carteGraphique2.getImage()); 
-		
-		fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		fenetre.pack();
-		fenetre.setVisible(true);
-		
-		
-	}
-*/	
-	
 }

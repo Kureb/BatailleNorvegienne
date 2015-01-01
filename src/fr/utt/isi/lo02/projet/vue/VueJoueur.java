@@ -35,7 +35,9 @@ public class VueJoueur implements Observer {
 	 */
 	private JPanel main;
 	
-	
+	/**
+	 * Liste des cartes graphiques du joueur
+	 */
 	private LinkedList<VueCarte> carteGraphique = new LinkedList<>();
 	
 	/**
@@ -43,67 +45,51 @@ public class VueJoueur implements Observer {
 	 */
 	private JLabel nom;
 	
-	
+	/**
+	 * Controleur qui fait le lien entre la vue et le modèle
+	 */
 	private BatailleControleur controleur;
 	
 
 	
 	
-	
+	/**
+	 * Constructeur de la vue graphique d'un joueur
+	 * @param joueur Joueur à représenter graphiquement
+	 */
 	public VueJoueur(Joueur joueur) {
-		//this.controleur = controleur;
 		this.joueur = joueur;
-		this.joueur.addObserver(this);
-		this.joueur.getStrategie().addObserver(this); 
+		this.joueur.addObserver(this); // On doit observer le joueur
+		this.joueur.getStrategie().addObserver(this);  // et sa stratégie
 		this.nom = new JLabel(joueur.getNom());
 		
 		main = new JPanel();
 		FlowLayout fl = new FlowLayout(FlowLayout.LEFT);
-		//TODO à cause du nom qui n'est pas de la même taille, ce n'est pas forcément aligné..
 		main.setLayout(fl);
 		
 		dessinerCarteMain(joueur);
-		
-		//JScrollPane jsp = new JScrollPane(main);
-		
-		
-//		while (it.hasNext()) {
-//			VueCarte vc = new VueCarte(it.next());
-//			carteGraphique.add(vc);
-//			final JLabel carte = vc.getImage(); //pour le setBorder
-//			if (joueur.getStrategie() instanceof StrategieRelle) {
-//				carte.addMouseListener(new MouseAdapter() {
-//					//TODO remplir
-//					public void mouseClicked(MouseEvent me) {
-//						if (carte.getBorder() == null) 
-//							carte.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-//						else
-//							carte.setBorder(null);
-//					}
-//					
-//					
-//					
-//				});
-//			}
-//			jpanel.add(carte);
-		
-			//jpanel.add(nom);
-			
-			
-//		}
-		
 	}
 	
 	
+	/**
+	 * Dessine les cartes du joueur
+	 * @param j Joueur doit on doit dessiner les cartes
+	 */
 	public void dessinerCarteMain(Joueur j) {
 		JLabel typeCarte = new JLabel(j.getNom());
-		//TODO faire en sorte que les cartes soient alignées sur la gauche
 		main.add(typeCarte);
 	
 		
 		LinkedList<Carte> cartesJoueur = j.getMain();
 		Iterator<Carte> it = cartesJoueur.iterator();
-		
+		/*
+		 * Pour toutes les cartes du joueur on instancie
+		 * la vue graphique correspondante
+		 * On ajoute un MouseListener sur chaque carte
+		 * afin de pouvoir les sélectionner/déselectionner
+		 * graphiquement
+		 * Puis on les ajoute au panel
+		 */
 		while (it.hasNext()) {
 			VueCarte vc = new VueCarte(it.next());
 			carteGraphique.add(vc);
@@ -129,7 +115,10 @@ public class VueJoueur implements Observer {
 		
 	}
 	
-	
+	/**
+	 * Méthode à appeler quand on veut mettre à jour les cartes de la main d'un joueur
+	 * @param j Joueur à mettre à joueur graphiquement
+	 */
 	public void majCartesMain(Joueur j) {
 		main.removeAll();
 		dessinerCarteMain(j);
@@ -137,45 +126,32 @@ public class VueJoueur implements Observer {
 	}
 
 	
-
-
+	/**
+	 * Getter du nom du joueur
+	 * @return le nom (JLabel) du joueur
+	 */
 	public JLabel getNom() {
 		return nom;
 	}
 
-
-
-
-	public void setNom(JLabel nom) {
-		this.nom = nom;
-	}
-
-
-
-
+	/**
+	 * Getter du joueur à représenter
+	 * @return le joueur que l'on représente graphiquement
+	 */
 	public Joueur getJoueur() {
 		return joueur;
 	}
 
 
-
-	public void setJoueur(Joueur joueur) {
-		this.joueur = joueur;
-	}
-
-
-
+	/**
+	 * Getter de la main du joueur
+	 * @return le JPanel où sont toutes les cartes
+	 */
 	public JPanel getJpanel() {
 		return main;
 	}
 
 
-
-	public void setJpanel(JPanel main) {
-		this.main = main;
-	}
-	
-	
 	
 
 
@@ -192,11 +168,14 @@ public class VueJoueur implements Observer {
 				BatailleControleur.updateJTextArea((String)arg);
 		}
 	}
-	
-	
 
-	
-	
-	
+
+	/**
+	 * Getter de controleur
+	 * @return le controleur qui fait les lien entre la vue et les modèles
+	 */
+	public BatailleControleur getControleur() {
+		return controleur;
+	}	
 	
 }

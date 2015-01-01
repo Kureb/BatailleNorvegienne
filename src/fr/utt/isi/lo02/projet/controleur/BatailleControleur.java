@@ -1,7 +1,6 @@
 package fr.utt.isi.lo02.projet.controleur;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import fr.utt.isi.lo02.projet.modele.Bataille;
 import fr.utt.isi.lo02.projet.modele.Carte;
@@ -9,7 +8,6 @@ import fr.utt.isi.lo02.projet.modele.Joueur;
 import fr.utt.isi.lo02.projet.modele.Scrambler;
 import fr.utt.isi.lo02.projet.modele.StrategieJeu;
 import fr.utt.isi.lo02.projet.modele.StrategieRapide;
-import fr.utt.isi.lo02.projet.modele.StrategieRelle;
 import fr.utt.isi.lo02.projet.vue.DialogChangerCartes;
 import fr.utt.isi.lo02.projet.vue.DialogEnvoyerTasJoueur;
 import fr.utt.isi.lo02.projet.vue.DialogJouerCarte;
@@ -39,8 +37,8 @@ public class BatailleControleur {
 	 * @param vueBataille vue
 	 */
 	public BatailleControleur(Bataille bataille,VueBataille vueBataille) {
-		this.bataille = bataille;
-		this.vueBataille = vueBataille;
+		setBataille(bataille);
+		setVueBataille(vueBataille);
 	}
 	
 	/**
@@ -48,7 +46,7 @@ public class BatailleControleur {
 	 * @param carte Carte à ajouter sur le tas
 	 */
 	public void changerTas(Carte carte) {
-		vueBataille.majTas(carte);
+		getVueBataille().majTas(carte);
 	}
 	
 	/**
@@ -57,9 +55,9 @@ public class BatailleControleur {
 	 * @param message Log à ajouter
 	 */
 	public static void updateJTextArea(String message) {
-		vueBataille.getLog().append(message + "\n");
+		getVueBataille().getLog().append(message + "\n");
 		//Pour placer le curseur à la fin, afin d'émuler un scroll automatique
-		vueBataille.getLog().setCaretPosition(vueBataille.getLog().getDocument().getLength());
+		getVueBataille().getLog().setCaretPosition(getVueBataille().getLog().getDocument().getLength());
 	}
 
 	/**
@@ -167,6 +165,38 @@ public class BatailleControleur {
 		
 		
 		
+	}
+
+	/**
+	 * Getter de bataille
+	 * @return la bataille
+	 */
+	public static Bataille getBataille() {
+		return bataille;
+	}
+	
+	/**
+	 * Setter de bataille
+	 * @param bataille
+	 */
+	public static void setBataille(Bataille bataille) {
+		BatailleControleur.bataille = bataille;
+	}
+	
+	/**
+	 * Getter de la vue Bataille
+	 * @return la vueBataille
+	 */
+	public static VueBataille getVueBataille() {
+		return vueBataille;
+	}
+
+	/**
+	 * Setter de vue Bataille
+	 * @param vueBataille
+	 */
+	public static void setVueBataille(VueBataille vueBataille) {
+		BatailleControleur.vueBataille = vueBataille;
 	}
 	
 	

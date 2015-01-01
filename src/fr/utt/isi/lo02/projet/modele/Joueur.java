@@ -494,6 +494,7 @@ public class Joueur extends Observable{
 	 * @param derniereCarteJouee
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	public Carte getPlusPetite(Carte derniereCarteJouee) {
 		Carte carte = null;
 		
@@ -518,6 +519,7 @@ public class Joueur extends Observable{
 	 * Permet d'avoir la plus petit carte de la main
 	 * @return la plus petite carte de la main d'un joueur
 	 */
+	@SuppressWarnings("unchecked")
 	public Carte getPlusPetite() {
 		// On trie par ordre croissant la main
 		List<Carte> mainTriee = new ArrayList<Carte>(this.getMain());

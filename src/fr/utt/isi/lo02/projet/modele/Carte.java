@@ -7,6 +7,7 @@ package fr.utt.isi.lo02.projet.modele;
  * modifiée pour correspondre à nos besoins
  */
 
+@SuppressWarnings("rawtypes")
 public class Carte implements java.lang.Comparable {
 
 	public final static int PIC = 0;
@@ -29,7 +30,7 @@ public class Carte implements java.lang.Comparable {
 	public final static int AS = 12;
 
 	public final static String[] COULEURS = {"Pic", "Coeur", "Carreau", "Trefle"};
-	public final static String[] VALEURS = {"Deux", "Trois", "Quatre", "Cinq", "Six", "Sept", "Huit", "Neuf", "Dix", "Valet", "Dame", "Roi", "As"};
+	private final static String[] VALEURS = {"Deux", "Trois", "Quatre", "Cinq", "Six", "Sept", "Huit", "Neuf", "Dix", "Valet", "Dame", "Roi", "As"};
 
 	/**
 	 * Couleur de la carte
@@ -76,8 +77,8 @@ public class Carte implements java.lang.Comparable {
 		i = 0;
 		trouve = false;
 
-		while (i < Carte.VALEURS.length && trouve == false) {
-			if (valeur.equals(Carte.VALEURS[i])) {
+		while (i < this.getValeurs().length && trouve == false) {
+			if (valeur.equals(this.getValeurs()[i])) {
 				trouve = true;
 				v = i;
 			} else {
@@ -134,7 +135,7 @@ public class Carte implements java.lang.Comparable {
 	 */
 	@Override
 	public String toString() {
-		return VALEURS[valeur] + " de " + COULEURS[couleur];
+		return getValeurs()[valeur] + " de " + COULEURS[couleur];
 	}
 	
 	/**
@@ -213,6 +214,23 @@ public class Carte implements java.lang.Comparable {
 	 */
 	public boolean equals(Object o) {
 		return this.compareTo(o) == 0 ? true : false;		
+	}
+
+	
+	/**
+	 * Getter des différentes valeurs possibles
+	 * @return tableau contenant les différentes valeurs possibles
+	 */
+	public String[] getValeurs() {
+		return VALEURS;
+	}
+	
+	/**
+	 * Getter des différentes couleurs possibles
+	 * @return tableau contenant les différents couleurs possibles
+	 */
+	public String[] getCouleurs() {
+		return COULEURS;
 	}
 	
 	

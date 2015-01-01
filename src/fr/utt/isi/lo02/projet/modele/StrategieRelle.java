@@ -2,9 +2,6 @@ package fr.utt.isi.lo02.projet.modele;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Scanner;
-
 import fr.utt.isi.lo02.projet.controleur.BatailleControleur;
 
 

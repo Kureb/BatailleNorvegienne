@@ -43,6 +43,7 @@ public class StrategieRapide extends StrategieJeu {
 	@Override
 	public ArrayList<Carte> choisirCarteAJouer(Joueur joueur) {
 		ArrayList<Carte> cartes = new ArrayList<>();
+		@SuppressWarnings("unused")
 		Carte derniereCarteJouee = null, carte = null;
 		// Si la table n'est pas vide, il va jouer en fonction de la dernière carte jouée
 		if (!Bataille.getInstance().getTable().isEmpty()) {
