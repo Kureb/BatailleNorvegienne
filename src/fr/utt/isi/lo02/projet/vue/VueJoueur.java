@@ -111,7 +111,7 @@ public class VueJoueur implements Observer {
 		//une fausse carte, afin de garder la
 		//mise en page
 		if (cartesJoueur.size() == 0)
-			main.add(new JLabel(new ImageIcon("img/cartevide.png")));
+			main.add(new JLabel(new ImageIcon(getClass().getResource("/img/cartevide.png"))));
 		
 	}
 	

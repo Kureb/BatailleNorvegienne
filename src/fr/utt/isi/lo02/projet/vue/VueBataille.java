@@ -102,11 +102,11 @@ public class VueBataille implements Observer {
 		
 		//Image d'un tapis
 		JPanel panelTapis = new JPanel();
-		JLabel imgTapis = new JLabel(new ImageIcon("img/Tapis.jpg"));
+		JLabel imgTapis = new JLabel(new ImageIcon(getClass().getResource("/img/Tapis.jpg")));
 	
 		
-		tas = new JLabel(new ImageIcon("img/tasvide.png"));
-		pile = new JLabel(new ImageIcon("img/b2fv.png")); 
+		tas = new JLabel(new ImageIcon(getClass().getResource("/img/tasvide.png")));
+		pile = new JLabel(new ImageIcon(getClass().getResource("/img/b2fv.png"))); 
 		
 		imgTapis.setLayout(new GridLayout()); 
 		imgTapis.add(tas);
@@ -187,7 +187,7 @@ public class VueBataille implements Observer {
 	 * pour mettre l'image correspondant au tas vide
 	 */
 	public void effacePioche() {
-		this.pile.setIcon(new ImageIcon("img/tasvide.png"));
+		this.pile.setIcon(new ImageIcon(getClass().getResource("/img/tasvide.png")));
 		
 	}
 
@@ -213,11 +213,11 @@ public class VueBataille implements Observer {
 	 */
 	public void majTas(Carte carte) {
 		if (carte != null) {
-			String chemin = "img/" + carte.getValeurs()[carte.getValeur()] + "_" + carte.getCouleurs()[carte.getCouleur()] + ".png";
-			this.tas.setIcon(new ImageIcon(chemin));
+			String chemin = "/img/" + carte.getValeurs()[carte.getValeur()] + "_" + carte.getCouleurs()[carte.getCouleur()] + ".png";
+			this.tas.setIcon(new ImageIcon(getClass().getResource(chemin)));
 		} else {
-			String chemin = "img/tasvide.png";
-			this.tas.setIcon(new ImageIcon(chemin));
+			String chemin = "/img/tasvide.png";
+			this.tas.setIcon(new ImageIcon(getClass().getResource(chemin)));
 		}
 		
 	}
