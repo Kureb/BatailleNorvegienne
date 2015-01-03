@@ -30,8 +30,8 @@ public class VueCarte {
 	 */
 	public VueCarte(Carte carte) {
 		this.carte = carte;
-		String cheminImage = "/img/" + carte.getValeurs()[carte.getValeur()] + "_" + carte.getCouleurs()[carte.getCouleur()] + ".png";
-		this.image = new JLabel(new ImageIcon(getClass().getResource(cheminImage)));
+		String cheminImage = "img/" + carte.getValeurs()[carte.getValeur()] + "_" + carte.getCouleurs()[carte.getCouleur()] + ".png";
+		this.image = new JLabel(new ImageIcon(cheminImage));
 	}
 
 

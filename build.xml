@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<project name="BatailleNorvégienne" default="compile">
+<project name="BatailleNorvégienne" default="dist">
         <property name="bin.dir" value="bin" />
         <property name="src.dir" value="src" />
         <property name="dist.dir" value="dist" />
@@ -7,6 +7,11 @@
         <target name="init">
                 <mkdir dir="${bin.dir}" />
                 <mkdir dir="${dist.dir}" />
+                 <copy todir="${bin.dir}/img" >
+                        <fileset dir="${src.dir}/img" >
+                                <include name="**/*.png"/>
+                        </fileset>
+                </copy>
         </target>
 
         <target name="compile" depends="init">
@@ -19,8 +24,8 @@
         </target>
 
         <target name="dist" depends="compile">
-        		<jar destfile="${dist.dir}/app.jar" basedir="${bin.dir}">
-        			<manifest>
+        		<jar destfile="${dist.dir}/app.jar" basedir="${bin.dir}" >
+                                <manifest>
         				<attribute name="Main-Class" value="JeuGraphique" />
         			</manifest>
         		</jar>
