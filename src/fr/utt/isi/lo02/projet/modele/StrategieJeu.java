@@ -57,6 +57,9 @@ public abstract class StrategieJeu extends Observable{
 			
 			setChanged();
 			notifyObservers(message);
+			
+			setChanged();
+			notifyObservers(joueur);
 		}
 
 		estMainVide = joueur.estMainVide();

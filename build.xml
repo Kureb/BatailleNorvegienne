@@ -29,5 +29,5 @@
         				<attribute name="Main-Class" value="JeuGraphique" />
         			</manifest>
         		</jar>
-		</target>
+	</target>
 </project>

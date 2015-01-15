@@ -1,6 +1,7 @@
 package fr.utt.isi.lo02.projet.vue;
 
 import java.awt.FlowLayout;
+import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Iterator;
@@ -122,7 +123,7 @@ public class VueJoueur implements Observer {
 	public void majCartesMain(Joueur j) {
 		main.removeAll();
 		dessinerCarteMain(j);
-		main.updateUI(); // Sans ça, ça ne mettait pas à jour :(
+		main.updateUI(); 
 	}
 
 	

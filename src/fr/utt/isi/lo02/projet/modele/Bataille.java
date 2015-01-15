@@ -447,7 +447,8 @@ public class Bataille extends Observable{
 						//Ici, il n'a donc pas pu contrer
 						message = victime.getNom() + " ne peut pas contrer";
 						setChanged();
-						notifyObservers();
+						notifyObservers(message);
+						
 						//il se prend le tas
 						joueurActuel.envoyerTas(victime);
 								

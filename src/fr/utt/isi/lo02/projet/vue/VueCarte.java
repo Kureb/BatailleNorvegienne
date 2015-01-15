@@ -1,5 +1,7 @@
 package fr.utt.isi.lo02.projet.vue;
 
+import java.awt.Toolkit;
+
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
